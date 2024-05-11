@@ -1,5 +1,14 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from "vue-router";
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      avatarList:[]
+    }
+  }
+};
 </script>
 
 <template>
