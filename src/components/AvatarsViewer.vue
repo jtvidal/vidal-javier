@@ -5,26 +5,40 @@ export default {
     return {
       avatarList: [],
       namesList: [],
-      fetchUrl: "https://randomuser.me/api/?results=5",
+      namesUrl: "https://randomuser.me/api/?results=5",
+      avatarsUrl: "https://api.multiavatar.com/",
     };
   },
   async mounted() {
-    await this.getNames(this.fetchUrl);
-    console.log('users: ', this.avatarList);
+    await this.getNames(this.namesUrl);
+    console.log("users: ", this.namesList);
+    await this.getAvatars();
+    console.log(this.avatarList);
   },
   methods: {
     async getNames(url) {
       const raw = await fetch(url);
       const data = await raw.json();
       const results = await data.results;
-      results.forEach((user) => this.avatarList.push(user.name));
+      results.forEach((user) => this.namesList.push(user.name));
+    },
+    async getAvatars() {
+      this.namesList.forEach(async (name) => {
+        this.avatarList.push(`${this.avatarsUrl + (await name.first)}.svg`);
+      });
+    },
+    async showAvatar(url) {
+      return await fetch(url);
     },
   },
 };
 </script>
 
 <template>
-  <div>
-    <p></p>
+  <div v-for="name in namesList">
+    <p>{{ name.first }}</p>
+  </div>
+  <div v-for="avatar in avatarList">
+    <img :src="avatar" alt="" />
   </div>
 </template>
