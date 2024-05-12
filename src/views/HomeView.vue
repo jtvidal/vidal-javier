@@ -1,14 +1,14 @@
 <script>
-import AvatarsViewer from '@/components/AvatarsViewer.vue';
+import AvatarViewer from '@/components/AvatarViewer.vue';
 
 export default {
   name: "HomeView",
-  components: {AvatarsViewer}
+  components: {AvatarViewer}
 };
 </script>
 <template>
   <div>
     <p class="font-bold text-slate-400 text-center">HOME</p>
-    <avatars-viewer></avatars-viewer>
+    <avatar-viewer></avatar-viewer>
   </div>
 </template>
