@@ -14,13 +14,13 @@ export default {
 <template>
   <header>
     <div class="wrapper">
-      <nav>
-        <!-- <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink> -->
+      <nav class="p-4 flex gap-2 justify-end border-b-2 border-zinc-700">
+         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/login">Login</RouterLink>
       </nav>
     </div>
   </header>
-  <main>
+  <main class="p-4">
     <RouterView />
   </main>
 </template>

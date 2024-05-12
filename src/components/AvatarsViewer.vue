@@ -27,18 +27,15 @@ export default {
         this.avatarList.push(`${this.avatarsUrl + (await name.first)}.svg`);
       });
     },
-    async showAvatar(url) {
-      return await fetch(url);
-    },
   },
 };
 </script>
 
 <template>
-  <div v-for="name in namesList">
-    <p>{{ name.first }}</p>
-  </div>
-  <div v-for="avatar in avatarList">
-    <img :src="avatar" alt="" />
+  <div
+    class="w-1/2 p-2 border-[0.5px] border-zinc-400 rounded-lg mx-auto"
+    v-for="avatar in avatarList"
+  >
+    <img :src="avatar" alt="Random profile avatar" />
   </div>
 </template>
