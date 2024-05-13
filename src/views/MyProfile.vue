@@ -1,20 +1,10 @@
 <script>
 export default {
-  name: "MyProfile",
-  data() {
-    return {
-      username: null,
-      first: null,
-      last: null,
-      avatar: null,
-      description: null,
-    };
-  },
-};
+    name:'MyProfile',
+}
 </script>
-
 <template>
-  <div>
-    
-  </div>
+    <div>
+        <button @click="$router.push('/profile-edition')">Edit</button>
+    </div>
 </template>

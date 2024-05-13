@@ -34,7 +34,7 @@ export default {
     },
     clearAnimation() {
       this.animation = null;
-      this.$refs.slidel.removeEventListener(
+      this.$refs.slide.removeEventListener(
         "animationend",
         this.clearAnimation
       );
