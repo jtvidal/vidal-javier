@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <template>
-  <h2 class="text-center p-2">Login</h2>
+  <h2 class="font-bold text-slate-400 text-center uppercase p-2">Login</h2>
   <div class="border-[1px] p-4 rounded-lg">
     <form
       class="flex flex-col"

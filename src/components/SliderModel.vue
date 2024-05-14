@@ -10,11 +10,11 @@ export default {
       max: null,
       min: null,
       currentSlide: null,
+      selectedSlide: null,
     };
   },
   async mounted() {
     this.sliderItems = await this.itemList;
-    console.log("Avatar #", this.currentSlide);
     this.max = this.sliderOptions.max;
     this.min = this.sliderOptions.min;
     this.currentSlide = this.sliderOptions.currentSlide;
@@ -32,20 +32,20 @@ export default {
       console.log("Avatar #", this.currentSlide);
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
+    /**
+     * Takes animation away from an element with $refs.slide
+     */
     clearAnimation() {
       this.animation = null;
-      this.$refs.slide.removeEventListener(
-        "animationend",
-        this.clearAnimation
-      );
+      this.$refs.slide.removeEventListener("animationend", this.clearAnimation);
     },
   },
 };
 </script>
 <template>
-  <div id="slider" class="flex flex-col gap-2">
+  <div id="slider" class="flex gap-2 bg-gray-200 m-2 p-4">
     <!-- SLIDE -->
-    <div ref="slide" class="w-1/2 p-2 mx-auto">
+    <div ref="slide" class="w-1/2 p-2 mx-auto order-2">
       <!-- Image -->
       <img
         :src="itemList[currentSlide]"
@@ -54,21 +54,19 @@ export default {
       />
     </div>
     <!-- Buttons -->
-    <div class="flex self-center gap-4">
-      <button
-        @click="goBack"
-        class="hover:text-zinc-600 disabled:text-zinc-300"
-        :disabled="this.currentSlide == this.min"
-      >
-        prev
-      </button>
-      <button
-        @click="goNext"
-        class="hover:text-zinc-600 disabled:text-zinc-300"
-        :disabled="this.currentSlide == this.max - 1"
-      >
-        next
-      </button>
-    </div>
+    <button
+      @click="goBack"
+      class="hover:text-zinc-600 disabled:text-zinc-300 order-1"
+      :disabled="this.currentSlide == this.min"
+    >
+      prev
+    </button>
+    <button
+      @click="goNext"
+      class="hover:text-zinc-600 disabled:text-zinc-300 order-3"
+      :disabled="this.currentSlide == this.max - 1"
+    >
+      next
+    </button>
   </div>
 </template>

@@ -6,6 +6,6 @@ export default {
 </script>
 <template>
   <div>
-    <p class="font-bold text-slate-400 text-center">HOME</p>
+    <p class="font-bold text-slate-400 text-center uppercase p-2">home</p>
   </div>
 </template>

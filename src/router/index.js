@@ -2,7 +2,6 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue";
 import MyProfile from "@/views/MyProfile.vue";
-import MyProfileEdition from "@/views/MyProfileEdition.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -21,11 +20,6 @@ const router = createRouter({
       path:'/profile',
       name:'profile',
       component: MyProfile
-    },
-    {
-      path:'/profile-edition',
-      name:'profile-edition',
-      component: MyProfileEdition
     }
   ],
 });

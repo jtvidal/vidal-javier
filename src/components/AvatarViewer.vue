@@ -6,13 +6,13 @@ export default {
   props: { sliderOptions: null, itemList: null },
   data() {
     return {
-      avatarList: [],
       slider: {
         max: 10,
         min: 0,
-        currentSlide: 0,
+        currentSlide: 5,
       },
       namesList: [],
+      avatarList: [],
       namesUrl: "https://randomuser.me/api/?results=",
       avatarUrl: "https://api.multiavatar.com/",
     };
@@ -32,7 +32,7 @@ export default {
       const raw = await fetch(url);
       const data = await raw.json();
       const results = await data.results;
-      results.forEach(async(user) => this.namesList.push(await user.name));
+      results.forEach(async (user) => this.namesList.push(await user.name));
     },
     /**
      * Creates a new url using a random user name from nameList[]
@@ -49,5 +49,13 @@ export default {
 
 <template>
   <!-- SLIDER COMPONENT -->
-  <slider-model :item-list="avatarList" :slider-options="slider"></slider-model>
+  <div class="bg-gray-500">
+    <form action="#" method="get" enctype="multipart/form-data" class="flex flex-col">
+      <slider-model
+        :item-list="avatarList"
+        :slider-options="slider"
+      ></slider-model>
+      <input @submit.prevent="" type="submit" value="Select">
+    </form>
+  </div>
 </template>
