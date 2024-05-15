@@ -24,12 +24,14 @@ export default {
       this.animation = "animate__animated animate__fadeInRight";
       this.currentSlide++;
       console.log("Avatar #", this.currentSlide);
+      this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
     goBack() {
       this.animation = "animate__animated animate__fadeInLeft";
       this.currentSlide--;
       console.log("Avatar #", this.currentSlide);
+      this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
     /**
@@ -39,11 +41,17 @@ export default {
       this.animation = null;
       this.$refs.slide.removeEventListener("animationend", this.clearAnimation);
     },
+    /**
+     * Emits currentSlide to its parent
+     */
+    sendCurrent(){
+      this.$emit('sending-current', this.currentSlide);
+    }
   },
 };
 </script>
 <template>
-  <div id="slider" class="flex gap-2 bg-gray-200 m-2 p-4">
+  <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
     <div ref="slide" class="w-1/2 p-2 mx-auto order-2">
       <!-- Image -->
@@ -56,14 +64,14 @@ export default {
     <!-- Buttons -->
     <button
       @click="goBack"
-      class="hover:text-zinc-600 disabled:text-zinc-300 order-1"
+      class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-1"
       :disabled="this.currentSlide == this.min"
     >
       prev
     </button>
     <button
       @click="goNext"
-      class="hover:text-zinc-600 disabled:text-zinc-300 order-3"
+      class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-3"
       :disabled="this.currentSlide == this.max - 1"
     >
       next

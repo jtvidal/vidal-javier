@@ -43,19 +43,42 @@ export default {
         this.avatarList.push(`${this.avatarUrl + (await name.first)}.svg`);
       });
     },
+
+    /**
+     * This function must be used in parent component of a SliderModel component.
+     * Recieves the currentSlide form component SliderModel
+     */
+    getCurrent(current){
+      this.slider.currentSlide = current;
+      console.log('current slide: ',this.slider.currentSlide);
+    }
   },
 };
 </script>
 
 <template>
   <!-- SLIDER COMPONENT -->
-  <div class="bg-gray-500">
-    <form action="#" method="get" enctype="multipart/form-data" class="flex flex-col">
+  <div class="mx-auto flex flex-col gap-2 sm:w-10/12 md:w-8/12">
+    <div class="bg-zinc-100 border-[1px] border-zinc-700 p-2 rounded-xl">
+      <h3 class="text-center text-zinc-950">Select your <span class="font-semibold">avatar</span>!</h3>
       <slider-model
         :item-list="avatarList"
         :slider-options="slider"
+        @sending-current="getCurrent"
       ></slider-model>
-      <input @submit.prevent="" type="submit" value="Select">
+    </div>
+    <form
+      action="#"
+      method="get"
+      enctype="multipart/form-data"
+      class="flex flex-col"
+    >
+      <input
+        @submit.prevent=""
+        type="submit"
+        value="Select"
+        class="w-full bg-primary hover:bg-opacity-80 cursor-pointer p-3 text-gray-100 hover:text-gray-50 uppercase font-semibold rounded-xl"
+      />
     </form>
   </div>
 </template>

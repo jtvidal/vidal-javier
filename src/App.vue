@@ -12,18 +12,19 @@ export default {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav class="p-4 flex gap-4 justify-end border-b-2 border-zinc-700">
-        <router-link to="/" class="hover:underline">Home</router-link>
-        <router-link to="/profile" class="hover:underline"
-          >My Profile</router-link
-        >
-        <router-link to="/login" class="hover:underline">Login</router-link>
-      </nav>
-    </div>
+  <header class="font-poppins flex border-b-2 border-primary justify-center">
+    <nav class="p-4 flex gap-4">
+      <router-link to="/" class="hover:text-primary">Home</router-link>
+      <router-link to="/profile" class="hover:text-primary"
+        >My Profile</router-link
+      >
+      <router-link to="/login" class="hover:text-primary">Login</router-link>
+    </nav>
   </header>
-  <main class="p-4">
+  <main class="p-4 font-poppins mt-4">
     <RouterView />
   </main>
 </template>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
+</style>

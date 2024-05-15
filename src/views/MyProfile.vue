@@ -20,6 +20,6 @@ export default {
 
 <template>
   <div>
-      <avatar-viewer v-if="edit == true"></avatar-viewer>
+      <avatar-viewer v-if="edit == true" class="rounded-lg"></avatar-viewer>
   </div>
 </template>
