@@ -4,10 +4,10 @@ export default {
 };
 </script>
 <template>
-  <h2 class="font-bold text-slate-400 text-center uppercase p-2">Login</h2>
-  <div class="border-[1px] p-4 rounded-lg">
+  <h2 class="font-bold text-zinc-900 text-center uppercase p-2">Login / Register</h2>
+  <div class="p-1 flex justify-center">
     <form
-      class="flex flex-col"
+      class="flex flex-col w-full p-2 gap-2"
       action="#"
       method="get"
       enctype="multipart/form-data"
@@ -30,11 +30,18 @@ export default {
           id="password"
         />
       </div>
-      <input
-        type="submit"
-        value="Login"
-        class="cursor-pointer p-2 border-2 border-zinc-400 mt-4 w-2/4 self-center rounded-lg"
-      />
+      <div class="flex gap-2 justify-center">
+        <input
+          type="submit"
+          value="Login"
+          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
+        />
+        <input
+          type="submit"
+          value="Register"
+          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
+        />
+      </div>
     </form>
   </div>
 </template>

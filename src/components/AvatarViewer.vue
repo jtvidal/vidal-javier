@@ -1,5 +1,6 @@
 <script>
 import SliderModel from "./SliderModel.vue";
+import { addDoc, setDoc } from "firebase/firestore";
 export default {
   name: "AvatarViewer",
   components: { SliderModel },
@@ -48,10 +49,13 @@ export default {
      * This function must be used in parent component of a SliderModel component.
      * Recieves the currentSlide form component SliderModel
      */
-    getCurrent(current){
+    getCurrent(current) {
       this.slider.currentSlide = current;
-      console.log('current slide: ',this.slider.currentSlide);
-    }
+      console.log("current slide: ", this.slider.currentSlide);
+    },
+    saveAvatar(avatar) {
+      console.log("Avatar Guardado: ", this.avatarList[avatar]);
+    },
   },
 };
 </script>
@@ -60,7 +64,9 @@ export default {
   <!-- SLIDER COMPONENT -->
   <div class="mx-auto flex flex-col gap-2 sm:w-10/12 md:w-8/12">
     <div class="bg-zinc-100 border-[1px] border-zinc-700 p-2 rounded-xl">
-      <h3 class="text-center text-zinc-950">Select your <span class="font-semibold">avatar</span>!</h3>
+      <h3 class="text-center text-zinc-950">
+        Select your <span class="font-semibold">avatar</span>!
+      </h3>
       <slider-model
         :item-list="avatarList"
         :slider-options="slider"
@@ -74,7 +80,7 @@ export default {
       class="flex flex-col"
     >
       <input
-        @submit.prevent=""
+        @submit.prevent="saveAvatar(slider.currentSlide)"
         type="submit"
         value="Select"
         class="w-full bg-primary hover:bg-opacity-80 cursor-pointer p-3 text-gray-100 hover:text-gray-50 uppercase font-semibold rounded-xl"

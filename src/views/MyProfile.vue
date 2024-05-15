@@ -6,7 +6,6 @@ export default {
   components: { AvatarViewer },
   data() {
     return {
-      edit: true,
       username: null,
       mail: null,
       first: null,
@@ -20,6 +19,6 @@ export default {
 
 <template>
   <div>
-      <avatar-viewer v-if="edit == true" class="rounded-lg"></avatar-viewer>
+      <avatar-viewer></avatar-viewer>
   </div>
 </template>
