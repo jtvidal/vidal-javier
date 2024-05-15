@@ -2,7 +2,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'primary': '#41b57e'
+      },
+      fontFamily:{
+        'nunito':['Nunito'],
+        'poppins':['Poppins']
+      }
+    },
   },
   plugins: [],
 };
