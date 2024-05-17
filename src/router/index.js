@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from '../views/HomeView.vue'
-import LoginView from "@/views/LoginView.vue";
+import LoginRegister from "@/views/LoginRegister.vue";
 import MyProfile from "@/views/MyProfile.vue";
 
 const router = createRouter({
@@ -12,9 +12,9 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path:'/login',
-      name:'login',
-      component: LoginView
+      path:'/login-register',
+      name:'login-register',
+      component: LoginRegister
     },
     {
       path:'/profile',

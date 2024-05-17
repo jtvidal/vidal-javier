@@ -20,7 +20,7 @@ export default {
   },
   async mounted() {
     await this.getNames(this.namesUrl + this.slider.max);
-    console.log("users: ", this.namesList);
+    console.log("Names fetched: ", this.namesList);
     await this.getAvatars();
     console.log(this.avatarList);
   },
@@ -74,13 +74,13 @@ export default {
       ></slider-model>
     </div>
     <form
+      @submit.prevent="saveAvatar(slider.currentSlide)"
       action="#"
       method="get"
       enctype="multipart/form-data"
       class="flex flex-col"
     >
       <input
-        @submit.prevent="saveAvatar(slider.currentSlide)"
         type="submit"
         value="Select"
         class="w-full bg-primary hover:bg-opacity-80 cursor-pointer p-3 text-gray-100 hover:text-gray-50 uppercase font-semibold rounded-xl"

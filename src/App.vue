@@ -1,13 +1,25 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import router from "./router";
+import { logout, subscribeToAuth } from "./services/auth";
 
 export default {
   name: "App",
   data() {
     return {
-      avatarList: [],
+      userAuth: {
+        id: null,
+        email: null,
+      },
     };
+  },
+  mounted() {
+    subscribeToAuth((userData) => (this.userAuth = userData));
+  },
+  methods: {
+    userLogout() {
+      logout();
+      this.$router.push("/login-register");
+    },
   },
 };
 </script>
@@ -19,13 +31,33 @@ export default {
       <router-link to="/profile" class="hover:text-primary"
         >My Profile</router-link
       >
-      <router-link to="/login" class="hover:text-primary">Login/Register</router-link>
+      <!-- Log in / Register -->
+      <router-link to="/login-register" class="hover:text-primary"
+        >Login/Register</router-link
+      >
+      <!-- Log out -->
+      <form
+        action="#"
+        @submit.prevent="userLogout"
+        method="get"
+        enctype="multipart/form-data"
+      >
+        <input
+          type="submit"
+          value="Logout"
+          class="hover:text-primary cursor-pointer"
+        />
+      </form>
     </nav>
   </header>
-  <main class="p-4 font-poppins mt-4 h-screen" :class="$route.path == '/login' ? 'bg-primary' : ''">
+  <main
+    class="p-4 font-poppins mt-4 h-screen"
+    :class="$route.path == '/login-register' ? 'bg-primary' : ''"
+  >
     <RouterView />
   </main>
 </template>
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
 </style>

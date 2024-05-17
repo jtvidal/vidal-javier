@@ -1,16 +1,21 @@
 <script>
-import { register } from "@/services/auth";
+import { register, login } from "@/services/auth";
 export default {
-  name: "LoginView",
+  name: "LoginRegister",
   data() {
     return {
       email: null,
       password: null,
+      login: false,
+      register: false,
     };
   },
   methods: {
-    async userRegister() {
-      await register(this.email, this.password);
+    async loginRegister() {
+      this.register == true ? await register(this.email, this.password) : "";
+      this.register = false;
+      this.login == true ? await login(this.email, this.password) : "";
+      this.login = false
     },
   },
 };
@@ -21,7 +26,7 @@ export default {
   </h2>
   <div class="p-1 flex justify-center">
     <form
-      @submit.prevent="userRegister"
+      @submit.prevent="loginRegister"
       class="flex flex-col w-full p-2 gap-2"
       action="#"
       method="get"
@@ -49,11 +54,13 @@ export default {
       </div>
       <div class="flex gap-2 justify-center">
         <input
+          @click="this.login = true"
           type="submit"
           value="Login"
           class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
         />
         <input
+          @click="this.register = true"
           type="submit"
           value="Register"
           class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
