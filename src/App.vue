@@ -18,8 +18,8 @@ export default {
     //de la suscripción? Sucede que si lo hago fuera, al recargar la página,
     //userAuth trae valores null (como en su inicialización). Pero dentro de
     //la suscripción adquiere los actualizados.
-    subscribeToAuth((userData) => {
-      this.userAuth = userData;
+    subscribeToAuth((appUpdater) => {
+      this.userAuth = appUpdater;
       this.userAuth.id !== null
         ? (this.userLogged = true)
         : (this.userLogged = false);
