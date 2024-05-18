@@ -10,14 +10,26 @@ export default {
         id: null,
         email: null,
       },
+      userLogged: false,
     };
   },
   mounted() {
-    subscribeToAuth((userData) => (this.userAuth = userData));
+    //¿Por qué la asignacion de true o false a userLogged debe ser dentro
+    //de la suscripción? Sucede que si lo hago fuera, al recargar la página,
+    //userAuth trae valores null (como en su inicialización). Pero dentro de
+    //la suscripción adquiere los actualizados.
+    subscribeToAuth((userData) => {
+      this.userAuth = userData;
+      this.userAuth.id !== null
+        ? (this.userLogged = true)
+        : (this.userLogged = false);
+      console.log("Auth state in App mounted: ", this.userAuth);
+    });
   },
   methods: {
     userLogout() {
       logout();
+      this.userLogged = false;
       this.$router.push("/login-register");
     },
   },
@@ -28,15 +40,16 @@ export default {
   <header class="font-poppins flex border-b-2 border-primary justify-center">
     <nav class="p-4 flex gap-4 text-sm">
       <router-link to="/" class="hover:text-primary">Home</router-link>
-      <router-link to="/profile" class="hover:text-primary"
+      <router-link v-if="userLogged" to="/profile" class="hover:text-primary"
         >My Profile</router-link
       >
       <!-- Log in / Register -->
-      <router-link to="/login-register" class="hover:text-primary"
+      <router-link v-else to="/login-register" class="hover:text-primary"
         >Login/Register</router-link
       >
       <!-- Log out -->
       <form
+        v-if="userLogged"
         action="#"
         @submit.prevent="userLogout"
         method="get"

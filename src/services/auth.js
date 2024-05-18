@@ -4,9 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-//Own service
+//Auth instance
 import { auth } from "./firebase";
-import { watch } from "vue";
 
 const USER_NOT_AUTH = {
   id: null,
@@ -19,13 +18,16 @@ let watchers = [];
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    authUser.id = user.uid;
-    authUser.email = user.email;
+    authUser = {
+      id: user.uid,
+      email: user.email,
+    };
   } else {
     authUser = USER_NOT_AUTH;
   }
 
   stateUpdateAll();
+  console.log('Auth state changed: ', authUser);
 });
 
 /**
@@ -66,18 +68,19 @@ export function logout() {
  * Creates a suscription to Auth state of user.
  * @param {(user:import("firebase/auth").User)=>{}} suscription
  */
-export function subscribeToAuth(suscription) {
+export async function subscribeToAuth(suscription) {
   watchers.push(suscription);
-  stateUpdate(suscription);
+  console.log(watchers);
+  await stateUpdate(suscription);
 }
 
-//Notifiers
+//State Updaters
 
 /**
- * Recieves a callback function with a User object as a parameter
+ * Recieves a callback function with a User object as a parameter.
  * @param {(user: import("firebase/auth").User)=>{}} updater
  */
-function stateUpdate(updater) {
+async function stateUpdate(updater) {
   updater({ ...authUser });
 }
 
@@ -86,6 +89,7 @@ function stateUpdate(updater) {
  */
 function stateUpdateAll() {
   watchers.forEach((updater) => {
+    console.log("watchers: ", updater);
     stateUpdate(updater);
   });
 }

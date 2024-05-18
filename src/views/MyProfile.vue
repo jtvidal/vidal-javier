@@ -1,24 +1,25 @@
 <script>
-import AvatarViewer from "@/components/AvatarViewer.vue";
-
 export default {
   name: "MyProfile",
-  components: { AvatarViewer },
   data() {
     return {
-      username: null,
-      mail: null,
-      first: null,
-      last: null,
-      avatar: null,
-      description: null,
+      userAuth: {
+        id: null,
+        email: null,
+      },
     };
   },
 };
 </script>
 
 <template>
-  <div>
-      <avatar-viewer></avatar-viewer>
+  <h2 class="font-nunito font-bold text-slate-400 text-center p-2">
+    My profile
+  </h2>
+  <div class="flex">
+    <div>
+      <img src="" alt="" />
+    </div>
+    <p>Name</p>
   </div>
 </template>
