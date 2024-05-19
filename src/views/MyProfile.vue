@@ -21,7 +21,7 @@ export default {
 <template>
   <div class="flex justify-end text-sm text-slate-400 font-nunito">
     <button
-      @click="$router.push(`/edit-profile/${this.userAuth.id}`)"
+      @click="$router.push(`/edit-profile/${this.userAuth.id}/${this.userAuth.username}`)"
       class="hover:text-primary hover:underline"
     >
       Edit Profile

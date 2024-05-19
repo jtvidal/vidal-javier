@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 //Auth instance
 import { auth } from "./firebase";
+import { setUser } from "./user";
 
 const USER_NOT_AUTH = {
   id: null,
@@ -14,7 +15,7 @@ const USER_NOT_AUTH = {
   username: null,
 };
 
-let authUser = USER_NOT_AUTH;
+let authUser = { ...USER_NOT_AUTH };
 
 let watchers = [];
 
@@ -50,6 +51,7 @@ export async function register(email, password) {
     await updateProfile(userCredentials.user, { displayName: username });
     authUser.username = username;
     console.log("User registered: ", userCredentials.user);
+    setUser(authUser);
   } catch (error) {
     console.log("Error: user could not be registered", error);
   }

@@ -22,7 +22,7 @@ const routes = [
     component: MyProfile,
   },
   {
-    path: "/edit-profile/:id",
+    path: "/edit-profile/:id/:username",
     name: "edit-profile",
     component: EditProfile,
   },
