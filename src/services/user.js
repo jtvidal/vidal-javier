@@ -1,13 +1,13 @@
 //Aquí estarán las funciones que manejaran la info del usuario
 //autenticado, en la base de datos.
-import { addDoc, collection, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 let userAuth = {
   id: null,
   email: null,
   username: null,
 };
-export let dbUser = {
+const dbUser = {
   credentials: {},
   avatar: null,
   first: null,
@@ -15,14 +15,12 @@ export let dbUser = {
   description: null,
 };
 
-const userCollectionRef = collection(db, "users");
-
-export function setUser(userData) {
+export async function setUser(userData) {
   if (userData.id !== null) {
-    console.log("set data: ", userData);
+    const userRef = doc(db, "users", userData.id);
     userAuth = userData;
-    dbUser.credentials = { ...userAuth};
-    console.log("credentials: ", dbUser.credentials);
+    dbUser.credentials = { ...userAuth };
+    await setDoc(userRef, dbUser);
   }
 }
 
