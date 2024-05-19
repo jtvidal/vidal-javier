@@ -1,5 +1,5 @@
 <script>
-import { subscribeToAuth } from '@/services/auth';
+import { subscribeToAuth } from "@/services/auth";
 
 export default {
   name: "MyProfile",
@@ -8,17 +8,25 @@ export default {
       userAuth: {
         id: null,
         email: null,
-        username:null
+        username: null,
       },
     };
   },
-  mounted(){
-    subscribeToAuth(profileUpdater => this.userAuth = profileUpdater);
-  }
+  async mounted() {
+    await subscribeToAuth((profileUpdater) => (this.userAuth = profileUpdater));
+  },
 };
 </script>
 
 <template>
+  <div class="flex justify-end text-sm text-slate-400 font-nunito">
+    <button
+      @click="$router.push(`/edit-profile/${this.userAuth.id}`)"
+      class="hover:text-primary hover:underline"
+    >
+      Edit Profile
+    </button>
+  </div>
   <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-2">
     My profile
   </h2>
@@ -26,6 +34,9 @@ export default {
     <div>
       <img src="" alt="" />
     </div>
-    <p>¡Welcome <span class="font-bold">{{ userAuth.username }}</span>!</p>
+    <p>
+      ¡Welcome <span class="font-bold">{{ userAuth.username }}</span
+      >!
+    </p>
   </div>
 </template>

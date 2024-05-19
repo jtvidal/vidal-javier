@@ -16,6 +16,7 @@ export default {
       this.register = false;
       this.login == true ? await login(this.email, this.password) : "";
       this.login = false
+      this.$router.push('/profile');
     },
   },
 };

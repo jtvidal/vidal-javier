@@ -82,7 +82,7 @@ export function logout() {
  */
 export async function subscribeToAuth(suscription) {
   watchers.push(suscription);
-  console.log("watchers: ", watchers);
+  // console.log("watchers: ", watchers);
   await stateUpdate(suscription);
 }
 

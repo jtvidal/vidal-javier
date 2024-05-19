@@ -22,7 +22,7 @@ const routes = [
     component: MyProfile,
   },
   {
-    path: "/edit-profile",
+    path: "/edit-profile/:id",
     name: "edit-profile",
     component: EditProfile,
   },
@@ -38,12 +38,12 @@ let authUser = {
   email: null,
 };
 
-subscribeToAuth((routerUpdater) => (authUser = routerUpdater));
+await subscribeToAuth((routerUpdater) => (authUser = routerUpdater));
 
 router.beforeEach((to, from) => {
   if (authUser.id === null && to.path == "/profile") {
     console.log('No podes ir a perfil');
-    return { path: "/login-register" };
+    return { path: "/" };
   }
 });
 export default router;

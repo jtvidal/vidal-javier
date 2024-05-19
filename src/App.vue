@@ -13,17 +13,21 @@ export default {
       userLogged: false,
     };
   },
-  mounted() {
+  async mounted() {
     //¿Por qué la asignacion de true o false a userLogged debe ser dentro
     //de la suscripción? Sucede que si lo hago fuera, al recargar la página,
     //userAuth trae valores null (como en su inicialización). Pero dentro de
     //la suscripción adquiere los actualizados.
-    subscribeToAuth((appUpdater) => {
-      this.userAuth = appUpdater;
+    console.log('App mounted, before suscription user: ', this.userAuth);
+     await subscribeToAuth((appUpdater) => {
+      if(this.userAuth.id !== appUpdater.uid){
+        this.userAuth = appUpdater;
+        console.log('App mounted, suscription user: ', this.userAuth);
+      };
       this.userAuth.id !== null
         ? (this.userLogged = true)
         : (this.userLogged = false);
-      console.log("Auth state in App mounted: ", this.userAuth);
+      console.log('App mounted after suscription user:', this.userAuth);
     });
   },
   methods: {
@@ -37,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <header class="font-poppins flex border-b-2 border-primary justify-center">
+  <header class="font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center">
     <nav class="p-4 flex gap-4 text-sm">
       <router-link to="/" class="hover:text-primary">Home</router-link>
       <router-link v-if="userLogged" to="/profile" class="hover:text-primary"
@@ -64,8 +68,8 @@ export default {
     </nav>
   </header>
   <main
-    class="p-4 font-poppins mt-4 h-screen"
-    :class="$route.path == '/login-register' ? 'bg-primary' : ''"
+    class="p-4 font-poppins h-screen"
+    :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <RouterView />
   </main>
