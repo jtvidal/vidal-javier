@@ -23,14 +23,12 @@ export default {
     goNext() {
       this.animation = "animate__animated animate__fadeInRight";
       this.currentSlide++;
-      console.log("Avatar #", this.currentSlide);
       this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
     goBack() {
       this.animation = "animate__animated animate__fadeInLeft";
       this.currentSlide--;
-      console.log("Avatar #", this.currentSlide);
       this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
