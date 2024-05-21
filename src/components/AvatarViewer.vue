@@ -1,6 +1,6 @@
 <script>
 import SliderModel from "./SliderModel.vue";
-import { addDoc, setDoc } from "firebase/firestore";
+import { apiUrl } from "@/services/user";
 export default {
   name: "AvatarViewer",
   components: { SliderModel },
@@ -8,21 +8,21 @@ export default {
   data() {
     return {
       slider: {
-        max: 10,
+        max: 5,
         min: 0,
-        currentSlide: 5,
+        currentSlide: 0,
       },
       namesList: [],
       avatarList: [],
-      namesUrl: "https://randomuser.me/api/?results=",
-      avatarUrl: "https://api.multiavatar.com/",
+      namesUrl: null,
+      avatarUrl: null,
     };
   },
   async mounted() {
+    this.namesUrl = apiUrl.randomNames;
+    this.avatarUrl = apiUrl.multiAvatar;
     await this.getNames(this.namesUrl + this.slider.max);
-    console.log("Names fetched: ", this.namesList);
     await this.getAvatars();
-    console.log(this.avatarList);
   },
   methods: {
     /**
@@ -51,7 +51,6 @@ export default {
      */
     getCurrent(current) {
       this.slider.currentSlide = current;
-      console.log("current slide: ", this.slider.currentSlide);
     },
     saveAvatar(avatar) {
       console.log("Avatar Guardado: ", this.avatarList[avatar]);

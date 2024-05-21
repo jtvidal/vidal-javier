@@ -7,12 +7,13 @@ import {
 } from "firebase/auth";
 //Auth instance
 import { auth } from "./firebase";
-import { setUser } from "./user";
+import { setUser, apiUrl } from "./user";
 
 const USER_NOT_AUTH = {
   id: null,
   email: null,
   username: null,
+  avatar: null,
 };
 
 let authUser = { ...USER_NOT_AUTH };
@@ -25,6 +26,7 @@ onAuthStateChanged(auth, (user) => {
       id: user.uid,
       email: user.email,
       username: user.displayName,
+      avatar: user.photoURL,
     };
   } else {
     authUser = USER_NOT_AUTH;
@@ -35,7 +37,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 /**
- * Register a new user. Logs it's credentials. Sets username by default.
+ * Register a new user in the db.
  * @param {String} email
  * @param {String} password
  * @returns {Promise<void>}
@@ -48,12 +50,16 @@ export async function register(email, password) {
       password
     );
     const username = email.split("@")[0];
-    await updateProfile(userCredentials.user, { displayName: username });
+    const avatar = apiUrl.multiAvatar + username + '.svg';
+    await updateProfile(userCredentials.user, {
+      displayName: username,
+      photoURL: avatar,
+    });
     authUser.username = username;
-    console.log("User registered: ", userCredentials.user);
+    authUser.avatar = avatar;
     setUser(authUser);
   } catch (error) {
-    console.log("Error: user could not be registered", error);
+    console.error("Error: user could not be registered", error);
   }
 }
 
