@@ -1,5 +1,3 @@
-//Aquí estarán las funciones que manejaran la info del usuario
-//autenticado, en la base de datos.
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 let userAuth = {
@@ -14,6 +12,7 @@ export const apiUrl = {
 };
 export const dbUser = {
   credentials: { ...userAuth },
+  publications: null,
   first: null,
   last: null,
   description: null,
@@ -32,6 +31,11 @@ export async function setUser(userData) {
   }
 }
 
+/**
+ * Gets user by id from db.
+ * @param {String} id
+ * @returns {import("firebase/auth").User}
+ */
 export async function getUserById(id) {
   try {
     const userRef = doc(db, "users", id);
@@ -48,5 +52,3 @@ export async function getUserById(id) {
 }
 
 export function editUserById() {}
-
-export function getUserByUsername() {}

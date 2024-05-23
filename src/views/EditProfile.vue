@@ -8,8 +8,6 @@ export default {
     return {
       user: {
         id: null,
-        username: null,
-        mail: null,
         first: null,
         last: null,
         avatar: null,
@@ -19,7 +17,6 @@ export default {
   },
   mounted() {
     this.user.id = this.$route.params.id;
-    this.user.username = this.$route.params.username;
     console.log("EditProfile user.id: ", this.user.id);
     console.log("EditProfile user.username: ", this.user.username);
   },
