@@ -8,7 +8,7 @@ export default {
   data() {
     return {
       slider: {
-        max: 5,
+        max: 10,
         min: 0,
         currentSlide: 0,
       },
