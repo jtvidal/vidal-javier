@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "Loader",
+  name: "LoaderModel",
 };
 </script>
 <template>
