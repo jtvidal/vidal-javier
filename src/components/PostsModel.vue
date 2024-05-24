@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "PublicationModel",
+  name: "PostsModel",
   data() {
     return {
       by: null,

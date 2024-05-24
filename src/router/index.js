@@ -3,8 +3,8 @@ import HomeView from "../views/HomeView.vue";
 import LoginRegister from "@/views/LoginRegister.vue";
 import MyProfile from "@/views/MyProfile.vue";
 import EditProfile from "@/views/EditProfile.vue";
-import PublicationsView from "@/views/PublicationsView.vue";
-import PublicationForm from "@/views/PublicationForm.vue"
+import PostsView from "@/views/PostsView.vue";
+import PostsForm from "@/views/PostsForm.vue"
 import { subscribeToAuth } from "@/services/auth";
 
 const routes = [
@@ -29,14 +29,14 @@ const routes = [
     component: EditProfile,
   },
   {
-    path: "/my-publications/:id",
-    name: "my-publications",
-    component: PublicationsView,
+    path: "/my-posts/:id",
+    name: "my-posts",
+    component: PostsView,
   },
   {
-    path: "/publication-form",
-    name: "publication-form",
-    component: PublicationForm,
+    path: "/posts-form",
+    name: "posts-form",
+    component: PostsForm,
   },
 ];
 

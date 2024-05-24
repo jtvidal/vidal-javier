@@ -1,7 +1,7 @@
 <script>
 
 export default {
-  name: "PublicationsView",
+  name: "PostsView",
   data() {
     return {
       userId: this.$route.params.id,
@@ -22,7 +22,7 @@ export default {
     <div v-if="publications.length <= 0">
       <p class="font-semibold text-sm p-4">¡You haven't published anything yet!</p>
       <div class="flex justify-center">
-        <button @click="$router.push('/publication-form')" class="bg-primary p-2 rounded-lg text-zinc-100 hover:bg-opacity-70">Start Publishing</button>
+        <button @click="$router.push('/posts-form')" class="bg-primary p-2 rounded-lg text-zinc-100 hover:bg-opacity-70">Start Publishing</button>
       </div>
     </div>
     <div v-else>

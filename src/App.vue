@@ -14,20 +14,20 @@ export default {
     };
   },
   async mounted() {
-    //¿Por qué la asignacion de true o false a userLogged debe ser dentro
+    //¿Por qué la asignación de true o false a userLogged debe ser dentro
     //de la suscripción? Sucede que si lo hago fuera, al recargar la página,
     //userAuth trae valores null (como en su inicialización). Pero dentro de
     //la suscripción adquiere los actualizados.
-    console.log("App mounted, before suscription user: ", this.userAuth);
+    console.log("App mounted, before suscription: ", this.userAuth);
     await subscribeToAuth((appUpdater) => {
       if (this.userAuth.id !== appUpdater.uid) {
         this.userAuth = appUpdater;
-        console.log("App mounted, suscription user: ", this.userAuth);
+        console.log("App mounted, suscription: ", this.userAuth);
       }
       this.userAuth.id !== null
         ? (this.userLogged = true)
         : (this.userLogged = false);
-      console.log("App mounted after suscription user:", this.userAuth);
+      console.log("App mounted, after suscription:", this.userAuth);
     });
   },
   methods: {
@@ -47,7 +47,7 @@ export default {
     <nav class="p-4 flex gap-4 text-sm">
       <router-link to="/" class="hover:text-primary">Home</router-link>
       <router-link v-if="userLogged" to="/profile" class="hover:text-primary"
-        >My Profile</router-link
+        >Your Profile</router-link
       >
       <!-- Log in / Register -->
       <router-link v-else to="/login-register" class="hover:text-primary"

@@ -1,6 +1,6 @@
 <script>
     export default {
-        name: 'PublicationForm',
+        name: 'PostsForm',
     }
 </script>
 <template>
