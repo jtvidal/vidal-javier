@@ -22,22 +22,20 @@ let watchers = [];
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    authUser = {
+    setAuthUser({
       id: user.uid,
       email: user.email,
       username: user.displayName,
       avatar: user.photoURL,
-    };
+    });
   } else {
-    authUser = USER_NOT_AUTH;
+    setAuthUser(USER_NOT_AUTH);
   }
-
-  stateUpdateAll();
   console.log("Auth state changed: ", authUser);
 });
 
 /**
- * Register a new user in the db.
+ * Creates a new User and sets it into the data base.
  * @param {String} email
  * @param {String} password
  * @returns {Promise<void>}
@@ -50,7 +48,7 @@ export async function register(email, password) {
       password
     );
     const username = email.split("@")[0];
-    const avatar = apiUrl.multiAvatar + username + '.svg';
+    const avatar = apiUrl.multiAvatar + username + ".svg";
     await updateProfile(userCredentials.user, {
       displayName: username,
       photoURL: avatar,
@@ -63,6 +61,11 @@ export async function register(email, password) {
   }
 }
 
+/**
+ * Signs in a user. Recieves email and passwords credentials.
+ * @param {String} email
+ * @param {String} password
+ */
 export async function login(email, password) {
   try {
     const userCredentials = await signInWithEmailAndPassword(
@@ -79,14 +82,14 @@ export async function login(email, password) {
  * Logs out an authenticated user.
  * @returns {Promise<void>}
  */
-export function logout() {
-  return signOut(auth);
+export async function logout() {
+  return await signOut(auth);
 }
 
 //Suscription to Auth state
 /**
- * Creates a suscription to Auth state of user.
- * @param {(user:import("firebase/auth").User)=>{}} suscription
+ * Creates a suscription (callback) to Auth state of user.
+ * @param {(Promise<Object>)=>{}} suscription
  */
 export async function subscribeToAuth(suscription) {
   watchers.push(suscription);
@@ -97,18 +100,29 @@ export async function subscribeToAuth(suscription) {
 //State Updaters
 
 /**
- * Recieves a callback function with a User object as a parameter.
- * @param {(user: import("firebase/auth").User)=>{}} updater
+ * Recieves a callback. Updates
+ * @param {(Promise<Object>)=>{}} updater
  */
 async function stateUpdate(updater) {
-  updater({ ...authUser });
+  await updater({ ...authUser });
 }
 
 /**
  * Updates state of user Auth for al suscribers.
  */
-function stateUpdateAll() {
-  watchers.forEach((updater) => {
-    stateUpdate(updater);
+async function stateUpdateAll() {
+  watchers.forEach(async (updater) => {
+    await stateUpdate(updater);
   });
+}
+
+/**
+ * Sets new authenticated data. Updates data to suscribers.
+ * @param {Object} newAuthUser
+ */
+async function setAuthUser(newAuthUser) {
+  authUser = {
+    ...newAuthUser,
+  };
+  await stateUpdateAll();
 }
