@@ -18,7 +18,6 @@ export default {
   mounted() {
     this.user.id = this.$route.params.id;
     console.log("EditProfile user.id: ", this.user.id);
-    console.log("EditProfile user.username: ", this.user.username);
   },
 };
 </script>
