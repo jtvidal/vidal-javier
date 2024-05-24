@@ -12,7 +12,6 @@ export const apiUrl = {
 };
 export const dbUser = {
   credentials: { ...userAuth },
-  publications: null,
   first: null,
   last: null,
   description: null,
@@ -20,21 +19,29 @@ export const dbUser = {
 /**
  * Recieves an Authenticated user and creates a user document
  * by User.uid in the users collection.
- * @param {import("firebase/auth").User} userData
+ * @param {Object} userData
  */
 export async function setUser(userData) {
-  if (userData.id !== null) {
-    const userRef = doc(db, "users", userData.id);
-    userAuth = userData;
-    dbUser.credentials = { ...userAuth };
-    await setDoc(userRef, dbUser);
+  try {
+    if (userData.id !== null) {
+      const userRef = doc(db, "users", userData.id);
+      userAuth = userData;
+      dbUser.credentials = { ...userAuth };
+      await setDoc(userRef, dbUser);
+    } else {
+      throw new Error("User could not be registered, user.uid === null");
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 
 /**
  * Gets user by id from db.
  * @param {String} id
- * @returns {import("firebase/auth").User}
+ * @returns {(Promise<Object>)} User Object
+ * @error If user is not found in db
  */
 export async function getUserById(id) {
   try {
@@ -47,7 +54,8 @@ export async function getUserById(id) {
       throw new Error("User not found");
     }
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error getting user by id: ", error);
+    throw error;
   }
 }
 
