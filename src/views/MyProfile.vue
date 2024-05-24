@@ -20,25 +20,21 @@ export default {
   },
   async mounted() {
     await subscribeToAuth((profileUpdater) => (this.userAuth = profileUpdater));
-    console.log("usuario en perfil: ", this.userData);
     this.userAuth.id !== null ? await this.loadData() : (this.loading = true);
+    console.log("usuario en perfil: ", this.userData);
   },
   methods: {
     /**
      *Loads Authenticated user data form db.
      */
     async loadData() {
-      const user = await this.currentUserData();
-      this.userData = user;
-      this.loading = this.userData.credentials.id === null;
-    },
-
-    /**
-     *Gets user data of the  Authenticated User from db.
-     */
-    async currentUserData() {
-      const user = await getUserById(this.userAuth.id);
-      return user;
+      try {
+        const user = await getUserById(this.userAuth.id);
+        this.userData = user;
+        this.loading = this.userData.credentials.id === null;
+      } catch (error) {
+        console.error('User could not be loaded: ', error);
+      }
     },
   },
 };
@@ -53,10 +49,10 @@ export default {
       class="flex justify-center gap-4 text-sm text-slate-400 font-nunito p-2 mt-2"
     >
       <button
-        @click="$router.push(`/my-publications/${this.userAuth.id}`)"
+        @click="$router.push(`/my-posts/${this.userAuth.id}`)"
         class="hover:text-primary hover:underline"
       >
-        My Publications
+        Your Posts
       </button>
       <button
         @click="$router.push(`/edit-profile/${this.userAuth.id}`)"
