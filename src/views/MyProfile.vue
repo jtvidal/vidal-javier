@@ -16,12 +16,18 @@ export default {
         avatar: null,
       },
       userData: { ...dbUser },
+      unsuscribeFromAuth: () => {},
     };
   },
   async mounted() {
-    await subscribeToAuth((profileUpdater) => (this.userAuth = profileUpdater));
+    this.unsuscribeFromAuth = await subscribeToAuth(
+      (profileUpdater) => (this.userAuth = profileUpdater)
+    );
     this.userAuth.id !== null ? await this.loadData() : (this.loading = true);
     console.log("usuario en perfil: ", this.userData);
+  },
+  unmounted() {
+    this.unsuscribeFromAuth();
   },
   methods: {
     /**
@@ -33,7 +39,7 @@ export default {
         this.userData = user;
         this.loading = this.userData.credentials.id === null;
       } catch (error) {
-        console.error('User could not be loaded: ', error);
+        console.error("User could not be loaded: ", error);
       }
     },
   },

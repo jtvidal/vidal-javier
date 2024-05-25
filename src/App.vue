@@ -18,16 +18,16 @@ export default {
     //de la suscripción? Sucede que si lo hago fuera, al recargar la página,
     //userAuth trae valores null (como en su inicialización). Pero dentro de
     //la suscripción adquiere los actualizados.
-    console.log("App mounted, before suscription: ", this.userAuth);
+    // console.log("App mounted, before suscription: ", this.userAuth);
     await subscribeToAuth((appUpdater) => {
       if (this.userAuth.id !== appUpdater.uid) {
         this.userAuth = appUpdater;
-        console.log("App mounted, suscription: ", this.userAuth);
+        // console.log("App mounted, suscription: ", this.userAuth);
       }
       this.userAuth.id !== null
         ? (this.userLogged = true)
         : (this.userLogged = false);
-      console.log("App mounted, after suscription:", this.userAuth);
+      // console.log("App mounted, after suscription:", this.userAuth);
     });
   },
   methods: {

@@ -31,7 +31,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     setAuthUser(USER_NOT_AUTH);
   }
-  console.log("Auth state changed: ", authUser);
+  console.log("Auth state: ", authUser);
 });
 
 /**
@@ -89,12 +89,15 @@ export async function logout() {
 //Suscription to Auth state
 /**
  * Creates a suscription (callback) to Auth state of user.
- * @param {(Promise<Object>)=>{}} suscription
+ * @param {(Promise<Object>)=>{}}
  */
 export async function subscribeToAuth(suscription) {
   watchers.push(suscription);
-  // console.log("watchers: ", watchers);
+  console.log("watchers: ", watchers);
   await stateUpdate(suscription);
+  return () => {
+    watchers = watchers.filter((w) => w !== suscription);
+  };
 }
 
 //State Updaters
