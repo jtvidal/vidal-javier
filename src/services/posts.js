@@ -1,5 +1,5 @@
 //Posts service
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 const POST = {
   date: null,
@@ -12,6 +12,7 @@ export let post = { ...POST };
  *Adds a post into db root collection 'posts'
  * @param {Promise<Object>} post
  * @returns {Promise<boolean>}
+ * @throws {Error}
  */
 export async function savePost(post) {
   try {
@@ -45,4 +46,19 @@ export async function setPost(postData) {
     console.error("Post could not be added: ", error.message);
     throw error;
   }
+}
+
+export async function getPosts() {
+  const postSnap = await getDocs(collection(db, "posts"));
+  postSnap.forEach((post) => {
+    console.log("Post", post.data());
+  });
+}
+
+export async function getPostsById(id) {
+  const q = query(collection(db, "posts"), where("by", "==", id));
+  const posts = await getDocs(q);
+  posts.forEach((post) => {
+    console.log(post.data());
+  });
 }

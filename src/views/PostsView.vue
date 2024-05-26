@@ -1,12 +1,31 @@
 <script>
+import { getPostsById } from "@/services/posts";
 import PostForm from "@/components/PostsForm.vue";
+import { subscribeToAuth } from "@/services/auth";
 export default {
   name: "PostsView",
   components: { PostForm },
   data() {
     return {
+      userAuth: {
+        id: null,
+        username: null,
+        email: null,
+        avatar: null,
+      },
       close: true,
+      unsuscribeFormAuth: () => {},
     };
+  },
+  async mounted() {
+    this.unsuscribeFormAuth = await subscribeToAuth(
+      (postViewUpdater) => (this.userAuth = postViewUpdater)
+    );
+    console.log("User id in PostView: ", this.userAuth.id);
+    await getPostsById(this.userAuth.id);
+  },
+  unmounted() {
+    this.unsuscribeFormAuth();
   },
   methods: {
     closeForm(x) {
