@@ -70,7 +70,7 @@ export default {
     </nav>
   </header>
   <main
-    class="p-4 font-poppins h-screen"
+    class="font-poppins h-screen w-full"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <RouterView />

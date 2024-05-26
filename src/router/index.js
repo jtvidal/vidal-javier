@@ -4,16 +4,14 @@ import LoginRegister from "@/views/LoginRegister.vue";
 import MyProfile from "@/views/MyProfile.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import PostsView from "@/views/PostsView.vue";
-import PostsForm from "@/views/PostsForm.vue";
 import { subscribeToAuth } from "@/services/auth";
-
+  
 const routes = [
   { path: "/", name: "home", component: HomeView },
   { path: "/login-register", name: "login-register", component: LoginRegister },
   { path: "/profile", name: "profile", component: MyProfile },
   { path: "/edit-profile/:id", name: "edit-profile", component: EditProfile },
-  { path: "/my-posts/:id", name: "my-posts", component: PostsView },
-  { path: "/posts-form", name: "posts-form", component: PostsForm },
+  { path: "/my-posts", name: "my-posts", component: PostsView },
 ];
 
 const router = createRouter({

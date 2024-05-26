@@ -55,7 +55,7 @@ export default {
       class="flex justify-center gap-4 text-sm text-slate-400 font-nunito p-2 mt-2"
     >
       <button
-        @click="$router.push(`/my-posts/${this.userAuth.id}`)"
+        @click="$router.push('/my-posts')"
         class="hover:text-primary hover:underline"
       >
         Your Posts

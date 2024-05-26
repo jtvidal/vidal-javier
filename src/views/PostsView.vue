@@ -1,32 +1,39 @@
 <script>
-
+import PostForm from "@/components/PostsForm.vue";
 export default {
   name: "PostsView",
+  components: { PostForm },
   data() {
     return {
-      userId: this.$route.params.id,
-      publications: [],
+      close: true,
     };
   },
-  async mounted() {
-    console.log("User id: ", this.userId);
+  async mounted() {},
+  methods: {
+    closeForm(x) {
+      x ? (this.close = true) : (this.close = false);
+    },
   },
-  methods: {},
 };
 </script>
 <template>
-  <div class="flex flex-col items-center">
-    <h2 class="text-center uppercase text-slate-400 font-bold">
+  <div>
+    <h2 class="text-center uppercase text-slate-400 font-bold p-6">
       Your Posts
     </h2>
-    <div v-if="publications.length <= 0">
-      <p class="font-semibold text-sm p-4">¡You haven't published anything yet!</p>
-      <div class="flex justify-center">
-        <button @click="$router.push('/posts-form')" class="w-2/5 bg-primary p-2 rounded-lg text-zinc-100 hover:bg-opacity-70">Post</button>
+    <div class="flex flex-col relative h-full gap-4 w-full p-4 items-center">
+      <p class="font-semibold text-xl text-zinc-900 p-4">
+        ¡You haven't published anything yet!
+      </p>
+      <div class="flex w-full">
+        <button
+          @click="close = false"
+          class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 bg-primary p-2 rounded-lg text-zinc-100 hover:bg-opacity-70"
+        >
+          Post
+        </button>
       </div>
     </div>
-    <div v-else>
-        <p>POSTS</p>
-    </div>
+    <post-form @close-form="closeForm" v-if="!close"></post-form>
   </div>
 </template>

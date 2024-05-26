@@ -1,5 +1,5 @@
 //Posts service
-import { addDoc, doc } from "firebase/firestore";
+import { addDoc, collection, doc } from "firebase/firestore";
 import { db } from "./firebase";
 const POST = {
   date: null,
@@ -9,18 +9,26 @@ const POST = {
 };
 export let post = { ...POST };
 /**
- *
+ *Adds a post into db root collection 'posts'
  * @param {Promise<Object>} post
  */
 export async function savePost(post) {
-  const postData = await setPost(post, post);
+  console.log("Saved Post: ", post);
+  const postCollectionRef = collection(db, "posts");
+  await addDoc(postCollectionRef, post);
 }
-export function setPost(title, content) {
+
+/**
+ *Set Post data into an Object
+ * @param {Promise<Object>}
+ * @returns {Object}
+ */
+export async function setPost(postData) {
   try {
-    if (content !== null) {
-      post.title = title;
-      post.content = content;
-      return post;
+    post = await { ...postData };
+    const postObject = post;
+    if (postObject.content === null) {
+      return postObject;
     } else {
       throw new Error("No content added");
     }
