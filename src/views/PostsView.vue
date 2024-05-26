@@ -8,7 +8,6 @@ export default {
       close: true,
     };
   },
-  async mounted() {},
   methods: {
     closeForm(x) {
       x ? (this.close = true) : (this.close = false);

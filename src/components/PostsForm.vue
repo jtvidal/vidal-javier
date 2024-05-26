@@ -1,23 +1,46 @@
 <script>
 import { setPost, savePost, post } from "../services/posts";
+import { subscribeToAuth } from "@/services/auth";
 export default {
   name: "PostsForm",
-  params: {},
   data() {
     return {
+      userData: {
+        id: null,
+        avatar: null,
+        email: null,
+        username: null,
+      },
       postData: {
         ...post,
       },
       closeForm: true,
+      by: null,
+      unsuscribeFromAuth: () => {},
     };
   },
+  async mounted() {
+    this.unsuscribeFromAuth = await subscribeToAuth(
+      (postsUpdater) => (this.userData = postsUpdater)
+    );
+    this.postedBy(this.userData.id, this.userData.username);
+    console.log("User in Posts:", this.userData);
+  },
+  unmounted() {
+    this.unsuscribeFromAuth();
+  },
   methods: {
+    async postedBy(id, username) {
+      this.postData.by = await id;
+      this.postData.username = await username;
+    },
     /**
      * Saves post into db
      */
     async handleSubmit() {
-      const post = await setPost(this.postData);
-      await savePost(post);
+      const post = { ...(await setPost(this.postData)) };
+      this.closeForm = await savePost(post);
+      this.handleClose();
     },
     async handleClose() {
       this.$emit("closeForm", this.closeForm);

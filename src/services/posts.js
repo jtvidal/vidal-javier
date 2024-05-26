@@ -1,5 +1,5 @@
 //Posts service
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "./firebase";
 const POST = {
   date: null,
@@ -16,6 +16,7 @@ export async function savePost(post) {
   console.log("Saved Post: ", post);
   const postCollectionRef = collection(db, "posts");
   await addDoc(postCollectionRef, post);
+  return true;
 }
 
 /**
@@ -27,13 +28,14 @@ export async function setPost(postData) {
   try {
     post = await { ...postData };
     const postObject = post;
-    if (postObject.content === null) {
+    console.log("postObject: ", postObject);
+    if (postObject.content !== null) {
       return postObject;
     } else {
       throw new Error("No content added");
     }
   } catch (error) {
-    console.error("Post could not be setted: ", error);
+    console.error("Post could not be added: ", error);
     throw error;
   }
 }
