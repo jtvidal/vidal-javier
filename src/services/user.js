@@ -59,4 +59,5 @@ export async function getUserById(id) {
   }
 }
 
-export function editUserById() {}
+// TODO: replace user data with new data changed in EditProfile
+// export function editUserById() {}

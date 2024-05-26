@@ -1,9 +1,12 @@
 <script>
+import { post } from "@/services/posts";
 export default {
   name: "PostsForm",
   data() {
     return {
-      title: null,
+      postData: {
+        ...post,
+      },
     };
   },
 };
@@ -19,19 +22,22 @@ export default {
       <div class="flex flex-col">
         <label for="title">Title</label>
         <input
-          class="border-2 border-opacity-50 border-primary rounded-md focus:outline-primary focus:outline-2"
+          class="ps-1 border-2 border-opacity-50 border-primary rounded-md focus:outline-primary focus:outline-2"
           type="text"
           id="title"
           name="title"
+          v-model="postData.title"
         />
       </div>
       <div class="flex flex-col">
         <label for="content">Content:</label>
         <textarea
-          class="border-2 border-opacity-50 border-primary rounded-md focus:outline-primary focus:outline-2"
+          maxlength="200"
+          class="min-h-32 ps-1 border-2 border-opacity-50 border-primary rounded-md focus:outline-primary focus:outline-2"
           type="text"
           id="content"
           name="content"
+          v-model="postData.content"
         ></textarea>
       </div>
       <input

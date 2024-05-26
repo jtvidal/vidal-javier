@@ -7,8 +7,6 @@ export default {
       date: null,
       title: null,
       content: null,
-      image: null,
-      comments: [],
     };
   },
 };
