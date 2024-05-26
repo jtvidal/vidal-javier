@@ -11,31 +11,38 @@ export let post = { ...POST };
 /**
  *Adds a post into db root collection 'posts'
  * @param {Promise<Object>} post
+ * @returns {Promise<boolean>}
  */
 export async function savePost(post) {
-  console.log("Saved Post: ", post);
-  const postCollectionRef = collection(db, "posts");
-  await addDoc(postCollectionRef, post);
-  return true;
+  try {
+    console.log("Saved Post: ", post);
+    const postCollectionRef = collection(db, "posts");
+    await addDoc(postCollectionRef, post);
+    return true;
+  } catch (error) {
+    console.error("Error in savePost:", error);
+    throw new Error("Error saving Post");
+  }
 }
 
 /**
  *Set Post data into an Object
- * @param {Promise<Object>}
- * @returns {Object}
+ * @param {Object} postData
+ * @returns {Promise<Object>}
+ * @throws {Error}
  */
 export async function setPost(postData) {
   try {
     post = await { ...postData };
-    const postObject = post;
-    console.log("postObject: ", postObject);
-    if (postObject.content !== null) {
+    if (post.content && post.title) {
+      const postObject = post;
+      console.log("postObject: ", postObject);
       return postObject;
     } else {
-      throw new Error("No content added");
+      throw new Error(post.content ? "Title missing" : "Content missing");
     }
   } catch (error) {
-    console.error("Post could not be added: ", error);
+    console.error("Post could not be added: ", error.message);
     throw error;
   }
 }

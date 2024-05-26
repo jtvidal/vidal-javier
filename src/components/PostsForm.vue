@@ -1,4 +1,5 @@
 <script>
+import { Timestamp } from "firebase/firestore";
 import { setPost, savePost, post } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
 export default {
@@ -38,9 +39,18 @@ export default {
      * Saves post into db
      */
     async handleSubmit() {
-      const post = { ...(await setPost(this.postData)) };
-      this.closeForm = await savePost(post);
-      this.handleClose();
+      try {
+        this.postData.date = Timestamp.now();
+        const post = { ...(await setPost(this.postData)) };
+        this.closeForm = await savePost(post);
+        if (this.closeForm === true) {
+          this.handleClose();
+        } else {
+          throw new Error("Post could not be saved");
+        }
+      } catch (error) {
+        console.error("Error in handleSubmit: ", error);
+      }
     },
     async handleClose() {
       this.$emit("closeForm", this.closeForm);
