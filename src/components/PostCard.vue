@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "PostsCard",
+  name: "PostCard",
   props: { postObject: Object },
   data() {
     return {
@@ -20,7 +20,8 @@ export default {
 </script>
 <template>
   <div
-    class="shadow-md shadow-zinc-400 pt-4 flex flex-col items-center border-2 border-primary rounded-lg"
+  id="post-card"
+    class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 pt-4 flex flex-col items-center border-2 border-primary rounded-lg"
   >
     <h3>{{ postCard.title }}</h3>
     <div class="p-4">

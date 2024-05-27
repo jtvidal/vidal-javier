@@ -1,7 +1,7 @@
 <script>
 import { getPostsById } from "@/services/posts";
 import PostForm from "@/components/PostsForm.vue";
-import PostCard from "@/components/PostsCard.vue";
+import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderModel from "@/components/LoaderModel.vue";
 export default {

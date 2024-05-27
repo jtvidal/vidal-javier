@@ -1,12 +1,12 @@
 <script>
 import LoaderModel from "@/components/LoaderModel.vue";
-import PostsCard from "@/components/PostsCard.vue";
+import PostCard from "@/components/PostCard.vue";
 import { getPosts } from "@/services/posts";
 
 export default {
   name: "HomeView",
   props: { postObject: Object },
-  components: { PostsCard, LoaderModel },
+  components: { PostCard, LoaderModel },
   data() {
     return {
       posts: [],
@@ -27,13 +27,15 @@ export default {
 };
 </script>
 <template>
-  <div>
-    <h2 class="font-bold text-slate-400 text-center uppercase p-6">home</h2>
+  <h2 class="font-bold text-slate-400 text-center uppercase p-6">home</h2>
+  <div class="p-2 flex">
+    <div
+      id="home-wall"
+      v-if="posts.length > 0"
+      class="w-full justify-center flex flex-wrap gap-2"
+    >
+      <post-card v-for="post in posts" :post-object="post"></post-card>
 
-    <div v-if="posts.length > 0">
-      <div v-for="post in posts">
-        <posts-card :post-object="post"></posts-card>
-      </div>
       <!-- TODO: show all posts in date order max 10 posts -->
     </div>
     <div v-else class="flex justify-center">
