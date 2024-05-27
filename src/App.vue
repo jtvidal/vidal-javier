@@ -10,6 +10,7 @@ export default {
         id: null,
         email: null,
         avatar: null,
+        username: null,
       },
       userLogged: false,
     };
@@ -43,12 +44,19 @@ export default {
 
 <template>
   <header
-    class="font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center"
+    class="w-full font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center"
   >
-    <nav class="p-4 flex gap-4 text-sm items-center">
-      <router-link v-if="userLogged" to="/profile" class="hover:text-primary"
-        ><img class="w-[50px] hover:drop-shadow-lg" :src="userAuth.avatar" alt="User Avatar profile link"></router-link
-      >
+    <nav
+      class="w-full md:w-10/12 justify-between px-8 py-4 flex gap-4 text-sm items-center"
+    >
+      <router-link v-if="userLogged" to="/profile" class="hover:text-primary flex items-center gap-2 uppercase"
+        ><img
+          class="w-[50px] hover:drop-shadow-lg"
+          :src="userAuth.avatar"
+          alt="User Avatar profile link"
+      />
+      <p>{{ userAuth.username }}</p>
+    </router-link>
       <!-- Log in / Register -->
       <router-link v-else to="/login-register" class="hover:text-primary"
         >Login/Register</router-link
