@@ -48,6 +48,9 @@ export async function setPost(postData) {
   }
 }
 
+/**
+ * Gets all posts form posts collection in db.
+ */
 export async function getPosts() {
   const postSnap = await getDocs(collection(db, "posts"));
   postSnap.forEach((post) => {
@@ -55,10 +58,12 @@ export async function getPosts() {
   });
 }
 
+/**
+ * Gets posts by user id.
+ * @param {String} id
+ */
 export async function getPostsById(id) {
   const q = query(collection(db, "posts"), where("by", "==", id));
   const posts = await getDocs(q);
-  posts.forEach((post) => {
-    console.log(post.data());
-  });
+  return posts;
 }
