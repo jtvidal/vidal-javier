@@ -25,7 +25,7 @@ export default {
   <h2 class="font-bold text-zinc-900 text-center uppercase p-2">
     Login / Register
   </h2>
-  <div class="p-1 flex justify-center">
+  <div class="p-4 w-10/12 sm:w-8/12 lg:w-1/4 flex justify-center mx-auto">
     <form
       @submit.prevent="loginRegister"
       class="flex flex-col w-full p-2 gap-2"
