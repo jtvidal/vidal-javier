@@ -46,7 +46,7 @@ export default {
 };
 </script>
 <template>
-  <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-2">
+  <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-6">
     ¡Welcome {{ userData.credentials.username }}!
   </h2>
   <loader-model v-if="loading == true" class="mx-auto p-2 mt-4"></loader-model>
