@@ -63,11 +63,11 @@ export default {
 
 <template>
   <h2 class="text-center uppercase text-slate-400 font-bold p-6">Your Posts</h2>
-
+  <!-- LOADER -->
   <div v-if="loading" class="flex justify-center p-4">
     <loader-model></loader-model>
   </div>
-
+  <!-- POSTS -->
   <div v-else>
     <div
       v-if="posts.length <= 0"
@@ -80,6 +80,7 @@ export default {
     <div v-else v-for="post in posts" class="p-4">
       <post-card :post-object="post"></post-card>
     </div>
+    <!-- BUTTON POST -->
     <div class="flex w-full p-2">
       <button
         @click="close = false"

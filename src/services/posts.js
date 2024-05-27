@@ -50,12 +50,15 @@ export async function setPost(postData) {
 
 /**
  * Gets all posts form posts collection in db.
+ * @returns {Array} an Array with posts data.
  */
 export async function getPosts() {
   const postSnap = await getDocs(collection(db, "posts"));
+  const postData = [];
   postSnap.forEach((post) => {
-    console.log("Post", post.data());
+    postData.push(post.data());
   });
+  return postData;
 }
 
 /**
