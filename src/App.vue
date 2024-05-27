@@ -9,6 +9,7 @@ export default {
       userAuth: {
         id: null,
         email: null,
+        avatar: null,
       },
       userLogged: false,
     };
@@ -44,15 +45,15 @@ export default {
   <header
     class="font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center"
   >
-    <nav class="p-4 flex gap-4 text-sm">
-      <router-link to="/" class="hover:text-primary">Home</router-link>
+    <nav class="p-4 flex gap-4 text-sm items-center">
       <router-link v-if="userLogged" to="/profile" class="hover:text-primary"
-        >Your Profile</router-link
+        ><img class="w-[50px] hover:drop-shadow-lg" :src="userAuth.avatar" alt="User Avatar profile link"></router-link
       >
       <!-- Log in / Register -->
       <router-link v-else to="/login-register" class="hover:text-primary"
         >Login/Register</router-link
       >
+      <router-link to="/" class="hover:text-primary">Home</router-link>
       <!-- Log out -->
       <form
         v-if="userLogged"
