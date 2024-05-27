@@ -8,7 +8,6 @@ import {
 //Auth instance
 import { auth } from "./firebase";
 import { setUser, apiUrl } from "./user";
-import { stringify } from "postcss";
 
 const USER_NOT_AUTH = {
   id: null,
