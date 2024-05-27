@@ -5,13 +5,28 @@ import MyProfile from "@/views/MyProfile.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import PostsView from "@/views/PostsView.vue";
 import { subscribeToAuth } from "@/services/auth";
-  
+
 const routes = [
   { path: "/", name: "home", component: HomeView },
   { path: "/login-register", name: "login-register", component: LoginRegister },
-  { path: "/profile", name: "profile", component: MyProfile },
-  { path: "/edit-profile/:id", name: "edit-profile", component: EditProfile },
-  { path: "/my-posts", name: "my-posts", component: PostsView },
+  {
+    path: "/profile",
+    name: "profile",
+    component: MyProfile,
+    meta: { protected: true },
+  },
+  {
+    path: "/edit-profile/:id",
+    name: "edit-profile",
+    component: EditProfile,
+    meta: { protected: true },
+  },
+  {
+    path: "/my-posts",
+    name: "my-posts",
+    component: PostsView,
+    meta: { protected: true },
+  },
 ];
 
 const router = createRouter({
@@ -28,7 +43,7 @@ await subscribeToAuth((routerUpdater) => (authUser = routerUpdater));
 
 router.beforeEach((to, from) => {
   if (authUser.id === null && to.path == "/profile") {
-    console.log("Access to Your Profile not granted");
+    console.log("Access not granted");
     return { path: "/" };
   }
 });
