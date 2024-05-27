@@ -8,6 +8,7 @@ import {
 //Auth instance
 import { auth } from "./firebase";
 import { setUser, apiUrl } from "./user";
+import { stringify } from "postcss";
 
 const USER_NOT_AUTH = {
   id: null,
@@ -20,7 +21,11 @@ let authUser = { ...USER_NOT_AUTH };
 
 let watchers = [];
 
-onAuthStateChanged(auth, (user) => {
+if (localStorage.getItem("user") !== null) {
+  authUser = JSON.parse(localStorage.getItem("user"));
+}
+
+  onAuthStateChanged(auth, (user) => {
   if (user) {
     setAuthUser({
       id: user.uid,
@@ -83,6 +88,7 @@ export async function login(email, password) {
  * @returns {Promise<void>}
  */
 export async function logout() {
+  localStorage.removeItem("user");
   return await signOut(auth);
 }
 
@@ -127,5 +133,6 @@ async function setAuthUser(newAuthUser) {
   authUser = {
     ...newAuthUser,
   };
+  localStorage.setItem("user", JSON.stringify(authUser));
   await stateUpdateAll();
 }
