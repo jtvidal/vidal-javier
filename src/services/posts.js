@@ -1,16 +1,24 @@
 //Posts service
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "./firebase";
 const POST = {
   date: null,
   title: null,
   content: null,
   by: null,
+  postId: null,
 };
 export let post = { ...POST };
 /**
  *Adds a post into db root collection 'posts'
- * @param {Promise<Object>} post
+ * @param post {Promise<Object>}
  * @returns {Promise<boolean>}
  * @throws {Error}
  */
@@ -18,7 +26,9 @@ export async function savePost(post) {
   try {
     console.log("Saved Post: ", post);
     const postCollectionRef = collection(db, "posts");
-    await addDoc(postCollectionRef, post);
+    const postRef = await addDoc(postCollectionRef, post);
+    const docId = postRef.id;
+    updateDoc(postRef, { postId: docId });
     return true;
   } catch (error) {
     console.error("Error in savePost:", error);

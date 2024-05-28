@@ -30,6 +30,11 @@ export default {
     this.unsuscribeFromAuth();
   },
   methods: {
+    /**
+     *
+     * @param id {Promise<String>}
+     * @param username {Promise<String>}
+     */
     async postedBy(id, username) {
       this.postData.by = await id;
       this.postData.username = await username;

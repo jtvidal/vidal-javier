@@ -61,6 +61,7 @@ export default {
       (maybe use SliderModel component)
       -->
     </div>
+    <!-- TODO: ...loader not showing? -->
     <div v-else class="flex justify-center mx-auto">
       <loader-model></loader-model>
     </div>
