@@ -57,7 +57,9 @@ export default {
       class="w-full justify-center flex flex-wrap gap-2"
     >
       <post-card v-for="post in posts" :post-object="post"></post-card>
-      <!-- TODO: show all posts in date order max 10 posts -->
+      <!-- TODO: show all posts in date order max 10 posts 
+      (maybe use SliderModel component)
+      -->
     </div>
     <div v-else class="flex justify-center mx-auto">
       <loader-model></loader-model>
