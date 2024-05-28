@@ -8,7 +8,7 @@ export default {
   data() {
     return {
       postCard: { ...post },
-      makeComment: false,
+      close: true,
     };
   },
   async mounted() {
@@ -24,7 +24,7 @@ export default {
       this.postCard = { ...p };
     },
     closeForm(x) {
-      x ? (this.makeComment = false) : (this.makeComment = true);
+      x ? (this.close = true) : (this.close = false);
     },
   },
 };
@@ -48,7 +48,7 @@ export default {
       </div>
       <div class="w-1/2">
         <button
-          @click="makeComment = true"
+          @click="close = false"
           class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100"
         >
           Comment
@@ -58,7 +58,7 @@ export default {
   </div>
 
   <comment-form
-    v-if="makeComment == true"
+    v-if="close == false"
     :in-post="postCard.postId"
     @close-form="closeForm"
   ></comment-form>

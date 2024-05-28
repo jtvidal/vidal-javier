@@ -32,7 +32,7 @@ export default {
       localStorage.getItem("user")
         ? (this.authUser = JSON.parse(localStorage.getItem("user")))
         : (this.authUser.id = null);
-        console.log(this.authUser);
+        console.log('Auth user in HomeView: ',this.authUser);
     },
     /**
      * Loads posts from db

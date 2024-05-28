@@ -10,7 +10,7 @@ export default {
   props: { inPost: String },
   data() {
     return {
-      commentBy: { ...userAuth },
+      commentByUser: { ...userAuth },
       comment: {
         ...comment,
         inPost: this.inPost,
@@ -21,9 +21,9 @@ export default {
   },
   async mounted() {
     this.unsuscribeFromAuth = await subscribeToAuth(
-      (commentUpdater) => (this.commentBy = commentUpdater)
+      (commentByUpdater) => (this.commentByUser = commentByUpdater)
     );
-    await this.setComment(this.commentBy);
+    await this.commentBy(this.commentByUser);
     console.log("comment in commentForm: ", this.comment);
   },
   methods: {
@@ -31,8 +31,7 @@ export default {
      *Sets comment data
      * @param u {Promise<userAuth>} Authenticated user
      */
-    async setComment(u) {
-      this.comment.date = Timestamp.now();
+    async commentBy(u) {
       this.comment.by = (await u).id;
       this.comment.avatar = (await u).avatar;
     },
@@ -41,10 +40,26 @@ export default {
      *
      * @param c {Promise<comment>}
      */
-    async handleSubmit(c) {
-      this.closeForm = await saveComment(c);
-      this.handleClose();
+    async handleSubmit() {
+      try {
+        this.comment.date = Timestamp.now();
+        if (!this.comment.content) {
+          throw new Error("Error in handleSubmit: no content added to comment");
+        } else {
+          this.close = await saveComment(this.comment);
+          if (this.close == true) {
+            this.handleClose();
+          } else {
+            throw new Error("Comment could not be saved");
+          }
+        }
+      } catch (error) {
+        console.error("Error in handleSubmit: ", error);
+      }
     },
+    /**
+     * Emits order to close modal
+     */
     async handleClose() {
       this.$emit("close-form", this.close);
     },
@@ -61,7 +76,7 @@ export default {
       </button>
     </div>
     <form
-      @submit.prevent="() => {}"
+      @submit.prevent="handleSubmit"
       action="#"
       method="get"
       enctype="multipart/form-data"

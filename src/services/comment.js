@@ -21,14 +21,14 @@ export let comment = { ...COMMENT };
 
 /**
  *Adds a new comment doc to the comments collection in db
- * @param c {Promise<Object>}
+ * @param c {Promise<comment>} Object comment
  */
 export async function saveComment(c) {
-  comment = { ...c };
+  // comment = { ...c };
   try {
-    const commentsColRef = collection(db, `posts/${comment.inPost}/comments`);
+    const commentsColRef = collection(db, `posts/${(await c).inPost}/comments`);
     if (commentsColRef) {
-      const commentRef = await addDoc(commentsColRef, comment);
+      const commentRef = await addDoc(commentsColRef, c);
       const commentId = commentRef.id;
       updateDoc(commentRef, { id: commentId });
       return true;
