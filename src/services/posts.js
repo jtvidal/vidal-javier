@@ -37,7 +37,7 @@ export async function savePost(post) {
 }
 
 /**
- *Set Post data into an Object
+ *Set Post data into an Object. Validates content and title !==null
  * @param {Object} postData
  * @returns {Promise<Object>}
  * @throws {Error}

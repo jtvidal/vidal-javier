@@ -7,7 +7,7 @@ import LoaderModel from "@/components/LoaderModel.vue";
 export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard },
-  props: { postObject: null },
+  props: { postObject: null , userObject: null },
   data() {
     return {
       userAuth: {

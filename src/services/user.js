@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
-let userAuth = {
+export let userAuth = {
   id: null,
   email: null,
   username: null,

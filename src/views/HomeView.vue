@@ -50,7 +50,7 @@ export default {
   <div class="flex justify-center uppercase font-bold">
     aquí les vengo a bailar
   </div>
-  <div v-if="authUser.id !== null" class="p-2 flex">
+  <div v-if="authUser.id !== null" class="p-2">
     <div
       v-if="posts"
       id="home-wall"
