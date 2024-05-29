@@ -87,7 +87,7 @@ export default {
     </nav>
   </header>
   <main
-    class="font-poppins h-screen w-full relative"
+    class="font-poppins h-screen w-full relative p-2"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <!-- main is relative so modals can be extended as absolute through main's height and width. -->

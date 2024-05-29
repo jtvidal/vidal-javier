@@ -13,7 +13,6 @@ export default {
   },
   async mounted() {
     await this.loadPostCard(this.$props.postObject);
-    console.log("PostCard: ", this.$props.postObject);
   },
   methods: {
     /**

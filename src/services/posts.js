@@ -73,11 +73,10 @@ export async function setPost(postData) {
 export async function getPosts() {
   try {
     const postData = [];
-    const postRef = collection(db, 'posts');
-    const q =  query(postRef, orderBy('date'));
+    const postRef = collection(db, "posts");
+    const q = query(postRef, orderBy("date"));
     const postSnap = await getDocs(q);
     const postDocs = postSnap.docs;
-    console.log('postDocs: ', postDocs);
     if (postDocs) {
       postDocs.forEach((post) => {
         postData.push(post.data());

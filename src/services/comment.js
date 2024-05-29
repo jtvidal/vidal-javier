@@ -4,7 +4,14 @@ TODO:
     - create function to save comment in comments db (subcollection of posts).
 */
 
-import { addDoc, collection, getDocs, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  updateDoc,
+  query,
+} from "firebase/firestore";
 import { db } from "./firebase";
 const COMMENT = {
   id: null,
@@ -50,15 +57,20 @@ export async function saveComment(c) {
  */
 export async function getCommentsByPostId(postId) {
   try {
-    const commentsSnap = await getDocs(
-      collection(db, `posts/${postId}/comments`)
-    );
-    if (commentsSnap) {
-      const commentsData = [];
-      commentsSnap.forEach((comment) => {
-        commentsData.push(comment.data());
+    console.log('postId in getCommentsByPostId: ', postId);
+    const comments = [];
+    const commentsRef = collection(db, "posts", postId , "comments");
+    console.log('commentsRef: ', commentsRef);
+    const q = query(commentsRef, orderBy("date"));
+    const commentsData = await getDocs(q);
+    console.log('commentsData: ', commentsData);
+    const commentsDocs = commentsData.docs
+    console.log('commentsDocs: ', commentsDocs);
+    if (commentsDocs) {
+      commentsDocs.forEach((comment) => {
+        comments.push(comment.data());
       });
-      return commentsData;
+      return comments;
     } else {
       throw new Error("Post not found");
     }

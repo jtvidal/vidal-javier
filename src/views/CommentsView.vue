@@ -23,12 +23,24 @@ export default {
     async loadPostCard() {
       const post = await getPostById(this.$route.params.id);
       this.postCard = post;
-      this.postCard.date = new Intl.DateTimeFormat(
-        "es",
-        this.postCard.date
-      ).format(this.postCard.date);
+      this.postCard.date = this.formatDate(this.postCard.date);
+      // this.postCard.date = new Intl.DateTimeFormat(
+      //   "es",
+      //   this.postCard.date
+      // ).format(this.postCard.date);
     },
-
+    /**
+     *Transforms date into enUs date form
+     * @param date {Timestamp}
+     */
+    formatDate(date) {
+      try {
+        const newDate = new Intl.DateTimeFormat("en-Us", date).format(date);
+        return newDate;
+      } catch (error) {
+        console.error("error in formatDate: ", error);
+      }
+    },
     /**
      * Gets post comments into data() property: commentsList[].
      */
@@ -65,12 +77,12 @@ export default {
       class="flex flex-col border-zinc-300 text-zinc-600 border-4 p-4 w-10/12 mx-auto rounded-lg"
     >
       <div class="self-center p-4">
-        <h3>
+        <h3 class="font-semibold">
           {{ postCard.title }}
         </h3>
-        <p>{{ postCard.content }}</p>
+        <p class="pt-3">{{ postCard.content }}</p>
       </div>
-      <ul class="flex gap-4 text-sm w-full">
+      <ul class="flex justify-end gap-4 text-xs w-full p-2">
         <li>By: {{ postCard.username }}</li>
         <li>On: {{ postCard.date }}</li>
       </ul>
@@ -78,10 +90,14 @@ export default {
     <div v-if="loading" class="flex justify-center p-6">
       <loader-model></loader-model>
     </div>
-    <div v-else-if="postCommented == true">
-      <div v-for="comment in commentsList">
-        <comment-card :comment-object="comment"></comment-card>
-      </div>
+    <div
+      v-else-if="postCommented == true"
+      class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2"
+    >
+      <comment-card
+        v-for="comment in commentsList"
+        :comment-object="comment"
+      ></comment-card>
       <!-- TODO: renderize CommentCard components -->
     </div>
     <div
