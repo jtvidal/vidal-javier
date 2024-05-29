@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 export let userAuth = {
   id: null,
@@ -60,4 +60,19 @@ export async function getUserById(id) {
 }
 
 // TODO: replace user data with new data changed in EditProfile
-// export function editUserById() {}
+export async function editUserById(id, newData) {
+  try {
+    const userRef = doc(db, `users/${id}`);
+    console.log("userRef in editUserById: ", userRef);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      await updateDoc(userRef, newData);
+      console.log("newData: ", newData);
+      console.log("userSnap in EditView: ", userSnap.data());
+    } else {
+      throw new Error("User not found");
+    }
+  } catch (error) {
+    console.error("Reference error: ", error);
+  }
+}

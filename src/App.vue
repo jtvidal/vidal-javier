@@ -57,13 +57,13 @@ export default {
       <router-link
         v-if="userLogged"
         to="/profile"
-        class="hover:text-primary flex items-center gap-2 uppercase"
+        class="hover:text-primary flex items-center gap-2"
         ><img
           class="w-[50px] hover:drop-shadow-lg"
           :src="userAuth.avatar"
           alt="User Avatar profile link"
         />
-        <p>{{ userAuth.username }}</p>
+        <p>your profile</p>
       </router-link>
       <!-- Log in / Register -->
       <router-link v-else to="/login-register" class="hover:text-primary"
