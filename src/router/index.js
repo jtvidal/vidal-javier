@@ -4,6 +4,7 @@ import LoginRegister from "@/views/LoginRegister.vue";
 import MyProfile from "@/views/MyProfile.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import PostsView from "@/views/PostsView.vue";
+import CommentsView from "@/views/CommentsView.vue";
 import { subscribeToAuth } from "@/services/auth";
 
 const routes = [
@@ -25,6 +26,12 @@ const routes = [
     path: "/my-posts",
     name: "my-posts",
     component: PostsView,
+    meta: { protected: true },
+  },
+  {
+    path: "/comments",
+    name: "comments",
+    component: CommentsView,
     meta: { protected: true },
   },
 ];

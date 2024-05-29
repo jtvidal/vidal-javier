@@ -23,7 +23,11 @@ export default {
     this.unsuscribeFromAuth = await subscribeToAuth(
       (postsUpdater) => (this.userData = postsUpdater)
     );
-    this.postedBy(this.userData.id, this.userData.username);
+    this.postedBy(
+      this.userData.id,
+      this.userData.username,
+      this.userData.avatar
+    );
     console.log("User in Posts:", this.userData);
   },
   unmounted() {
@@ -35,9 +39,10 @@ export default {
      * @param id {Promise<String>}
      * @param username {Promise<String>}
      */
-    async postedBy(id, username) {
+    async postedBy(id, username, avatar) {
       this.postData.by = await id;
       this.postData.username = await username;
+      this.postData.avatar = await avatar;
     },
     /**
      * Saves post into db

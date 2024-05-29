@@ -32,12 +32,25 @@ export default {
 <template>
   <div
     id="post-card"
-    class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 pt-4 flex flex-col items-center border-2 border-primary rounded-lg"
+    class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 flex flex-col items-center border-2 border-primary rounded-lg"
   >
-    <h3>{{ postCard.title }}</h3>
-    <div class="p-4">
-      <p>{{ postCard.content }}</p>
+    <div
+      class="flex items-center border-b-2 text-xs w-full justify-around p-3"
+    >
+    <!-- avatar -->
+      <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
+      <!-- to comments view -->
+      <div>
+        <button @click="$router.push('/comments')" class="hover:text-primary">See comments</button>
+      </div>
     </div>
+    <!-- title -->
+    <h3 class="font-semibold pt-4">{{ postCard.title }}</h3>
+    <!-- content -->
+    <div class="p-1">
+      <p class="w-10/12 p-3 mx-auto">{{ postCard.content }}</p>
+    </div>
+    <!-- buttons -->
     <div class="flex w-full justify-center">
       <div class="w-1/2">
         <button

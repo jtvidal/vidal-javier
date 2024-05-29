@@ -34,6 +34,7 @@ export default {
     async commentBy(u) {
       this.comment.by = (await u).id;
       this.comment.avatar = (await u).avatar;
+      this.comment.username = (await u).username;
     },
 
     /**

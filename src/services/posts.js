@@ -13,6 +13,7 @@ const POST = {
   title: null,
   content: null,
   by: null,
+  avatar:null,
   postId: null,
 };
 export let post = { ...POST };

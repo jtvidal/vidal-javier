@@ -10,6 +10,7 @@ const COMMENT = {
   id: null,
   content: null,
   by: null,
+  username:null,
   avatar: null,
   inPost: null,
   date: null,
@@ -38,4 +39,15 @@ export async function saveComment(c) {
   } catch (error) {
     console.error("Comment could not be saved: ", error);
   }
+}
+
+//TODO: get comments from a post by id
+
+/**
+ * Gets all comments form a post by the post document id
+ * @param {Promise<String>} id 
+ */
+export async function getCommentsByPostId(id){
+
+
 }
