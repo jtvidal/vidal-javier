@@ -1,9 +1,14 @@
 //Posts service
 import {
+  Timestamp,
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
+  orderBy,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -13,18 +18,20 @@ const POST = {
   title: null,
   content: null,
   by: null,
-  avatar:null,
+  username: null,
+  avatar: null,
   postId: null,
 };
 export let post = { ...POST };
 /**
  *Adds a post into db root collection 'posts'
- * @param post {Promise<Object>}
+ * @param post {Promise<post>}
  * @returns {Promise<boolean>}
  * @throws {Error}
  */
 export async function savePost(post) {
   try {
+    (await post).date = serverTimestamp();
     console.log("Saved Post: ", post);
     const postCollectionRef = collection(db, "posts");
     const postRef = await addDoc(postCollectionRef, post);
@@ -64,20 +71,60 @@ export async function setPost(postData) {
  * @returns {Array} an Array with posts data.
  */
 export async function getPosts() {
-  const postSnap = await getDocs(collection(db, "posts"));
-  const postData = [];
-  postSnap.forEach((post) => {
-    postData.push(post.data());
-  });
-  return postData;
+  try {
+    const postData = [];
+    const postRef = collection(db, 'posts');
+    const q =  query(postRef, orderBy('date'));
+    const postSnap = await getDocs(q);
+    const postDocs = postSnap.docs;
+    console.log('postDocs: ', postDocs);
+    if (postDocs) {
+      postDocs.forEach((post) => {
+        postData.push(post.data());
+      });
+    } else {
+      throw new Error("Error in postOrdered:");
+    }
+    return postData;
+  } catch (error) {
+    console.error("query not working", error);
+  }
 }
 
 /**
  * Gets posts by user id.
- * @param {String} id
+ * @param {String} userId
  */
-export async function getPostsById(id) {
-  const q = query(collection(db, "posts"), where("by", "==", id));
-  const posts = await getDocs(q);
-  return posts;
+export async function getPostsByUserId(userId) {
+  try {
+    const q = query(collection(db, "posts"), where("by", "==", userId));
+    const posts = await getDocs(q);
+    if (posts) {
+      return posts;
+    } else {
+      throw new Error("User has no posts yet");
+    }
+  } catch (error) {
+    console.error("Error getting posts: ", error);
+  }
+}
+
+/**
+ *
+ * @param {String} postId
+ */
+export async function getPostById(postId) {
+  try {
+    const postRef = doc(db, "posts", postId);
+    const postData = await getDoc(postRef);
+    if (postData.exists()) {
+      console.log("post data: ", postData.data());
+      return postData.data();
+    } else {
+      throw new Error("This post does not exists");
+    }
+  } catch (error) {
+    console.error("Error finding post: ", error);
+    throw error;
+  }
 }

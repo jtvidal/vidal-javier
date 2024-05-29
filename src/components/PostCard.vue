@@ -12,8 +12,8 @@ export default {
     };
   },
   async mounted() {
-    console.log("PostCard: ", this.$props.postObject);
     await this.loadPostCard(this.$props.postObject);
+    console.log("PostCard: ", this.$props.postObject);
   },
   methods: {
     /**
@@ -28,8 +28,7 @@ export default {
      * Sends object postcard to comments view CommentsView.vue.
      */
     seeComents() {
-      localStorage.setItem("post", JSON.stringify(this.postCard));
-      this.$router.push("comments");
+      this.$router.push(`comments/${this.postCard.postId}`);
     },
     closeForm(x) {
       x ? (this.close = true) : (this.close = false);

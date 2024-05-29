@@ -1,5 +1,4 @@
 <script>
-import { Timestamp } from "firebase/firestore";
 import { setPost, savePost, post } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
 export default {
@@ -35,7 +34,7 @@ export default {
   },
   methods: {
     /**
-     *
+     *Sets user credentials into post data
      * @param id {Promise<String>}
      * @param username {Promise<String>}
      */
@@ -49,7 +48,6 @@ export default {
      */
     async handleSubmit() {
       try {
-        this.postData.date = Timestamp.now();
         const post = { ...(await setPost(this.postData)) };
         this.closeForm = await savePost(post);
         if (this.closeForm === true) {

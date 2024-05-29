@@ -1,5 +1,5 @@
 <script>
-import { getPostsById } from "@/services/posts";
+import { getPostsByUserId } from "@/services/posts";
 import PostForm from "@/components/PostsForm.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
@@ -7,7 +7,7 @@ import LoaderModel from "@/components/LoaderModel.vue";
 export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard },
-  props: { postObject: null , userObject: null },
+  props: { postObject: null, userObject: null },
   data() {
     return {
       userAuth: {
@@ -40,7 +40,7 @@ export default {
       try {
         if (id !== null) {
           this.loading = true;
-          const postSnap = await getPostsById(id);
+          const postSnap = await getPostsByUserId(id);
           postSnap.forEach((post) => {
             this.posts.push(post.data());
           });
