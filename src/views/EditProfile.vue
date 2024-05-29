@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-end text-sm text-slate-400 font-nunito">
+  <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
     <button @click="$router.back" class="hover:text-primary hover:underline">
       Back
     </button>

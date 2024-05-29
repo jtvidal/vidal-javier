@@ -55,14 +55,23 @@ export default {
     },
 
     closeForm(x) {
-      x ? (this.close = true) : (this.close = false);
+      if (x) {
+        (this.close = true), location.reload();
+      } else {
+        this.close = false;
+      }
     },
   },
 };
 </script>
 
 <template>
-  <h2 class="text-center uppercase text-slate-400 font-bold p-6">Your Posts</h2>
+  <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
+    <button @click="$router.back" class="hover:text-primary hover:underline">
+      Back
+    </button>
+  </div>
+  <h2 class="text-center uppercase text-slate-400 font-bold">Your Posts</h2>
   <!-- LOADER -->
   <div v-if="loading" class="flex justify-center p-4">
     <loader-model></loader-model>
@@ -77,7 +86,7 @@ export default {
         ¡You haven't published anything yet!
       </p>
     </div>
-    <div v-else v-for="post in posts" class="p-4">
+    <div v-else v-for="post in posts" class="p-4 flex justify-center">
       <post-card :post-object="post"></post-card>
     </div>
     <!-- BUTTON POST -->

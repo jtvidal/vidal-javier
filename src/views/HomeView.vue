@@ -32,7 +32,7 @@ export default {
       localStorage.getItem("user")
         ? (this.authUser = JSON.parse(localStorage.getItem("user")))
         : (this.authUser.id = null);
-        console.log('Auth user in HomeView: ',this.authUser);
+      console.log("Auth user in HomeView: ", this.authUser);
     },
     /**
      * Loads posts from db
@@ -45,11 +45,11 @@ export default {
 };
 </script>
 <template>
-  <h2 class="font-bold text-slate-400 text-center uppercase p-6">home</h2>
-
-  <div class="flex justify-center uppercase font-bold">
-    aquí les vengo a bailar
-  </div>
+  <h2 class="font-bold text-slate-400 text-center uppercase p-6">
+    ¡welcome to postapp!
+  </h2>
+  
+  <div class="flex justify-center uppercase font-bold"></div>
   <div v-if="authUser.id !== null" class="p-2">
     <div
       v-if="posts"
