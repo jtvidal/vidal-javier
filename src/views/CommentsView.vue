@@ -1,7 +1,10 @@
 <script>
 import { getCommentsByPostId } from "@/services/comment";
+import CommentCard from "@/components/CommentCard.vue";
 export default {
   name: "CommentsView",
+  components: { CommentCard },
+  props: { commentObject: Object },
   data() {
     return {
       postCommented: false,
@@ -9,23 +12,34 @@ export default {
     };
   },
   async mounted() {
-    console.log("postId in CommentsView: ", this.$route.params.id);
-    this.commentsList = await getCommentsByPostId(this.$route.params.id);
-    console.log("Comments in post: ", this.commentsList);
+    await this.getPostComments();
   },
   methods: {
     async getPostComments() {
       try {
         this.commentsList = await getCommentsByPostId(this.$route.params.id);
-      } catch (error) {}
+        if (this.commentsList.length == 0) {
+          throw new Error("No comments in post");
+        } else {
+          console.log("Comments in this post: ", this.commentsList);
+          this.postCommented = true;
+        }
+      } catch (error) {
+        console.error("Error getting comments: ", error);
+      }
     },
   },
 };
 </script>
 
 <template>
-  <div v-if="postCommented == true"></div>
+  <div v-if="postCommented == true">
+    <div v-for="comment in commentsList">
+      <comment-card :comment-object="comment"></comment-card>
+    </div>
+    <!-- TODO: renderize CommentCard components -->
+  </div>
   <div v-else>
-    <p>This post has no comments yet</p>
+    <p class="text-center">This post has no comments yet</p>
   </div>
 </template>
