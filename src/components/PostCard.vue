@@ -40,14 +40,14 @@ export default {
       <!-- to comments view -->
       <div>
         <button
-          @click="$router.push(`/comments/${postCard.postId}`)"
+          @click="$router.push(`/comments/${postCard.postId}/${postCard.title}`)"
           class="hover:text-primary"
         >
           See comments
         </button>
       </div>
     </div>
-    <!-- title -->
+    <!-- header -->
     <h3 class="font-semibold pt-4">{{ postCard.title }}</h3>
     <!-- content -->
     <div class="p-1">

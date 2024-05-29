@@ -46,17 +46,25 @@ export default {
   <header
     class="w-full font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center"
   >
+    <h1
+      class="font-nunito font-bold text-primary border-primary border-2 flex self-center drop-shadow-lg bg-zinc-100 p-4 rounded-lg ms-4"
+    >
+      PostApp
+    </h1>
     <nav
       class="w-full md:w-10/12 justify-between px-8 py-4 flex gap-4 text-sm items-center"
     >
-      <router-link v-if="userLogged" to="/profile" class="hover:text-primary flex items-center gap-2 uppercase"
+      <router-link
+        v-if="userLogged"
+        to="/profile"
+        class="hover:text-primary flex items-center gap-2 uppercase"
         ><img
           class="w-[50px] hover:drop-shadow-lg"
           :src="userAuth.avatar"
           alt="User Avatar profile link"
-      />
-      <p>{{ userAuth.username }}</p>
-    </router-link>
+        />
+        <p>{{ userAuth.username }}</p>
+      </router-link>
       <!-- Log in / Register -->
       <router-link v-else to="/login-register" class="hover:text-primary"
         >Login/Register</router-link
@@ -82,6 +90,7 @@ export default {
     class="font-poppins h-screen w-full relative"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
+    <!-- main is relative so modals can be extended as absolute through main's height and width. -->
     <RouterView />
   </main>
 </template>
