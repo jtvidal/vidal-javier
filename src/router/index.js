@@ -29,7 +29,7 @@ const routes = [
     meta: { protected: true },
   },
   {
-    path: "/comments",
+    path: "/comments/:id",
     name: "comments",
     component: CommentsView,
     meta: { protected: true },
@@ -49,9 +49,9 @@ let authUser = {
 await subscribeToAuth((routerUpdater) => (authUser = routerUpdater));
 
 router.beforeEach((to, from) => {
-  if (authUser.id === null && to.path == "/profile") {
+  if (authUser.id === null && to.meta.protected) {
     console.log("Access not granted");
-    return { path: "/" };
+    return { path: "/login-register" };
   }
 });
 export default router;

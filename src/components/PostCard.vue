@@ -34,14 +34,17 @@ export default {
     id="post-card"
     class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 flex flex-col items-center border-2 border-primary rounded-lg"
   >
-    <div
-      class="flex items-center border-b-2 text-xs w-full justify-around p-3"
-    >
-    <!-- avatar -->
+    <div class="flex items-center border-b-2 text-xs w-full justify-around p-3">
+      <!-- avatar -->
       <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
       <!-- to comments view -->
       <div>
-        <button @click="$router.push('/comments')" class="hover:text-primary">See comments</button>
+        <button
+          @click="$router.push(`/comments/${postCard.postId}`)"
+          class="hover:text-primary"
+        >
+          See comments
+        </button>
       </div>
     </div>
     <!-- title -->
