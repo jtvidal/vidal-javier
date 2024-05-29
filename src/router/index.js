@@ -29,7 +29,7 @@ const routes = [
     meta: { protected: true },
   },
   {
-    path: "/comments/:id/:title",
+    path: "/comments",
     name: "comments",
     component: CommentsView,
     meta: { protected: true },

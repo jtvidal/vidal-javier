@@ -1,4 +1,5 @@
 <script>
+import { post } from "@/services/posts";
 import { getCommentsByPostId } from "@/services/comment";
 import CommentCard from "@/components/CommentCard.vue";
 import LoaderModel from "@/components/LoaderModel.vue";
@@ -8,12 +9,15 @@ export default {
   props: { commentObject: Object },
   data() {
     return {
+      postCard: { ...post },
       postCommented: Boolean,
       commentsList: [],
       loading: true,
     };
   },
   async mounted() {
+    this.postCard = await JSON.parse(localStorage.getItem("post"));
+    console.log(this.postCard);
     await this.getPostComments();
   },
   methods: {
@@ -22,7 +26,7 @@ export default {
      */
     async getPostComments() {
       try {
-        this.commentsList = await getCommentsByPostId(this.$route.params.id);
+        this.commentsList = await getCommentsByPostId(this.postCard.postId);
         if (this.commentsList.length == 0) {
           this.postCommented = false;
           throw new Error("No comments in post");
@@ -42,7 +46,9 @@ export default {
 </script>
 
 <template>
-  <h2>Comments for: {{ $route.params.title }}</h2>
+  <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-6">
+    Comments for: {{ postCard.title }}
+  </h2>
   <div v-if="loading" class="flex justify-center p-6">
     <loader-model></loader-model>
   </div>
@@ -52,7 +58,10 @@ export default {
     </div>
     <!-- TODO: renderize CommentCard components -->
   </div>
-  <div v-else>
+  <div
+    v-else
+    class="flex border-primary border-4 justify-center rounded-lg drop-shadow-lg p-6 mx-auto w-10/12"
+  >
     <p class="text-center">This post has no comments yet</p>
   </div>
 </template>

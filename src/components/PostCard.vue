@@ -23,6 +23,14 @@ export default {
     async loadPostCard(p) {
       this.postCard = { ...p };
     },
+
+    /**
+     * Sends object postcard to comments view CommentsView.vue.
+     */
+    seeComents() {
+      localStorage.setItem("post", JSON.stringify(this.postCard));
+      this.$router.push("comments");
+    },
     closeForm(x) {
       x ? (this.close = true) : (this.close = false);
     },
@@ -39,10 +47,7 @@ export default {
       <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
       <!-- to comments view -->
       <div>
-        <button
-          @click="$router.push(`/comments/${postCard.postId}/${postCard.title}`)"
-          class="hover:text-primary"
-        >
+        <button @click="seeComents" class="hover:text-primary">
           See comments
         </button>
       </div>
