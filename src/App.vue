@@ -25,10 +25,20 @@ export default {
         : (this.userLogged = false);
     });
   },
+
   methods: {
+    resetUserAuth() {
+      this.userAuth = {
+        avatar: null,
+        id: null,
+        username: null,
+        email: null,
+      };
+    },
     userLogout() {
       logout();
       this.userLogged = false;
+      this.resetUserAuth();
       this.$router.push("/login-register");
     },
   },
@@ -45,7 +55,7 @@ export default {
       PostApp
     </h1>
     <nav
-      class="w-full md:w-10/12 justify-between sm:justify-end px-8 py-4 flex gap-10 text-sm items-center"
+      class="w-full justify-between sm:justify-end px-8 py-4 flex gap-10 text-sm items-center"
     >
       <!-- Home -->
 
