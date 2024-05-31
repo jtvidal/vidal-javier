@@ -38,6 +38,22 @@ export async function setUser(userData) {
 }
 
 /**
+ * Recieves user credentials and sets them to null.
+ * @param user {userAuth}
+ */
+export function resetUserCredentials(user) {
+  try {
+    user.id = null;
+    user.avatar = null;
+    user.email = null;
+    user.username = null;
+    console.log('User Credentials reseted.');
+  } catch (error) {
+    console.error("Error in resetUserCredentials: ", error);
+  }
+}
+
+/**
  * Gets user by id from db.
  * @param {String} id
  * @returns {(Promise<Object>)} User Object

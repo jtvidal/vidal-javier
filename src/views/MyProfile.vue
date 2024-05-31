@@ -9,12 +9,12 @@ export default {
   data() {
     return {
       loading: true,
-      userAuth: {
-        id: null,
-        email: null,
-        username: null,
-        avatar: null,
-      },
+      // userAuth: {
+      //   id: null,
+      //   email: null,
+      //   username: null,
+      //   avatar: null,
+      // },
       yourPosts: false,
       userData: { ...dbUser },
       unsuscribeFromAuth: () => {},
@@ -22,9 +22,9 @@ export default {
   },
   async mounted() {
     this.unsuscribeFromAuth = await subscribeToAuth(
-      (profileUpdater) => (this.userAuth = profileUpdater)
+      (profileUpdater) => (this.userData.credentials = profileUpdater)
     );
-    this.userAuth.id !== null ? await this.loadData() : (this.loading = true);
+    this.userData.credentials.id !== null ? await this.loadData() : (this.loading = true);
     console.log("usuario en perfil: ", this.userData);
   },
   unmounted() {
@@ -36,7 +36,7 @@ export default {
      */
     async loadData() {
       try {
-        const user = await getUserById(this.userAuth.id);
+        const user = await getUserById(this.userData.credentials.id);
         this.userData = user;
         this.loading = this.userData.credentials.id === null;
       } catch (error) {
@@ -80,7 +80,7 @@ export default {
         Your Posts
       </button>
       <button
-        @click="$router.push(`/edit-profile/${this.userAuth.id}`)"
+        @click="$router.push(`/edit-profile/${userData.credentials.id}`)"
         class="hover:text-primary ease-in-out duration-200 border-2"
       >
         Edit Profile

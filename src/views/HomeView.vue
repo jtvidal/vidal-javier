@@ -22,7 +22,7 @@ export default {
     };
   },
   async mounted() {
-    this.unsuscribeFromAuth = subscribeToAuth((homeUpdater) => {
+    this.unsuscribeFromAuth = await subscribeToAuth((homeUpdater) => {
       this.authUser = homeUpdater;
     });
     if (this.authUser.id !== null) {
@@ -32,6 +32,10 @@ export default {
       this.loading = false;
     }
     this.userFromLocal();
+  },
+  beforeUnmount() {
+    this.posts = [];
+    this.unsuscribeFromAuth();
   },
   methods: {
     userFromLocal() {

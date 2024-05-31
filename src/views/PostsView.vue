@@ -4,6 +4,7 @@ import PostForm from "@/components/PostsForm.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderModel from "@/components/LoaderModel.vue";
+import { resetUserCredentials } from "@/services/user";
 export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard },
@@ -31,6 +32,10 @@ export default {
       : (this.loading = true);
     console.log("User id in PostView: ", this.userAuth.id);
   },
+  beforeUnmount(){
+    this.posts = [];
+    resetUserCredentials(this.userAuth);
+  },
   unmounted() {
     this.unsuscribeFormAuth();
   },
@@ -44,7 +49,7 @@ export default {
           postSnap.forEach((post) => {
             this.posts.push(post.data());
           });
-          console.log("User posts: ", this.posts);
+          // console.log("User posts: ", this.posts);
           this.loading = false;
         } else {
           throw new Error("No user Logged");

@@ -1,6 +1,7 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
 import { logout, subscribeToAuth } from "./services/auth";
+import { resetUserCredentials } from "./services/user";
 
 export default {
   name: "App",
@@ -16,6 +17,7 @@ export default {
     };
   },
   async mounted() {
+    const user = null;
     await subscribeToAuth((appUpdater) => {
       if (this.userCredentials.id !== appUpdater.uid) {
         this.userCredentials = appUpdater;
@@ -27,18 +29,10 @@ export default {
   },
 
   methods: {
-    resetUserCredentials() {
-      this.userCredentials = {
-        avatar: null,
-        id: null,
-        username: null,
-        email: null,
-      };
-    },
     userLogout() {
       logout();
       this.userLogged = false;
-      this.resetUserCredentials();
+      resetUserCredentials(this.userCredentials);
       this.$router.push("/login-register");
     },
   },
@@ -90,7 +84,7 @@ export default {
     </nav>
   </header>
   <main
-    class="font-poppins h-full w-full relative p-2"
+    class="font-poppins h-screen w-full relative p-2"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <!-- My Profile -->

@@ -1,10 +1,10 @@
 <script>
 import { setPost, savePost, post } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
-import LoaderModel from "./LoaderModel.vue";
+import LoaderSmall from "./LoaderSmall.vue";
 export default {
   name: "PostsForm",
-  components: { LoaderModel },
+  components: { LoaderSmall },
   data() {
     return {
       userData: {
@@ -112,7 +112,7 @@ export default {
         type="submit"
         class="bg-primary text-zinc-100 p-2 rounded-md w-2/4 self-center mt-2 cursor-pointer hover:bg-opacity-70 flex justify-center"
       >
-        <loader-model v-if="loading" class="bg-zinc-100"></loader-model>
+        <loader-small v-if="loading" class="bg-zinc-100"></loader-small>
         <p v-else>Post</p>
       </button>
     </form>

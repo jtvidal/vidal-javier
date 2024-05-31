@@ -23,11 +23,8 @@ export default {
     async loadPostCard() {
       const post = await getPostById(this.$route.params.id);
       this.postCard = post;
+      this.postCard.date = this.postCard.date.toDate();
       this.postCard.date = this.formatDate(this.postCard.date);
-      // this.postCard.date = new Intl.DateTimeFormat(
-      //   "es",
-      //   this.postCard.date
-      // ).format(this.postCard.date);
     },
     /**
      *Transforms date into enUs date form
@@ -35,7 +32,10 @@ export default {
      */
     formatDate(date) {
       try {
-        const newDate = new Intl.DateTimeFormat("en-Us", date).format(date);
+        const newDate = new Intl.DateTimeFormat("en-Us", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }).format(date);
         return newDate;
       } catch (error) {
         console.error("error in formatDate: ", error);

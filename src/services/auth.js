@@ -24,7 +24,7 @@ if (localStorage.getItem("user") !== null) {
   authUser = JSON.parse(localStorage.getItem("user"));
 }
 
-  onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user) => {
   if (user) {
     setAuthUser({
       id: user.uid,
@@ -49,7 +49,7 @@ export async function register(email, password) {
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const username = email.split("@")[0];
     const avatar = apiUrl.multiAvatar + username + ".svg";
@@ -97,12 +97,16 @@ export async function logout() {
  * @param {(Promise<Object>)=>{}}
  */
 export async function subscribeToAuth(suscription) {
-  watchers.push(suscription);
-  console.log("watchers: ", watchers);
-  await stateUpdate(suscription);
-  return () => {
-    watchers = watchers.filter((w) => w !== suscription);
-  };
+  try {
+    watchers.push(suscription);
+    console.log("watchers: ", watchers);
+    await stateUpdate(suscription);
+    return () => {
+      watchers = watchers.filter((w) => w !== suscription);
+    };
+  } catch (error) {
+    console.error("Error in suscribeToAuth: ", error);
+  }
 }
 
 //State Updaters
