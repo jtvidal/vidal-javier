@@ -6,7 +6,7 @@ export default {
   name: "App",
   data() {
     return {
-      userAuth: {
+      userCredentials: {
         id: null,
         email: null,
         avatar: null,
@@ -17,18 +17,18 @@ export default {
   },
   async mounted() {
     await subscribeToAuth((appUpdater) => {
-      if (this.userAuth.id !== appUpdater.uid) {
-        this.userAuth = appUpdater;
+      if (this.userCredentials.id !== appUpdater.uid) {
+        this.userCredentials = appUpdater;
       }
-      this.userAuth.id !== null
+      this.userCredentials.id !== null
         ? (this.userLogged = true)
         : (this.userLogged = false);
     });
   },
 
   methods: {
-    resetUserAuth() {
-      this.userAuth = {
+    resetUserCredentials() {
+      this.userCredentials = {
         avatar: null,
         id: null,
         username: null,
@@ -38,7 +38,7 @@ export default {
     userLogout() {
       logout();
       this.userLogged = false;
-      this.resetUserAuth();
+      this.resetUserCredentials();
       this.$router.push("/login-register");
     },
   },
@@ -112,7 +112,7 @@ export default {
       >
         <img
           class="w-[40px] hover:drop-shadow-lg ease-in duration-100"
-          :src="userAuth.avatar"
+          :src="userCredentials.avatar"
           alt="User Avatar profile link"
         />
         <p
