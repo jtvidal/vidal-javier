@@ -37,7 +37,7 @@ export default {
 
 <template>
   <header
-    class="w-full font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center"
+    class="w-full font-poppins flex border-b-2 bg-zinc-50 border-primary justify-center p-4"
   >
     <h1
       class="font-nunito font-bold text-primary border-primary border-2 flex self-center drop-shadow-lg bg-zinc-100 p-4 rounded-lg ms-4"
@@ -45,44 +45,76 @@ export default {
       PostApp
     </h1>
     <nav
-      class="w-full md:w-10/12 justify-between px-8 py-4 flex gap-4 text-sm items-center"
+      class="w-full md:w-10/12 justify-between sm:justify-end px-8 py-4 flex gap-10 text-sm items-center"
     >
+      <!-- Home -->
+
       <router-link
-        v-if="userLogged"
-        to="/profile"
-        class="hover:text-primary flex items-center gap-2"
-        ><img
-          class="w-[50px] hover:drop-shadow-lg"
-          :src="userAuth.avatar"
-          alt="User Avatar profile link"
-        />
-        <p>your profile</p>
-      </router-link>
-      <!-- Log in / Register -->
-      <router-link v-else to="/login-register" class="hover:text-primary"
+        to="/"
+        class="hover:text-primary ease-in-out duration-300"
+        :class="{
+          'text-primary font-medium animate-jump': $route.path == '/',
+        }"
+        >Home</router-link
+      >
+      <!-- logout -->
+      <div v-if="userLogged">
+        <form action="#" method="post" @submit.prevent="userLogout">
+          <input
+            type="submit"
+            value="Logout"
+            class="hover:text-primary cursor-pointer ease-in-out duration-200 hover:animate-fade_to_br"
+          />
+        </form>
+      </div>
+      <!-- login/register -->
+      <router-link
+        v-else
+        to="/login-register"
+        class="hover:text-primary ease-in-out duration-200"
+        :class="{
+          'text-primary animate-jump': $route.path == '/login-register',
+        }"
         >Login/Register</router-link
       >
-      <router-link to="/" class="hover:text-primary">Home</router-link>
-      <!-- Log out -->
-      <form
-        v-if="userLogged"
-        action="#"
-        @submit.prevent="userLogout"
-        method="get"
-        enctype="multipart/form-data"
-      >
-        <input
-          type="submit"
-          value="Logout"
-          class="hover:text-primary cursor-pointer"
-        />
-      </form>
     </nav>
   </header>
   <main
-    class="font-poppins h-screen w-full relative p-2"
+    class="font-poppins h-full w-full relative p-2"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
+    <!-- My Profile -->
+    <div v-if="userLogged" class="flex justify-between">
+      <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
+        <button
+          @click="$router.back"
+          class="hover:text-primary ease-in-out duration-200"
+        >
+          Back
+        </button>
+      </div>
+      <router-link
+        to="/profile"
+        class="hover:text-primary flex items-center gap-2 p-4"
+        :class="{
+          'text-primary': $route.path == '/profile',
+        }"
+      >
+        <img
+          class="w-[40px] hover:drop-shadow-lg ease-in duration-100"
+          :src="userAuth.avatar"
+          alt="User Avatar profile link"
+        />
+        <p
+          class="text-xs hover:text-primary ease-in-out duration-200"
+          :class="{
+            ' animate-jump': $route.path == '/profile',
+          }"
+        >
+          your profile
+        </p>
+      </router-link>
+    </div>
     <!-- main is relative so modals can be extended as absolute through main's height and width. -->
     <RouterView />
   </main>

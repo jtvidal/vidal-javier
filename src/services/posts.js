@@ -1,6 +1,5 @@
 //Posts service
 import {
-  Timestamp,
   addDoc,
   collection,
   doc,

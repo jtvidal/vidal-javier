@@ -1,8 +1,10 @@
 <script>
 import { setPost, savePost, post } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
+import LoaderModel from "./LoaderModel.vue";
 export default {
   name: "PostsForm",
+  components: { LoaderModel },
   data() {
     return {
       userData: {
@@ -15,6 +17,7 @@ export default {
         ...post,
       },
       closeForm: true,
+      loading: false,
       unsuscribeFromAuth: () => {},
     };
   },
@@ -48,11 +51,14 @@ export default {
      */
     async handleSubmit() {
       try {
+        this.loading = true;
         const post = { ...(await setPost(this.postData)) };
         this.closeForm = await savePost(post);
         if (this.closeForm === true) {
+          this.loading = false;
           this.handleClose();
         } else {
+          this.loading = false;
           throw new Error("Post could not be saved");
         }
       } catch (error) {
@@ -76,7 +82,7 @@ export default {
     </div>
     <form
       @submit.prevent="handleSubmit"
-      class="shadow-zinc-950 shadow-lg h-1/2 w-full xxsm:w-2/3 md:w-1/3 xl:w-1/8 p-6 rounded-lg flex flex-col gap-2 bg-zinc-100"
+      class="shadow-zinc-950 shadow-lg w-full xxsm:w-2/3 md:w-1/3 xl:w-1/8 p-6 rounded-lg flex flex-col gap-2 bg-zinc-100"
       action="#"
       method="post"
       enctype="multipart/form-data"
@@ -102,11 +108,13 @@ export default {
           v-model="postData.content"
         ></textarea>
       </div>
-      <input
+      <button
         type="submit"
-        value="Post"
-        class="bg-primary text-zinc-100 p-2 rounded-md w-2/4 self-center mt-2 cursor-pointer hover:bg-opacity-70"
-      />
+        class="bg-primary text-zinc-100 p-2 rounded-md w-2/4 self-center mt-2 cursor-pointer hover:bg-opacity-70 flex justify-center"
+      >
+        <loader-model v-if="loading" class="bg-zinc-100"></loader-model>
+        <p v-else>Post</p>
+      </button>
     </form>
   </div>
 </template>

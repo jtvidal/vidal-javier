@@ -17,6 +17,7 @@ export default {
         email: null,
         avatar: null,
       },
+      loading: true,
       unsuscribeFromAuth: () => {},
     };
   },
@@ -24,7 +25,12 @@ export default {
     this.unsuscribeFromAuth = subscribeToAuth((homeUpdater) => {
       this.authUser = homeUpdater;
     });
-    this.authUser.id !== null ? await this.loadPosts() : "";
+    if (this.authUser.id !== null) {
+      await this.loadPosts();
+      this.loading = false;
+    } else {
+      this.loading = false;
+    }
     this.userFromLocal();
   },
   methods: {
@@ -48,9 +54,16 @@ export default {
   <h2 class="font-bold text-slate-400 text-center uppercase p-6">
     ¡welcome to postapp!
   </h2>
-  
+
   <div class="flex justify-center uppercase font-bold"></div>
-  <div v-if="authUser.id !== null" class="p-2">
+  <!-- TODO: ...loader not showing? -->
+  <div v-if="loading" class="flex justify-center mx-auto">
+    <loader-model></loader-model>
+  </div>
+  <div v-else-if="(loading = false && posts.length <= 0)">
+    <p>¡NO POSTS YET BITCHES!</p>
+  </div>
+  <div v-else class="p-2">
     <div
       v-if="posts"
       id="home-wall"
@@ -60,10 +73,6 @@ export default {
       <!-- TODO: show all posts in date order max 10 posts 
       (maybe use SliderModel component)
       -->
-    </div>
-    <!-- TODO: ...loader not showing? -->
-    <div v-else class="flex justify-center mx-auto">
-      <loader-model></loader-model>
     </div>
   </div>
 </template>

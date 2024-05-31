@@ -15,6 +15,7 @@ export default {
         username: null,
         avatar: null,
       },
+      yourPosts: false,
       userData: { ...dbUser },
       unsuscribeFromAuth: () => {},
     };
@@ -42,38 +43,52 @@ export default {
         console.error("User could not be loaded: ", error);
       }
     },
+
+    seePosts() {
+      this.yourPosts = !this.yourPosts;
+    },
   },
 };
 </script>
 <template>
-  <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
-    <button @click="$router.back" class="hover:text-primary hover:underline">
-      Back
-    </button>
-  </div>
+  <!-- header -->
   <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-6">
     ¡Welcome {{ userData.credentials.username }}!
   </h2>
+  <!-- loader -->
   <loader-model v-if="loading == true" class="mx-auto p-2 mt-4"></loader-model>
-  <div v-else>
+
+  <!-- profile viewer -->
+  <div
+    v-else
+    class="border-2 flex flex-col p-4 gap-2 transition-flex"
+  >
+    <!-- top buttons -->
     <div
-      class="flex justify-center gap-4 text-sm text-slate-400 font-nunito p-2 mt-2"
+      class="flex justify-center gap-4 text-sm text-slate-400 font-nunito p-2 mt-2 border-2"
     >
-      <button
+      <!-- <button
         @click="$router.push('/my-posts')"
-        class="hover:text-primary hover:underline"
+        class="hover:text-primary ease-in-out duration-200 border-2"
+      >
+        Your Posts
+      </button> -->
+      <button
+        @click="$router.push('my-posts')"
+        class="hover:text-primary ease-in-out duration-200 border-2"
       >
         Your Posts
       </button>
       <button
         @click="$router.push(`/edit-profile/${this.userAuth.id}`)"
-        class="hover:text-primary hover:underline"
+        class="hover:text-primary ease-in-out duration-200 border-2"
       >
         Edit Profile
       </button>
     </div>
-    <div class="flex flex-col justify-center p-2 mt-2 gap-4">
-      <div class="w-2/5 self-center">
+    <!-- user avatar -->
+    <div class="flex flex-col justify-center p-2 mt-2 gap-4 border-2">
+      <div class="w-2/5 lg:w-1/4 self-center border-2">
         <img
           class="w-full"
           :src="userData.credentials.avatar"
@@ -83,3 +98,5 @@ export default {
     </div>
   </div>
 </template>
+
+

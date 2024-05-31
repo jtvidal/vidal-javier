@@ -70,7 +70,7 @@ export default {
     <button @click="$router.back" class="hover:text-primary hover:underline">
       Back
     </button>
-  </div>
+  </div class="w-full flex flex-wrap gap-2 p-4">
   <h2 class="text-center uppercase text-slate-400 font-bold">Your Posts</h2>
   <!-- LOADER -->
   <div v-if="loading" class="flex justify-center p-4">
@@ -78,6 +78,15 @@ export default {
   </div>
   <!-- POSTS -->
   <div v-else>
+    <!-- BUTTON POST -->
+    <div class="flex w-full p-4 ">
+      <button
+        @click="close = false"
+        class="mx-auto w-full xxsm:w-1/2 lg:w-1/6  text-primary hover:font-semibold ease-in-out duration-100"
+      >
+        ¡Make a Post!
+      </button>
+    </div>
     <div
       v-if="posts.length <= 0"
       class="flex flex-col relative h-full gap-4 w-full p-4 items-center"
@@ -86,18 +95,9 @@ export default {
         ¡You haven't published anything yet!
       </p>
     </div>
-    <div v-else v-for="post in posts" class="p-4 flex justify-center">
-      <post-card :post-object="post"></post-card>
-    </div>
-    <!-- BUTTON POST -->
-    <div class="flex w-full p-2">
-      <button
-        @click="close = false"
-        class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 bg-primary p-2 rounded-lg text-zinc-100 hover:bg-opacity-70"
-      >
-        Post
-      </button>
-    </div>
+    <div v-else class="w-full flex flex-wrap justify-center gap-4">
+    <post-card v-for="post in posts"  :post-object="post"></post-card>
+  </div>
     <post-form @close-form="closeForm" v-if="!close"></post-form>
   </div>
 </template>

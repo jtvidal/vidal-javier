@@ -15,8 +15,8 @@ export default {
       this.register == true ? await register(this.email, this.password) : "";
       this.register = false;
       this.login == true ? await login(this.email, this.password) : "";
-      this.login = false
-      this.$router.push('/profile');
+      this.login = false;
+      this.$router.push("/profile");
     },
   },
 };
@@ -25,7 +25,7 @@ export default {
   <h2 class="font-bold text-zinc-900 text-center uppercase p-2">
     Login / Register
   </h2>
-  <div class="p-4 w-10/12 sm:w-8/12 lg:w-1/4 flex justify-center mx-auto">
+  <div class="p-4 w-10/12 sm:w-8/12 lg:w-1/4 flex justify-center mx-auto h-screen">
     <form
       @submit.prevent="loginRegister"
       class="flex flex-col w-full p-2 gap-2"
@@ -58,13 +58,13 @@ export default {
           @click="this.login = true"
           type="submit"
           value="Login"
-          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
+          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg ease-in-out duration-200"
         />
         <input
           @click="this.register = true"
           type="submit"
           value="Register"
-          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg"
+          class="hover:text-zinc-50 cursor-pointer p-2 border-2 border-zinc-50 mt-4 w-2/5 self-center rounded-lg ease-in-out duration-200"
         />
       </div>
     </form>
