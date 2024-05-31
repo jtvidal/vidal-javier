@@ -68,11 +68,6 @@ export default {
 <template>
   <!-- post -->
   <div class="flex flex-col gap-4">
-    <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
-      <button @click="$router.back" class="hover:text-primary hover:underline">
-        Back
-      </button>
-    </div>
     <h2
       class="font-poppins uppercase font-bold text-slate-400 text-center pb-2"
     >

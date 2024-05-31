@@ -71,7 +71,7 @@ export default {
   <div
     class="flex flex-col justify-center p-4 bg-zinc-950 bg-opacity-75 fixed top-0 bottom-0 left-0 right-0"
   >
-    <div class="flex justify-end p-2">
+    <div class="flex justify-center p-2">
       <button class="text-zinc-100 hover:text-primary" @click="handleClose">
         Cerrar
       </button>
@@ -81,7 +81,7 @@ export default {
       action="#"
       method="get"
       enctype="multipart/form-data"
-      class="bg-zinc-100 h-1/4 rounded-lg w-full flex flex-col justify-center border-2 border-primary p-2 gap-2"
+      class="bg-zinc-100 h-1/4 rounded-lg w-full xsm:w-9/12 sm:w-7/12 md:w-5/12 self-center flex flex-col justify-center border-2 border-primary p-2 gap-2"
     >
       <label for="content">Comenta aquí:</label>
       <textarea
