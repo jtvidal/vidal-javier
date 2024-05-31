@@ -3,10 +3,10 @@ import { post, getPostById } from "@/services/posts";
 import { getCommentsByPostId } from "@/services/comment";
 import CommentCard from "@/components/CommentCard.vue";
 import LoaderModel from "@/components/LoaderModel.vue";
+import HeaderTwo from "@/components/HeaderTwo.vue";
 export default {
   name: "CommentsView",
-  components: { CommentCard, LoaderModel },
-  props: { commentObject: Object },
+  components: { CommentCard, LoaderModel, HeaderTwo },
   data() {
     return {
       postCard: { ...post },
@@ -68,11 +68,11 @@ export default {
 <template>
   <!-- post -->
   <div class="flex flex-col gap-4">
-    <h2
-      class="font-poppins uppercase font-bold text-slate-400 text-center pb-2"
+    <header-two
+      class="font-poppins uppercase font-bold text-center pb-2"
     >
       Comments for:
-    </h2>
+    </header-two>
     <div
       class="flex flex-col border-zinc-300 text-zinc-600 border-4 p-4 w-10/12 mx-auto rounded-lg"
     >
@@ -82,9 +82,11 @@ export default {
         </h3>
         <p class="pt-3">{{ postCard.content }}</p>
       </div>
-      <ul class="flex justify-end gap-4 text-xs w-full p-2">
-        <li>By: {{ postCard.username }}</li>
-        <li>On: {{ postCard.date }}</li>
+      <ul class="flex justify-end items-center gap-4 text-xs w-full p-2">
+        <li class="text-sm">
+          By: <router-link class="hover:text-yellow-500 ease-in-out duration-100">{{ postCard.username }}</router-link>
+        </li>
+        <li class=" text-zinc-400">On: {{ postCard.date }}</li>
       </ul>
     </div>
     <div v-if="loading" class="flex justify-center p-6">
@@ -92,7 +94,7 @@ export default {
     </div>
     <div
       v-else-if="postCommented == true"
-      class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2"
+      class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2 w-10/12"
     >
       <comment-card
         v-for="comment in commentsList"

@@ -92,7 +92,7 @@ export default {
       <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
         <button
           @click="$router.back"
-          class="hover:text-primary ease-in-out duration-200"
+          class="hover:text-yellow-500 ease-in-out duration-200"
         >
           Back
         </button>
@@ -115,7 +115,7 @@ export default {
             ' animate-jump': $route.path == '/profile',
           }"
         >
-          your profile
+          {{ userCredentials.username }}
         </p>
       </router-link>
     </div>

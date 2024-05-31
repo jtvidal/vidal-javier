@@ -45,7 +45,7 @@ export default {
       <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
       <!-- to comments view -->
       <div>
-        <button @click="seeComents" class="hover:text-primary">
+        <button @click="seeComents" class="hover:text-yellow-500 text-opacity-85 ease-in-out duration-150">
           See comments
         </button>
       </div>

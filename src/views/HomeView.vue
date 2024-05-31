@@ -1,5 +1,6 @@
 <script>
 import LoaderModel from "@/components/LoaderModel.vue";
+import HeaderTwo from "@/components/HeaderTwo.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import { getPosts } from "@/services/posts";
@@ -7,7 +8,7 @@ import { getPosts } from "@/services/posts";
 export default {
   name: "HomeView",
   props: { postObject: Object },
-  components: { PostCard, LoaderModel },
+  components: { PostCard, LoaderModel, HeaderTwo },
   data() {
     return {
       posts: [],
@@ -55,9 +56,7 @@ export default {
 };
 </script>
 <template>
-  <h2 class="font-bold text-slate-400 text-center uppercase p-6">
-    ¡welcome to postapp!
-  </h2>
+  <header-two> ¡welcome to postapp! </header-two>
 
   <div class="flex justify-center uppercase font-bold"></div>
   <!-- TODO: ...loader not showing? -->
