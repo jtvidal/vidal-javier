@@ -84,7 +84,7 @@ export default {
     </nav>
   </header>
   <main
-    class="font-poppins h-screen w-full relative p-2"
+    class="font-poppins h-full md:h-screen  w-full relative p-2"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <!-- My Profile -->

@@ -69,7 +69,7 @@ export default {
 </script>
 <template>
   <div
-    class="flex flex-col justify-center p-4 bg-zinc-950 bg-opacity-75 absolute top-0 bottom-0 left-0 right-0"
+    class="flex flex-col justify-center p-4 bg-zinc-950 bg-opacity-75 fixed top-0 bottom-0 left-0 right-0"
   >
     <div class="flex justify-end p-2">
       <button class="text-zinc-100 hover:text-primary" @click="handleClose">

@@ -71,11 +71,6 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
-    <button @click="$router.back" class="hover:text-primary hover:underline">
-      Back
-    </button>
-  </div class="w-full flex flex-wrap gap-2 p-4">
   <h2 class="text-center uppercase text-slate-400 font-bold">Your Posts</h2>
   <!-- LOADER -->
   <div v-if="loading" class="flex justify-center p-4">

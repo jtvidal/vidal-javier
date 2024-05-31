@@ -73,7 +73,7 @@ export default {
 </script>
 <template>
   <div
-    class="p-4 text-zinc-950 flex flex-col justify-center items-center bg-zinc-950 bg-opacity-75 absolute top-0 bottom-0 right-0 left-0"
+    class="p-4 text-zinc-950 flex flex-col justify-center items-center bg-zinc-950 bg-opacity-75 fixed top-0 bottom-0 right-0 left-0"
   >
     <div class="text-zinc-100 flex p-4">
       <button @click="handleClose" class="hover:text-primary font-semibold">
