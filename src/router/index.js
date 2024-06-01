@@ -6,6 +6,7 @@ import EditProfile from "@/views/EditProfile.vue";
 import PostsView from "@/views/PostsView.vue";
 import CommentsView from "@/views/CommentsView.vue";
 import { subscribeToAuth } from "@/services/auth";
+import UserProfile from "@/views/UserProfile.vue";
 
 const routes = [
   { path: "/", name: "home", component: HomeView },
@@ -20,6 +21,12 @@ const routes = [
     path: "/edit-profile/:id",
     name: "edit-profile",
     component: EditProfile,
+    meta: { protected: true },
+  },
+  {
+    path: "/user-profile/:id",
+    name: "user-profile",
+    component: UserProfile,
     meta: { protected: true },
   },
   {

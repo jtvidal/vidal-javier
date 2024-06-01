@@ -7,6 +7,7 @@ import HeaderTwo from "@/components/HeaderTwo.vue";
 export default {
   name: "CommentsView",
   components: { CommentCard, LoaderModel, HeaderTwo },
+  props: { userId: String },
   data() {
     return {
       postCard: { ...post },
@@ -23,6 +24,7 @@ export default {
     async loadPostCard() {
       const post = await getPostById(this.$route.params.id);
       this.postCard = post;
+      console.log("CommentsView postCard.by: ", this.postCard.by);
       this.postCard.date = this.postCard.date.toDate();
       this.postCard.date = this.formatDate(this.postCard.date);
     },
@@ -68,9 +70,7 @@ export default {
 <template>
   <!-- post -->
   <div class="flex flex-col gap-4">
-    <header-two
-      class="font-poppins uppercase font-bold text-center pb-2"
-    >
+    <header-two class="font-poppins uppercase font-bold text-center pb-2">
       Comments for:
     </header-two>
     <div
@@ -84,9 +84,12 @@ export default {
       </div>
       <ul class="flex justify-end items-center gap-4 text-xs w-full p-2">
         <li class="text-sm">
-          By: <router-link class="hover:text-yellow-500 ease-in-out duration-100">{{ postCard.username }}</router-link>
+          By:
+          <router-link :to="`/user-profile/${postCard.by}`">
+            {{ postCard.username }}</router-link
+          >
         </li>
-        <li class=" text-zinc-400">On: {{ postCard.date }}</li>
+        <li class="text-zinc-400">On: {{ postCard.date }}</li>
       </ul>
     </div>
     <div v-if="loading" class="flex justify-center p-6">

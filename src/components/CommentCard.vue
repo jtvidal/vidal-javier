@@ -14,8 +14,9 @@ export default {
     this.loadComment();
   },
   methods: {
-    async loadComment() {
+    loadComment() {
       this.comment = this.$props.commentObject;
+      this.comment.date = this.comment.date.toDate();
       this.comment.date = this.formatDate(this.comment.date);
     },
 
@@ -25,7 +26,10 @@ export default {
      */
     formatDate(date) {
       try {
-        const newDate = new Intl.DateTimeFormat("en-Us", date).format(date);
+        const newDate = new Intl.DateTimeFormat("en-Us", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }).format(date);
         return newDate;
       } catch (error) {
         console.error("error in formatDate: ", error);
@@ -40,6 +44,7 @@ export default {
   >
     <p>
       <router-link
+        :to="`/user-profile/${comment.by}`"
         class="font-semibold hover:text-primary ease-in-out duration-200"
         >{{ comment.username }}</router-link
       >
