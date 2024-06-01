@@ -85,7 +85,10 @@ export default {
       <ul class="flex justify-end items-center gap-4 text-xs w-full p-2">
         <li class="text-sm">
           By:
-          <router-link :to="`/user-profile/${postCard.by}`">
+          <router-link
+            :to="`/user-profile/${postCard.by}`"
+            class="hover:text-yellow-500 text-opacity-85 ease-in-out duration-150"
+          >
             {{ postCard.username }}</router-link
           >
         </li>
