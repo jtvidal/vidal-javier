@@ -7,13 +7,13 @@ import SliderModel from "@/components/SliderModel.vue";
 export default {
   name: "UserProfile",
   components: { LoaderModel, SliderModel },
-  props: { itemList: null, sliderOptions: null },
+  props: { sliderOptions: { max: null, min: null, currentSlide: null } },
   data() {
     return {
       userData: { ...dbUser },
       userPosts: [],
       slider: {
-        max: 10,
+        max: null,
         min: 0,
         currentSlide: 0,
       },
@@ -85,8 +85,12 @@ export default {
       </div>
       <div class="w-full">
         <h3 class="text-center pb-2">Posts</h3>
-        <slider-model :item-list="userPosts" :slider-options="slider">
+        <!-- Slider -->
+        <slider-model :slider-options="slider">
           <!-- TODO: create template that renders a mini post card -->
+          <div>
+            {{ userPosts[slider.currentSlide].content }}
+          </div>
         </slider-model>
       </div>
     </div>

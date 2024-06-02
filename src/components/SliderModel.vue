@@ -2,14 +2,12 @@
 import "animate.css";
 export default {
   name: "SliderModel",
-  components: { SliderItem },
   //TODO: SliderModel debe recibir una cantidad de objetos determinada por su
   //Componente padre. Debe poder mostrar un slide por objeto, o mas slides si el padre
   //así lo quiere.
-  props: { itemList: null, sliderOptions: null, sliderItem: null },
+  props: { sliderOptions: { max: null, min: null, currentSlide: null } },
   data() {
     return {
-      sliderItems: [],
       animation: null,
       max: null,
       min: 0,
@@ -18,9 +16,6 @@ export default {
     };
   },
   async mounted() {
-    this.sliderItems = await this.$props.itemList;
-    console.log("Items in SliderModel (UserView): ", this.sliderItems);
-    this.max = this.sliderItems.length;
     this.currentSlide = await this.$props.sliderOptions.currentSlide;
   },
   methods: {
@@ -56,6 +51,7 @@ export default {
   <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
     <div ref="slide" class="w-1/2 p-2 mx-auto order-2 flex">
+      <slot></slot>
       <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
     </div>
     <!-- Buttons -->
