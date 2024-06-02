@@ -56,6 +56,10 @@ export default {
         console.error("Error in getUserProfile:", error);
       }
     },
+    /**
+     * Gets currentSlide from child slider component
+     * @param current {Number}
+     */
     getCurrent(current) {
       this.slider.currentSlide = current;
     },
@@ -99,7 +103,6 @@ export default {
           <!-- TODO: create template that renders a mini post card -->
           <div class="bg-zinc-200 p-4 mx-auto rounded-lg border-2 border-primary order-2 w-full">
             <h4>{{ userPosts[slider.currentSlide].title }}</h4>
-            <hr class=" h-[0.5px]">
             <p>{{ userPosts[slider.currentSlide].content }}</p>
           </div>
         </slider-model>

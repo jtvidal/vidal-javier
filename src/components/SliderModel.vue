@@ -20,13 +20,13 @@ export default {
   },
   methods: {
     goNext() {
-      this.animation = "animate__animated animate__fadeInRight";
+      this.animation = "animate__animated animate__fadeIn";
       this.currentSlide++;
       this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
     },
     goBack() {
-      this.animation = "animate__animated animate__fadeInLeft";
+      this.animation = "animate__animated animate__fadeIn";
       this.currentSlide--;
       this.sendCurrent();
       this.$refs.slide.addEventListener("animationend", this.clearAnimation);
@@ -50,7 +50,7 @@ export default {
 <template>
   <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
-    <div ref="slide" class="w-full p-2 mx-auto order-2 flex">
+    <div ref="slide" class="w-full p-2 mx-auto order-2 flex" :class="animation">
       <slot></slot>
       <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
     </div>
