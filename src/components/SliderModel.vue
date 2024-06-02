@@ -9,9 +9,9 @@ export default {
   data() {
     return {
       animation: null,
-      max: null,
-      min: 0,
-      currentSlide: 0,
+      max: this.$props.sliderOptions.max,
+      min: this.$props.sliderOptions.min,
+      currentSlide: this.$props.sliderOptions.currentSlide,
       selectedSlide: null,
     };
   },
@@ -50,7 +50,7 @@ export default {
 <template>
   <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
-    <div ref="slide" class="w-1/2 p-2 mx-auto order-2 flex">
+    <div ref="slide" class="w-full p-2 mx-auto order-2 flex">
       <slot></slot>
       <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
     </div>
@@ -58,14 +58,14 @@ export default {
     <button
       @click="goBack"
       class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-1"
-      :disabled="this.currentSlide == this.min"
+      :disabled="currentSlide == this.min"
     >
       prev
     </button>
     <button
       @click="goNext"
       class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-3"
-      :disabled="this.currentSlide == this.max - 1"
+      :disabled="currentSlide == this.max - 1"
     >
       next
     </button>

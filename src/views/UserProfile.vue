@@ -18,6 +18,7 @@ export default {
         currentSlide: 0,
       },
       loading: true,
+      postsAvailable: false,
       errorMessage: null,
       //TODO: set errorMessage and display modal showing it.
     };
@@ -55,6 +56,9 @@ export default {
         console.error("Error in getUserProfile:", error);
       }
     },
+    getCurrent(current) {
+      this.slider.currentSlide = current;
+    },
   },
 };
 </script>
@@ -73,7 +77,7 @@ export default {
         class="w-1/2"
       />
     </div>
-    <div class="flex flex-col items-center gap-4 border-2 p-2 my-2">
+    <div class="flex flex-col items-center gap-4 border-2 p-2 my-2 w-full">
       <div class="w-full">
         <h3 class="text-center pb-2">Description</h3>
         <p
@@ -86,12 +90,20 @@ export default {
       <div class="w-full">
         <h3 class="text-center pb-2">Posts</h3>
         <!-- Slider -->
-        <slider-model :slider-options="slider">
+        <slider-model
+          v-if="userPosts.length > 0 ? (postsAvailable = true) : ''"
+          v-show="postsAvailable"
+          :slider-options="slider"
+          @sending-current="getCurrent"
+        >
           <!-- TODO: create template that renders a mini post card -->
-          <div>
-            {{ userPosts[slider.currentSlide].content }}
+          <div class="bg-zinc-200 p-4 mx-auto rounded-lg border-2 border-primary order-2 w-full">
+            <h4>{{ userPosts[slider.currentSlide].title }}</h4>
+            <hr class=" h-[0.5px]">
+            <p>{{ userPosts[slider.currentSlide].content }}</p>
           </div>
         </slider-model>
+        <loader-model v-else class="mx-auto"></loader-model>
       </div>
     </div>
   </div>
