@@ -12,16 +12,15 @@ export default {
       sliderItems: [],
       animation: null,
       max: null,
-      min: null,
-      currentSlide: null,
+      min: 0,
+      currentSlide: 0,
       selectedSlide: null,
     };
   },
   async mounted() {
     this.sliderItems = await this.$props.itemList;
     console.log("Items in SliderModel (UserView): ", this.sliderItems);
-    this.max = await this.$props.sliderOptions.max;
-    this.min = await this.$props.sliderOptions.min;
+    this.max = this.sliderItems.length;
     this.currentSlide = await this.$props.sliderOptions.currentSlide;
   },
   methods: {
