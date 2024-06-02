@@ -2,14 +2,21 @@
 import { dbUser, getUserById } from "@/services/user";
 import { getPostsByUserId } from "@/services/posts";
 import LoaderModel from "@/components/LoaderModel.vue";
+import SliderModel from "@/components/SliderModel.vue";
 
 export default {
   name: "UserProfile",
-  components: { LoaderModel },
+  components: { LoaderModel, SliderModel },
+  props: { itemList: null, sliderOptions: null },
   data() {
     return {
       userData: { ...dbUser },
       userPosts: [],
+      slider: {
+        max: 10,
+        min: 0,
+        currentSlide: 0,
+      },
       loading: true,
       errorMessage: null,
       //TODO: set errorMessage and display modal showing it.
@@ -65,15 +72,22 @@ export default {
         class="w-1/2"
       />
     </div>
-    <h3>Description</h3>
-
-    <div>
-      <p :class="userData.description == 'Not Added' ? 'text-zinc-400' : ''">
-        {{ userData.description }}
-      </p>
-    </div>
-    <div>
-      <h3>Posts</h3>
+    <div class="flex flex-col items-center gap-4 border-2 p-2 my-2">
+      <div class="w-full">
+        <h3 class="text-center pb-2">Description</h3>
+        <p
+          class="text-center"
+          :class="userData.description == 'Not Added' ? 'text-zinc-400' : ''"
+        >
+          {{ userData.description }}
+        </p>
+      </div>
+      <div class="w-full">
+        <h3 class="text-center pb-2">Posts</h3>
+        <slider-model :item-list="userPosts" :slider-options="slider">
+          <!-- TODO: create template that renders a mini post card -->
+        </slider-model>
+      </div>
     </div>
   </div>
 </template>

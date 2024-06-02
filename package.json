@@ -10,7 +10,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@vectopus/atlas-icons-vue": "^0.0.5",
     "animate.css": "^4.1.1",
     "firebase": "^10.12.1",
     "vue": "^3.4.27",

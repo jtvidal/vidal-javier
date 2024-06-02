@@ -15,6 +15,7 @@ export default {
   },
   async mounted() {
     this.sliderItems = await this.$props.itemList;
+    console.log("Items in SliderModel (UserView): ", this.sliderItems);
     this.max = await this.$props.sliderOptions.max;
     this.min = await this.$props.sliderOptions.min;
     this.currentSlide = await this.$props.sliderOptions.currentSlide;
@@ -51,7 +52,8 @@ export default {
 <template>
   <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
-    <div ref="slide" class="w-1/2 p-2 mx-auto order-2">
+    <div ref="slide" class="w-1/2 p-2 mx-auto order-2 flex">
+      <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
       <slot></slot>
     </div>
     <!-- Buttons -->
