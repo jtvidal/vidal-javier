@@ -41,11 +41,16 @@ export default {
     class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 flex flex-col items-center justify-between border-2 border-primary rounded-lg"
   >
     <div class="flex items-center border-b-2 text-xs w-full justify-around p-3">
-      <!-- avatar -->
-      <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
+      <router-link :to="`/user-profile/${postCard.by}`">
+        <!-- avatar -->
+        <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
+      </router-link>
       <!-- to comments view -->
       <div>
-        <button @click="seeComents" class="hover:text-yellow-500 text-opacity-85 ease-in-out duration-150">
+        <button
+          @click="seeComents"
+          class="hover:text-yellow-500 text-opacity-85 ease-in-out duration-150"
+        >
           See comments
         </button>
       </div>
@@ -60,7 +65,7 @@ export default {
     <div class="flex w-full justify-center">
       <div class="w-1/2">
         <button
-          class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100"
+          class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100 ease-in-out duration-200"
         >
           Like
         </button>
@@ -68,7 +73,7 @@ export default {
       <div class="w-1/2">
         <button
           @click="close = false"
-          class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100"
+          class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100 ease-in-out duration-200"
         >
           Comment
         </button>

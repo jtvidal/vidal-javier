@@ -14,10 +14,10 @@ export default {
     };
   },
   async mounted() {
-    this.sliderItems = await this.itemList;
-    this.max = this.sliderOptions.max;
-    this.min = this.sliderOptions.min;
-    this.currentSlide = this.sliderOptions.currentSlide;
+    this.sliderItems = await this.$props.itemList;
+    this.max = await this.$props.sliderOptions.max;
+    this.min = await this.$props.sliderOptions.min;
+    this.currentSlide = await this.$props.sliderOptions.currentSlide;
   },
   methods: {
     goNext() {
@@ -42,9 +42,9 @@ export default {
     /**
      * Emits currentSlide to its parent
      */
-    sendCurrent(){
-      this.$emit('sending-current', this.currentSlide);
-    }
+    sendCurrent() {
+      this.$emit("sending-current", this.currentSlide);
+    },
   },
 };
 </script>
@@ -52,12 +52,7 @@ export default {
   <div id="slider" class="flex gap-2 p-4 w-full">
     <!-- SLIDE -->
     <div ref="slide" class="w-1/2 p-2 mx-auto order-2">
-      <!-- Image -->
-      <img
-        :src="itemList[currentSlide]"
-        alt="Random profile avatar"
-        :class="animation"
-      />
+      <slot></slot>
     </div>
     <!-- Buttons -->
     <button

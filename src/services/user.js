@@ -56,7 +56,7 @@ export function resetUserCredentials(user) {
 /**
  * Gets user by id from db.
  * @param {String} id
- * @returns {(Promise<Object>)} User Object
+ * @returns {dbUser}
  * @error If user is not found in db
  */
 export async function getUserById(id) {

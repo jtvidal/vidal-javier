@@ -98,7 +98,7 @@ export async function getPostsByUserId(userId) {
     const q = query(collection(db, "posts"), where("by", "==", userId));
     const posts = await getDocs(q);
     if (posts) {
-      return posts;
+      return posts.docs;
     } else {
       throw new Error("User has no posts yet");
     }
@@ -108,7 +108,7 @@ export async function getPostsByUserId(userId) {
 }
 
 /**
- *
+ *Gets a single post by its id.
  * @param {String} postId
  */
 export async function getPostById(postId) {
@@ -125,4 +125,10 @@ export async function getPostById(postId) {
     console.error("Error finding post: ", error);
     throw error;
   }
+}
+
+//Suscription to Posts
+
+export async function suscribeToPosts(updater) {
+
 }
