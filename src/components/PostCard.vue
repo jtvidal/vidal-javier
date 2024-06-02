@@ -72,7 +72,7 @@ export default {
         </button>
       </div>
     </div>
-    <p>{{ postCard.date }}</p>
+    <p class="text-xs text-zinc-400 self-end pt-1 pe-2">{{ postCard.date }}</p>
     <!-- header -->
     <h3 class="font-semibold pt-4">{{ postCard.title }}</h3>
     <!-- content -->
