@@ -2,7 +2,11 @@
 import "animate.css";
 export default {
   name: "SliderModel",
-  props: { itemList: null, sliderOptions: null },
+  components: { SliderItem },
+  //TODO: SliderModel debe recibir una cantidad de objetos determinada por su
+  //Componente padre. Debe poder mostrar un slide por objeto, o mas slides si el padre
+  //así lo quiere.
+  props: { itemList: null, sliderOptions: null, sliderItem: null },
   data() {
     return {
       sliderItems: [],
@@ -54,7 +58,6 @@ export default {
     <!-- SLIDE -->
     <div ref="slide" class="w-1/2 p-2 mx-auto order-2 flex">
       <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
-      <slot></slot>
     </div>
     <!-- Buttons -->
     <button

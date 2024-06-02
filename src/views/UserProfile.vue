@@ -29,6 +29,7 @@ export default {
       ? (this.userData.description = "Not Added")
       : null;
     this.userPosts = await getPostsByUserId(this.$route.params.id);
+    this.slider.max = this.userPosts.length;
     console.log("userPosts in UserProfile: ", this.userPosts);
   },
   unmounted() {
