@@ -95,10 +95,15 @@ export async function getPosts() {
  */
 export async function getPostsByUserId(userId) {
   try {
+    const postsData = [];
     const q = query(collection(db, "posts"), where("by", "==", userId));
-    const posts = await getDocs(q);
-    if (posts) {
-      return posts.docs;
+    const postsSnap = await getDocs(q);
+    const postsDocs = postsSnap.docs;
+    if (postsDocs) {
+      postsDocs.forEach((post) => {
+        postsData.push(post.data());
+      });
+      return postsData;
     } else {
       throw new Error("User has no posts yet");
     }
@@ -129,6 +134,4 @@ export async function getPostById(postId) {
 
 //Suscription to Posts
 
-export async function suscribeToPosts(updater) {
-
-}
+export async function suscribeToPosts(updater) {}

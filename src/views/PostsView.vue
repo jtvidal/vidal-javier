@@ -47,7 +47,7 @@ export default {
           this.loading = true;
           const postSnap = await getPostsByUserId(id);
           postSnap.forEach((post) => {
-            this.posts.push(post.data());
+            this.posts.push(post);
           });
           // console.log("User posts: ", this.posts);
           this.loading = false;
