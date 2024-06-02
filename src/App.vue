@@ -88,7 +88,7 @@ export default {
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <!-- My Profile -->
-    <div v-if="userLogged" class="flex justify-between">
+    <div v-if="userLogged" class="flex px-4 justify-between md:justify-around">
       <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
         <button
           @click="$router.back"

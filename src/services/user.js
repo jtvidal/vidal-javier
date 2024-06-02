@@ -47,7 +47,7 @@ export function resetUserCredentials(user) {
     user.avatar = null;
     user.email = null;
     user.username = null;
-    console.log('User Credentials reseted.');
+    console.log("User Credentials reseted.");
   } catch (error) {
     console.error("Error in resetUserCredentials: ", error);
   }
@@ -75,7 +75,12 @@ export async function getUserById(id) {
   }
 }
 
-// TODO: replace user data with new data changed in EditProfile
+/**
+ * Edits user info in db, when it finishes returns true
+ * @param {String} id 
+ * @param {user} newData 
+ * @returns {boolean} true when editing its over
+ */
 export async function editUserById(id, newData) {
   try {
     const userRef = doc(db, `users/${id}`);
@@ -85,6 +90,7 @@ export async function editUserById(id, newData) {
       await updateDoc(userRef, newData);
       console.log("newData: ", newData);
       console.log("userSnap in EditView: ", userSnap.data());
+      return true;
     } else {
       throw new Error("User not found");
     }

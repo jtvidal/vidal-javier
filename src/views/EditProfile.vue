@@ -1,16 +1,20 @@
 <script>
+import HeaderTwo from "@/components/HeaderTwo.vue";
+import LoaderSmall from "@/components/LoaderSmall.vue";
 import { dbUser, editUserById, getUserById } from "@/services/user";
 
 // import AvatarViewer from "@/components/AvatarViewer.vue";
 
 export default {
   name: "EditProfile",
+  components: { HeaderTwo, LoaderSmall },
   // components: { AvatarViewer },
   data() {
     return {
       user: {
         ...dbUser,
       },
+      edit: Boolean,
     };
   },
   async mounted() {
@@ -20,6 +24,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      this.edit = false
       try {
         if (this.user.credentials.username !== "") {
           console.log("entro al if");
@@ -27,8 +32,12 @@ export default {
             "credentials.username": this.user.credentials.username,
             first: this.user.first,
             last: this.user.last,
+            description: this.user.description,
           };
-          await editUserById(this.user.credentials.id, updateData);
+          this.edit = await editUserById(
+            this.user.credentials.id,
+            updateData
+          );
         } else {
           console.log("entro en else");
           throw new Error("Error editing profile");
@@ -42,14 +51,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
-    <button @click="$router.back" class="hover:text-primary hover:underline">
-      Back
-    </button>
-  </div>
-  <h2 class="text-slate-400 uppercase font-poppins font-bold text-center">
-    Edit Profile
-  </h2>
+  <header-two> Edit Profile </header-two>
   <!-- <div>
     <avatar-viewer></avatar-viewer>
   </div> -->
@@ -70,6 +72,7 @@ export default {
             name="username"
             id="username"
             v-model="user.credentials.username"
+            required
           />
         </li>
         <li class="flex flex-col">
@@ -92,13 +95,29 @@ export default {
             v-model="user.last"
           />
         </li>
+        <li>
+          <div>
+            <label for="description">A description about yourself!</label>
+            <textarea
+              class="w-full text-sm p-1"
+              name="description"
+              id="description"
+              rows="5"
+              maxlength="200"
+              placeholder="About you in 200 characters"
+              v-model="user.description"
+            ></textarea>
+          </div>
+        </li>
       </ul>
       <div class="flex justify-center p-4">
-        <input
-          class="bg-primary text-zinc-100 p-2 rounded-md w-2/4 mt-2 cursor-pointer hover:bg-opacity-70"
+        <button
           type="submit"
-          value="Edit Profile"
-        />
+          class="bg-primary text-zinc-100 p-2 rounded-md w-2/4 mt-2 cursor-pointer hover:bg-opacity-70"
+        >
+          <loader-small v-if="!edit" class="mx-auto"></loader-small>
+          <p v-else>Edit Profile</p>
+        </button>
       </div>
     </form>
   </div>
