@@ -97,7 +97,10 @@ export async function getPostsByUserId(userId) {
   try {
     const postsData = [];
     const q = query(collection(db, "posts"), where("by", "==", userId));
-    const postsSnap = await getDocs(q);
+    const queryOrder = query(q,orderBy('date'));
+    // const queryOrder = query(q, orderBy("date"));
+    console.log('query: ', queryOrder);
+    const postsSnap = await getDocs(queryOrder);
     const postsDocs = postsSnap.docs;
     if (postsDocs) {
       postsDocs.forEach((post) => {

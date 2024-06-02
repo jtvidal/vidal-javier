@@ -21,6 +21,8 @@ export default {
      */
     async loadPostCard(p) {
       this.postCard = { ...p };
+      this.postCard.date = this.postCard.date.toDate();
+      this.postCard.date = this.formatDate(this.postCard.date);
     },
 
     /**
@@ -31,6 +33,21 @@ export default {
     },
     closeForm(x) {
       x ? (this.close = true) : (this.close = false);
+    },
+    /**
+     *Transforms date into enUs date form
+     * @param date {Timestamp}
+     */
+    formatDate(date) {
+      try {
+        const newDate = new Intl.DateTimeFormat("en-Us", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }).format(date);
+        return newDate;
+      } catch (error) {
+        console.error("error in formatDate: ", error);
+      }
     },
   },
 };
@@ -55,6 +72,7 @@ export default {
         </button>
       </div>
     </div>
+    <p>{{ postCard.date }}</p>
     <!-- header -->
     <h3 class="font-semibold pt-4">{{ postCard.title }}</h3>
     <!-- content -->
