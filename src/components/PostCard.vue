@@ -74,10 +74,14 @@ export default {
     </div>
     <p class="text-xs text-zinc-400 self-end pt-1 pe-2">{{ postCard.date }}</p>
     <!-- header -->
-    <h3 class="font-semibold pt-4">{{ postCard.title }}</h3>
-    <!-- content -->
-    <div class="ps-6 p-4 self-start w-full">
-      <p class="w-10/12 p-2">{{ postCard.content }}</p>
+    <!-- title & content -->
+    <div class="flex flex-col gap-3 w-full p-6">
+      <h3 class="w-full font-semibold">
+        {{ postCard.title }}
+      </h3>
+      <div class="w-full">
+        <p class="w-10/12">{{ postCard.content }}</p>
+      </div>
     </div>
     <!-- buttons -->
     <div class="flex w-full justify-center">

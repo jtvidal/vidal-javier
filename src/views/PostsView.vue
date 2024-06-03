@@ -77,7 +77,7 @@ export default {
     <loader-model></loader-model>
   </div>
   <!-- POSTS -->
-  <div v-else>
+  <div v-else class="p-4">
     <!-- BUTTON POST -->
     <div class="flex w-full p-4 ">
       <button

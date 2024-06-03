@@ -2,10 +2,11 @@
 import { subscribeToAuth } from "@/services/auth";
 import { getUserById, dbUser } from "@/services/user";
 import LoaderModel from "@/components/LoaderModel.vue";
+import HeaderTwo from "@/components/HeaderTwo.vue";
 
 export default {
   name: "MyProfile",
-  components: { LoaderModel },
+  components: { LoaderModel, HeaderTwo },
   data() {
     return {
       loading: true,
@@ -52,9 +53,9 @@ export default {
 </script>
 <template>
   <!-- header -->
-  <h2 class="font-poppins uppercase font-bold text-slate-400 text-center p-6">
+  <header-two>
     ¡Welcome {{ userData.credentials.username }}!
-  </h2>
+  </header-two>
   <!-- loader -->
   <loader-model v-if="loading == true" class="mx-auto p-2 mt-4"></loader-model>
 
