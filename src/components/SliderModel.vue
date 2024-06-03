@@ -48,26 +48,29 @@ export default {
 };
 </script>
 <template>
-  <div id="slider" class="flex gap-2 p-4 w-full">
+  <div id="slider" class="flex flex-col gap-2 p-4 w-full">
     <!-- SLIDE -->
-    <div ref="slide" class="w-full  mx-auto order-2 flex" :class="animation">
+    <div ref="slide" class="w-full mx-auto flex" :class="animation">
       <slot></slot>
       <!-- TODO: manejar slides el slider recibe el array y muestra de a uno -->
     </div>
+
     <!-- Buttons -->
-    <button
-      @click="goBack"
-      class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-1"
-      :disabled="currentSlide == this.min"
-    >
-      prev
-    </button>
-    <button
-      @click="goNext"
-      class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 order-3"
-      :disabled="currentSlide == this.max - 1"
-    >
-      next
-    </button>
+    <div class="flex justify-center gap-4">
+      <button
+        @click="goBack"
+        class="text-zinc-900 hover:text-yellow-500 font-nunito font-semibold disabled:text-zinc-300 ease-in-out duration-150"
+        :disabled="currentSlide == this.min"
+      >
+        prev
+      </button>
+      <button
+        @click="goNext"
+        class="text-zinc-900 hover:text-primary font-nunito font-semibold disabled:text-zinc-300 ease-in-out duration-150"
+        :disabled="currentSlide == this.max - 1"
+      >
+        next
+      </button>
+    </div>
   </div>
 </template>

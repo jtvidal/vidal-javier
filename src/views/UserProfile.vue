@@ -11,7 +11,7 @@ export default {
   props: { sliderOptions: { max: null, min: null, currentSlide: null } },
   data() {
     return {
-      userData: { ...dbUser },
+      userData: null,
       userPosts: [],
       slider: {
         max: null,
@@ -25,6 +25,7 @@ export default {
     };
   },
   async mounted() {
+    this.userData = { ...dbUser };
     this.userData = await this.getUserProfile();
     this.userData ? (this.loading = false) : "";
     this.userData.description === null
@@ -38,6 +39,8 @@ export default {
   unmounted() {
     //TODO: investigar método que nulifique el objeto userData sin
     //necesidad de resetear cada propiedad y el objeto interno.
+    this.userData = null;
+    console.log(this.userData);
   },
 
   methods: {
@@ -83,28 +86,29 @@ export default {
         class="w-full"
       />
     </div>
-    <div
-      class="flex flex-col items-center gap-4 border-2 p-2 my-2 w-full h-full"
-    >
+    <div class="flex flex-col items-center gap-4 p-2 my-2 w-full h-full">
       <div class="w-full">
-        <h3 class="text-center pb-2">Description</h3>
+        <h3 class="text-start text-sm text-zinc-600 pb-2 font-semibold">
+          About:
+        </h3>
         <p
-          class="text-center"
+          class="p-4 text-start"
           :class="userData.description == 'Not Added' ? 'text-zinc-400' : ''"
         >
           {{ userData.description }}
         </p>
       </div>
       <div class="w-full">
-        <h3 class="text-center pb-2">Posts</h3>
+        <h3 class="text-start text-sm text-zinc-600 pb-2 font-semibold">
+          Posts
+        </h3>
         <!-- Slider -->
         <!-- TODO: show message if no posts are loaded -->
         <div v-if="userPosts.length > 0">
           <slider-model
-            v-if=postSearch
+            v-if="postSearch"
             :slider-options="slider"
             @sending-current="getCurrent"
-            class="border-2"
           >
             <div
               class="bg-zinc-200 p-4 mx-auto rounded-lg border-2 border-primary order-2 w-full h-full"
@@ -114,7 +118,9 @@ export default {
             </div>
           </slider-model>
         </div>
-        <div v-else-if="postSearch"><p class="text-center">User has no post</p></div>
+        <div v-else-if="postSearch">
+          <p class="text-center">User has no post</p>
+        </div>
         <loader-model v-else class="mx-auto"></loader-model>
       </div>
     </div>
