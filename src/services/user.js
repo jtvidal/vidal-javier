@@ -28,12 +28,13 @@ export async function setUser(userData) {
       userAuth = userData;
       dbUser.credentials = { ...userAuth };
       await setDoc(userRef, dbUser);
+      return true
     } else {
       throw new Error("User could not be registered, user.uid === null");
     }
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.error('Error in setUser (user.js): ',error);
+    return false;
   }
 }
 
@@ -56,7 +57,7 @@ export function resetUserCredentials(user) {
 /**
  * Gets user by id from db.
  * @param {String} id
- * @returns {dbUser}
+ * @returns {Promise<dbUser>}
  * @error If user is not found in db
  */
 export async function getUserById(id) {
@@ -97,4 +98,12 @@ export async function editUserById(id, newData) {
   } catch (error) {
     console.error("Reference error: ", error);
   }
+}
+
+/**
+ * 
+ * @param {String} email 
+ */
+export async function validateUser(email){
+
 }

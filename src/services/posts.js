@@ -67,7 +67,7 @@ export async function setPost(postData) {
 //TODO: manage error in below functions
 /**
  * Gets all posts form posts collection in db.
- * @returns {Array} an Array with posts data.
+ * @returns {Promise<Array>} an Array with posts data.
  */
 export async function getPosts() {
   try {
