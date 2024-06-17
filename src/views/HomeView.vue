@@ -4,11 +4,12 @@ import HeaderTwo from "@/components/HeaderTwo.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import { getPosts } from "@/services/posts";
+import TabMenu from "@/components/TabMenu.vue";
 
 export default {
   name: "HomeView",
-  props: { postObject: Object },
-  components: { PostCard, LoaderModel, HeaderTwo },
+  props: { postObject: Object, credentials: Object },
+  components: { PostCard, LoaderModel, HeaderTwo, TabMenu },
   data() {
     return {
       posts: [],
@@ -23,8 +24,8 @@ export default {
     };
   },
   async mounted() {
-    this.unsuscribeFromAuth = await subscribeToAuth((homeUpdater) => {
-      this.authUser = homeUpdater;
+    this.unsuscribeFromAuth = await subscribeToAuth(async (homeUpdater) => {
+      this.authUser = await homeUpdater;
     });
     if (this.authUser.id !== null) {
       await this.loadPosts();
@@ -57,14 +58,13 @@ export default {
 </script>
 <template>
   <header-two> ¡welcome to postapp! </header-two>
-
-  <div class="flex justify-center uppercase font-bold"></div>
   <!-- TODO: ...loader not showing? -->
+  <tab-menu :credentials="authUser" v-if="authUser.id !== null"></tab-menu>
   <div v-if="loading" class="flex justify-center mx-auto">
     <loader-model></loader-model>
   </div>
-  <div v-else-if="(loading = false && posts.length <= 0)">
-    <p>¡NO POSTS YET BITCHES!</p>
+  <div v-else-if="loading == false && posts.length <= 0">
+    <p class="text-center">¡NO POSTS YET BITCHES!</p>
   </div>
   <div v-else class="p-2">
     <div

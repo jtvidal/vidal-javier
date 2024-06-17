@@ -84,13 +84,14 @@ export default {
     </nav>
   </header>
   <main
-    class="font-poppins h-full md:h-screen  w-full relative"
+    class="font-poppins h-full md:h-screen w-full relative"
     :class="$route.path == '/login-register' ? 'bg-primary' : 'bg-zinc-100'"
   >
     <!-- My Profile -->
-    <div v-if="userLogged" class="flex px-4 justify-between md:justify-around">
+    <!-- <div v-if="userLogged" class="flex px-4 justify-between md:justify-around">
       <div class="flex justify-end text-sm text-slate-400 font-nunito p-4">
         <button
+          v-if="$route.path !== '/'"
           @click="$router.back"
           class="hover:text-yellow-500 ease-in-out duration-200"
         >
@@ -118,7 +119,7 @@ export default {
           {{ userCredentials.username }}
         </p>
       </router-link>
-    </div>
+    </div> -->
     <!-- main is relative so modals can be extended as absolute through main's height and width. -->
     <RouterView />
   </main>

@@ -5,9 +5,10 @@ import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderModel from "@/components/LoaderModel.vue";
 import { resetUserCredentials } from "@/services/user";
+import TabMenu from "@/components/TabMenu.vue";
 export default {
   name: "PostsView",
-  components: { PostForm, LoaderModel, PostCard },
+  components: { PostForm, LoaderModel, PostCard, TabMenu },
   props: { postObject: null, userObject: null },
   data() {
     return {
@@ -32,7 +33,7 @@ export default {
       : (this.loading = true);
     console.log("User id in PostView: ", this.userAuth.id);
   },
-  beforeUnmount(){
+  beforeUnmount() {
     this.posts = [];
     resetUserCredentials(this.userAuth);
   },
@@ -78,11 +79,12 @@ export default {
   </div>
   <!-- POSTS -->
   <div v-else class="p-4">
+    <tab-menu :credentials="userAuth" v-if="userAuth.id !== null"></tab-menu>
     <!-- BUTTON POST -->
-    <div class="flex w-full p-4 ">
+    <div class="flex w-full p-4">
       <button
         @click="close = false"
-        class="mx-auto w-full xxsm:w-1/2 lg:w-1/6  text-primary hover:font-semibold ease-in-out duration-100"
+        class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 text-primary hover:font-semibold ease-in-out duration-100"
       >
         ¡Make a Post!
       </button>
@@ -96,8 +98,8 @@ export default {
       </p>
     </div>
     <div v-else class="w-full flex flex-wrap justify-center gap-4">
-    <post-card v-for="post in posts"  :post-object="post"></post-card>
-  </div>
+      <post-card v-for="post in posts" :post-object="post"></post-card>
+    </div>
     <post-form @close-form="closeForm" v-if="!close"></post-form>
   </div>
 </template>

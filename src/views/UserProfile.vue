@@ -4,11 +4,15 @@ import { getPostsByUserId } from "@/services/posts";
 import LoaderModel from "@/components/LoaderModel.vue";
 import SliderModel from "@/components/SliderModel.vue";
 import HeaderTwo from "@/components/HeaderTwo.vue";
+import TabMenu from "@/components/TabMenu.vue";
 
 export default {
   name: "UserProfile",
-  components: { LoaderModel, SliderModel, HeaderTwo },
-  props: { sliderOptions: { max: null, min: null, currentSlide: null } },
+  components: { LoaderModel, SliderModel, HeaderTwo, TabMenu },
+  props: {
+    sliderOptions: { max: null, min: null, currentSlide: null },
+    credentials: Object,
+  },
   data() {
     return {
       userData: null,
@@ -73,10 +77,14 @@ export default {
 </script>
 
 <template>
-  <div v-if="loading" class="flex justify-center">
+  <div v-if="loading" class="flex justify-center p-4">
     <loader-model></loader-model>
   </div>
   <div v-else class="w-full flex flex-col justify-center border-primary">
+    <tab-menu
+      :credentials="userData.credentials"
+      v-if="userData && userData.credentials"
+    ></tab-menu>
     <div class="flex flex-col bg-primary">
       <header-two class="text-zinc-50"
         >{{ userData.credentials.username }}'s Profile</header-two
@@ -119,7 +127,7 @@ export default {
               class="bg-zinc-200 p-4 mx-auto flex flex-col rounded-lg border-2 border-primary w-full xsm:w-9/12 sm:w-7/12 lg:w-1/2 xl:w-1/3 h-full"
             >
               <span
-                class="self-end text-sm font-bold text-violet-500 bg-zinc-50 rounded-s-full rounded p-2 drop-shadow-lg"
+                class="self-end text-sm font-bold text-violet-500 bg-zinc-50 rounded-s-full rounded p-2"
                 >{{
                   userPosts.indexOf(userPosts[slider.currentSlide]) + 1
                 }}</span
