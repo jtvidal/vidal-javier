@@ -73,7 +73,7 @@ export default {
   >
     <div class="flex justify-center p-2">
       <button class="text-zinc-100 hover:text-primary" @click="handleClose">
-        Cerrar
+        Close
       </button>
     </div>
     <form
@@ -83,7 +83,7 @@ export default {
       enctype="multipart/form-data"
       class="bg-zinc-100 h-1/4 rounded-lg w-full xsm:w-9/12 sm:w-7/12 md:w-5/12 self-center flex flex-col justify-center border-2 border-primary p-2 gap-2"
     >
-      <label for="content">Comenta aquí:</label>
+      <label for="content">Comment here:</label>
       <textarea
         class="border-2 rounded-sm focus:outline-primary"
         name="content"

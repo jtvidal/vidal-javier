@@ -94,18 +94,18 @@ export default {
       <div
         class="flex flex-col border-zinc-300 text-zinc-600 border-4 p-4 w-10/12 mx-auto rounded-lg"
       >
-        <div class="self-center p-4">
+        <div class="p-2">
           <h3 class="font-semibold">
             {{ postCard.title }}
           </h3>
           <p class="pt-3">{{ postCard.content }}</p>
         </div>
-        <ul class="flex justify-end items-center gap-4 text-xs w-full p-2">
+        <ul class="flex justify-between items-center gap-4 text-xs w-full p-2">
           <li class="text-sm">
             By:
             <router-link
               :to="`/user-profile/${postCard.by}`"
-              class="hover:text-yellow-500 text-opacity-85 ease-in-out duration-150"
+              class="text-yellow-600 hover:text-yellow-500 text-opacity-85 ease-in-out duration-150"
             >
               {{ postCard.username }}</router-link
             >

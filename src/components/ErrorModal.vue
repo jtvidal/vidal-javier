@@ -20,10 +20,10 @@ export default {
   <div
     class="fixed flex items-center bg-zinc-950 bg-opacity-70 top-0 bottom-0 right-0 left-0"
   >
-    <div class="mx-auto w-10/12 flex flex-col bg-zinc-100 p-4 rounded-lg">
+    <div class="mx-auto w-10/12 flex flex-col bg-zinc-100 p-4 rounded-lg border-4 border-red-600">
       <div class="self-end"><button @click="closeModal">X</button></div>
       <div>
-        <p>{{ message }}</p>
+        <p class="text-center uppercase font-bold">{{ message }}</p>
       </div>
     </div>
   </div>
