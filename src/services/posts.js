@@ -136,5 +136,6 @@ export async function getPostById(postId) {
 }
 
 //Suscription to Posts
+export async function suscribeToPosts(suscription) {
 
-export async function suscribeToPosts(updater) {}
+}

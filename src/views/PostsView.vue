@@ -12,6 +12,9 @@ export default {
   props: { postObject: null, userObject: null },
   data() {
     return {
+      postViewErrors: {
+        loadPosts: null,
+      },
       userAuth: {
         id: null,
         username: null,
@@ -56,13 +59,19 @@ export default {
           throw new Error("No user Logged");
         }
       } catch (error) {
-        console.error("Error loading posts: ", error);
+        console.error("Error in loadPosts(): ", error);
+        this.postViewErrors.loadPosts = error.message;
       }
     },
 
+    /**
+     * Recieves a Promise: true or false from child component PostForm.vue
+     * if true closes PostForm and reloads PostView (TODO: fix to be reactive, add suscription)
+     * @param {Promise<Boolean>} x 
+     */
     closeForm(x) {
       if (x) {
-        (this.close = true), location.reload();
+        (this.close = true);
       } else {
         this.close = false;
       }
@@ -72,15 +81,15 @@ export default {
 </script>
 
 <template>
-  <h2 class="text-center uppercase text-slate-400 font-bold">Your Posts</h2>
-  <!-- LOADER -->
+  <h2 class="text-center uppercase text-slate-400 font-bold p-6">Your Posts</h2>
+  <!-- Loader -->
   <div v-if="loading" class="flex justify-center p-4">
     <loader-model></loader-model>
   </div>
-  <!-- POSTS -->
-  <div v-else class="p-4">
+  <!-- Posts -->
+  <div v-else class=" px-2">
     <tab-menu :credentials="userAuth" v-if="userAuth.id !== null"></tab-menu>
-    <!-- BUTTON POST -->
+    <!-- Post CTA -->
     <div class="flex w-full p-4">
       <button
         @click="close = false"
@@ -100,6 +109,7 @@ export default {
     <div v-else class="w-full flex flex-wrap justify-center gap-4">
       <post-card v-for="post in posts" :post-object="post"></post-card>
     </div>
+    <!-- PostForm -->
     <post-form @close-form="closeForm" v-if="!close"></post-form>
   </div>
 </template>
