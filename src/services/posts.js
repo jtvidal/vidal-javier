@@ -134,22 +134,3 @@ export async function suscribeToPosts(suscription) {
     console.error("Error in suscribeToPosts: ", error);
   }
 }
-
-// async function loadPosts(id) {
-//   try {
-//     if (id !== null) {
-//       this.loading = true;
-//       const postSnap = await getPostsByUserId(id);
-//       postSnap.forEach((post) => {
-//         this.posts.push(post);
-//       });
-//       // console.log("User posts: ", this.posts);
-//       this.loading = false;
-//     } else {
-//       throw new Error("No user Logged");
-//     }
-//   } catch (error) {
-//     console.error("Error in loadPosts(): ", error);
-//     this.postViewErrors.loadPosts = error.message;
-//   }
-// },
