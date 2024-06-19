@@ -3,7 +3,7 @@ import LoaderModel from "@/components/LoaderModel.vue";
 import HeaderTwo from "@/components/HeaderTwo.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
-import { getPosts } from "@/services/posts";
+import { suscribeToPosts } from "@/services/posts";
 import TabMenu from "@/components/TabMenu.vue";
 
 export default {
@@ -19,25 +19,27 @@ export default {
         email: null,
         avatar: null,
       },
-      loading: true,
+      loadingPosts: true,
       unsuscribeFromAuth: () => {},
+      unsuscribeFromPosts: () => {},
     };
   },
   async mounted() {
     this.unsuscribeFromAuth = await subscribeToAuth(async (homeUpdater) => {
       this.authUser = await homeUpdater;
     });
+    this.userFromLocal();
+    //TODO: si hay posts... si no.... por aca va el tema del loader.
     if (this.authUser.id !== null) {
       await this.loadPosts();
-      this.loading = false;
     } else {
-      this.loading = false;
+      this.loadingPosts = false;
     }
-    this.userFromLocal();
   },
   beforeUnmount() {
     this.posts = [];
     this.unsuscribeFromAuth();
+    this.unsuscribeFromPosts();
   },
   methods: {
     userFromLocal() {
@@ -47,11 +49,16 @@ export default {
       console.log("Auth user in HomeView: ", this.authUser);
     },
     /**
-     * Loads posts from db
+     * Updates posts from db into view
+     * @returns {Promise<Boolean>}
      */
     async loadPosts() {
-      this.posts = await getPosts();
-      console.log("posts in HomeView: ", this.posts);
+      this.unsuscribeFromPosts = await suscribeToPosts(
+        async (homePostsUpdater) => {
+          this.posts = await homePostsUpdater;
+          this.posts.length >= 0 ? (this.loadingPosts = false) : "";
+        }
+      );
     },
   },
 };
@@ -60,18 +67,14 @@ export default {
   <header-two> ¡welcome to postapp! </header-two>
   <!-- TODO: ...loader not showing? -->
   <tab-menu :credentials="authUser" v-if="authUser.id !== null"></tab-menu>
-  <div v-if="loading" class="flex justify-center mx-auto">
+  <div v-if="loadingPosts" class="flex justify-center mx-auto">
     <loader-model></loader-model>
   </div>
-  <div v-else-if="loading == false && posts.length <= 0">
+  <div v-else-if="authUser.id !== null && posts.length === 0">
     <p class="text-center">¡NO POSTS YET BITCHES!</p>
   </div>
   <div v-else class="p-2">
-    <div
-      v-if="posts"
-      id="home-wall"
-      class="w-full justify-center flex flex-wrap gap-2"
-    >
+    <div id="home-wall" class="w-full justify-center flex flex-wrap gap-2">
       <post-card v-for="post in posts" :post-object="post"></post-card>
       <!-- TODO: show all posts in date order max 10 posts 
       (maybe use SliderModel component)

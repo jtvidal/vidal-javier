@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   orderBy,
   query,
   serverTimestamp,
@@ -65,29 +66,6 @@ export async function setPost(postData) {
   }
 }
 //TODO: manage error in below functions
-/**
- * Gets all posts form posts collection in db.
- * @returns {Promise<Array>} an Array with posts data.
- */
-export async function getPosts() {
-  try {
-    const postData = [];
-    const postRef = collection(db, "posts");
-    const q = query(postRef, orderBy("date"));
-    const postSnap = await getDocs(q);
-    const postDocs = postSnap.docs;
-    if (postDocs) {
-      postDocs.forEach((post) => {
-        postData.push(post.data());
-      });
-    } else {
-      throw new Error("Error in postOrdered:");
-    }
-    return postData;
-  } catch (error) {
-    console.error("query not working", error);
-  }
-}
 
 /**
  * Gets posts by user id.
@@ -97,9 +75,9 @@ export async function getPostsByUserId(userId) {
   try {
     const postsData = [];
     const q = query(collection(db, "posts"), where("by", "==", userId));
-    const queryOrder = query(q,orderBy('date'));
+    const queryOrder = query(q, orderBy("date"));
     // const queryOrder = query(q, orderBy("date"));
-    console.log('query: ', queryOrder);
+    console.log("query: ", queryOrder);
     const postsSnap = await getDocs(queryOrder);
     const postsDocs = postsSnap.docs;
     if (postsDocs) {
@@ -135,7 +113,43 @@ export async function getPostById(postId) {
   }
 }
 
-//Suscription to Posts
+/**
+ *  Suscribe to all posts in db
+ * @param {(posts:{Object}[])=> null} suscription
+ * @returns
+ */
 export async function suscribeToPosts(suscription) {
-
+  try {
+    const postRef = collection(db, "posts");
+    const qOrder = query(postRef, orderBy("date"));
+    let posts = [];
+    return onSnapshot(qOrder, (postsCollection) => {
+      posts = postsCollection.docs.map((post) => {
+        return post.data();
+      });
+      console.log("posts in suscribeToPosts", posts);
+      suscription(posts);
+    });
+  } catch (error) {
+    console.error("Error in suscribeToPosts: ", error);
+  }
 }
+
+// async function loadPosts(id) {
+//   try {
+//     if (id !== null) {
+//       this.loading = true;
+//       const postSnap = await getPostsByUserId(id);
+//       postSnap.forEach((post) => {
+//         this.posts.push(post);
+//       });
+//       // console.log("User posts: ", this.posts);
+//       this.loading = false;
+//     } else {
+//       throw new Error("No user Logged");
+//     }
+//   } catch (error) {
+//     console.error("Error in loadPosts(): ", error);
+//     this.postViewErrors.loadPosts = error.message;
+//   }
+// },

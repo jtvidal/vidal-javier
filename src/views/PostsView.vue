@@ -1,5 +1,5 @@
 <script>
-import { getPostsByUserId } from "@/services/posts";
+import { getPostsByUserId, suscribeToPosts } from "@/services/posts";
 import PostForm from "@/components/PostsForm.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
@@ -24,11 +24,13 @@ export default {
       loading: true,
       posts: [],
       close: true,
-      unsuscribeFormAuth: () => {},
+      unsuscribeFromAuth: () => {},
+      unLoadPosts: () => {},
     };
   },
   async mounted() {
-    this.unsuscribeFormAuth = await subscribeToAuth(
+    await suscribeToPosts()
+    this.unsuscribeFromAuth = await subscribeToAuth(
       (postViewUpdater) => (this.userAuth = postViewUpdater)
     );
     this.userAuth.id !== null
@@ -41,7 +43,7 @@ export default {
     resetUserCredentials(this.userAuth);
   },
   unmounted() {
-    this.unsuscribeFormAuth();
+    this.unsuscribeFromAuth();
   },
 
   methods: {
@@ -67,11 +69,11 @@ export default {
     /**
      * Recieves a Promise: true or false from child component PostForm.vue
      * if true closes PostForm and reloads PostView (TODO: fix to be reactive, add suscription)
-     * @param {Promise<Boolean>} x 
+     * @param {Promise<Boolean>} x
      */
     closeForm(x) {
       if (x) {
-        (this.close = true);
+        this.close = true;
       } else {
         this.close = false;
       }
@@ -87,7 +89,7 @@ export default {
     <loader-model></loader-model>
   </div>
   <!-- Posts -->
-  <div v-else class=" px-2">
+  <div v-else class="px-2">
     <tab-menu :credentials="userAuth" v-if="userAuth.id !== null"></tab-menu>
     <!-- Post CTA -->
     <div class="flex w-full p-4">
