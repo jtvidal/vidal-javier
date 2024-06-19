@@ -5,6 +5,7 @@ import LoaderModel from "@/components/LoaderModel.vue";
 import SliderModel from "@/components/SliderModel.vue";
 import HeaderTwo from "@/components/HeaderTwo.vue";
 import TabMenu from "@/components/TabMenu.vue";
+import { subscribeToAuth } from "@/services/auth";
 
 export default {
   name: "UserProfile",
@@ -15,6 +16,7 @@ export default {
   },
   data() {
     return {
+      authUser: null,
       userData: null,
       userPosts: [],
       slider: {
@@ -25,10 +27,14 @@ export default {
       loading: true,
       postSearch: false,
       errorMessage: null,
-      //TODO: set errorMessage and display modal showing it.
+      unsuscribeFromAuth: () => {},
     };
   },
   async mounted() {
+    this.unsuscribeFromAuth = await subscribeToAuth(
+      (userProfileUpdater) => (this.authUser = userProfileUpdater)
+    );
+    console.log('authUser in UserProfile mounted(): ',this.authUser);
     this.userData = { ...dbUser };
     this.userData = await this.getUserProfile();
     this.userData ? (this.loading = false) : "";
@@ -41,10 +47,9 @@ export default {
     console.log("userPosts in UserProfile: ", this.userPosts);
   },
   unmounted() {
-    //TODO: investigar método que nulifique el objeto userData sin
-    //necesidad de resetear cada propiedad y el objeto interno.
+    this.unsuscribeFromAuth();
     this.userData = null;
-    console.log(this.userData);
+    this.authUser = null;
   },
 
   methods: {
@@ -84,8 +89,8 @@ export default {
     <!-- TODO: suscribe to auth, the info bellow belongs to a user profile
      and TabMenu recieves the authenticated user only -->
     <tab-menu
-      :credentials="userData.credentials"
-      v-if="userData && userData.credentials"
+      :credentials="authUser"
+      v-if="authUser"
     ></tab-menu>
     <div class="flex flex-col bg-primary">
       <header-two class="text-zinc-50"
