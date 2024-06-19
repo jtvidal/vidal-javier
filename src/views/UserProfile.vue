@@ -81,6 +81,8 @@ export default {
     <loader-model></loader-model>
   </div>
   <div v-else class="w-full flex flex-col justify-center border-primary">
+    <!-- TODO: suscribe to auth, the info bellow belongs to a user profile
+     and TabMenu recieves the authenticated user only -->
     <tab-menu
       :credentials="userData.credentials"
       v-if="userData && userData.credentials"

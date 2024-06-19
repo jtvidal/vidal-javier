@@ -29,7 +29,6 @@ export default {
       this.authUser = await homeUpdater;
     });
     this.userFromLocal();
-    //TODO: si hay posts... si no.... por aca va el tema del loader.
     if (this.authUser.id !== null) {
       await this.loadPosts();
     } else {
@@ -65,7 +64,6 @@ export default {
 </script>
 <template>
   <header-two> ¡welcome to postapp! </header-two>
-  <!-- TODO: ...loader not showing? -->
   <tab-menu :credentials="authUser" v-if="authUser.id !== null"></tab-menu>
   <div v-if="loadingPosts" class="flex justify-center mx-auto">
     <loader-model></loader-model>
