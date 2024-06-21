@@ -1,5 +1,5 @@
 <script>
-import { getPostsByUserId, suscribeToPosts } from "@/services/posts";
+import { suscribeToPosts } from "@/services/posts";
 import PostForm from "@/components/PostsForm.vue";
 import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
@@ -25,11 +25,10 @@ export default {
       posts: [],
       close: true,
       unsuscribeFromAuth: () => {},
-      unLoadPosts: () => {},
+      unsuscribeFromPosts: () => {},
     };
   },
   async mounted() {
-    await suscribeToPosts()
     this.unsuscribeFromAuth = await subscribeToAuth(
       (postViewUpdater) => (this.userAuth = postViewUpdater)
     );
@@ -44,25 +43,23 @@ export default {
   },
   unmounted() {
     this.unsuscribeFromAuth();
+    this.unsuscribeFromPosts();
   },
 
   methods: {
     async loadPosts(id) {
       try {
-        if (id !== null) {
-          this.loading = true;
-          const postSnap = await getPostsByUserId(id);
-          postSnap.forEach((post) => {
-            this.posts.push(post);
-          });
-          // console.log("User posts: ", this.posts);
-          this.loading = false;
-        } else {
-          throw new Error("No user Logged");
-        }
+        this.unsuscribeFromPosts = await suscribeToPosts(
+          async (postsViewUpdater) => {
+            this.posts = await postsViewUpdater;
+            this.posts.length >= 0 ? (this.loading = false) : "";
+            console.log("id in loadPosts (PostsView: ): ", id);
+            console.log("posts in loadPosts (PostsView): ", this.posts);
+          },
+          id
+        );
       } catch (error) {
-        console.error("Error in loadPosts(): ", error);
-        this.postViewErrors.loadPosts = error.message;
+        console.error("Error in loadPosts(), PostsView: ", error);
       }
     },
 
@@ -101,7 +98,7 @@ export default {
       </button>
     </div>
     <div
-      v-if="posts.length <= 0"
+      v-if="posts.length === 0"
       class="flex flex-col relative h-full gap-4 w-full p-4 items-center"
     >
       <p class="font-semibold text-xl text-zinc-900 p-4">

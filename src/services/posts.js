@@ -1,6 +1,5 @@
 //Posts service
 import {
-  addDoc,
   collection,
   doc,
   getDoc,
@@ -9,7 +8,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
-  updateDoc,
+  setDoc,
   where,
 } from "firebase/firestore";
 import { db } from "./firebase";
@@ -31,12 +30,17 @@ export let post = { ...POST };
  */
 export async function savePost(post) {
   try {
-    (await post).date = serverTimestamp();
     console.log("Saved Post: ", post);
     const postCollectionRef = collection(db, "posts");
-    const postRef = await addDoc(postCollectionRef, post);
-    const docId = postRef.id;
-    updateDoc(postRef, { postId: docId });
+    const newPostRef = doc(postCollectionRef);
+    (await post).postId = newPostRef.id;
+    (await post).date = serverTimestamp();
+    if ((await post).date !== null && (await post).postId !== null) {
+      console.log("post in savePost: ", post);
+      await setDoc(newPostRef, post);
+    } else {
+      throw new Error("Error: date or postId null");
+    }
     return true;
   } catch (error) {
     console.error("Error in savePost:", error);
@@ -52,13 +56,16 @@ export async function savePost(post) {
  */
 export async function setPost(postData) {
   try {
-    post = await { ...postData };
-    if (post.content && post.title) {
-      const postObject = post;
-      console.log("postObject: ", postObject);
+    let postObject = post;
+    postObject = await { ...postData };
+    if (postObject.content && postObject.title) {
+      if (!postObject.date) {
+        throw new Error("Date is null");
+      }
+      console.log("postObject.date: ", postObject.date);
       return postObject;
     } else {
-      throw new Error(post.content ? "Title missing" : "Content missing");
+      throw new Error(postObject.content ? "Title missing" : "Content missing");
     }
   } catch (error) {
     console.error("Post could not be added: ", error.message);
@@ -116,16 +123,27 @@ export async function getPostById(postId) {
 /**
  *  Suscribe to all posts in db
  * @param {(posts:{Object}[])=> null} suscription
+ * @param {String} id Optional: brings posts from a user id.
  * @returns
  */
-export async function suscribeToPosts(suscription) {
+export async function suscribeToPosts(suscription, id) {
+  let posts = [];
+  let qOrder;
   try {
-    const postRef = collection(db, "posts");
-    const qOrder = query(postRef, orderBy("date"));
-    let posts = [];
+    if (id) {
+      qOrder = query(
+        collection(db, "posts"),
+        where("by", "==", id),
+        orderBy("date")
+      );
+    } else {
+      qOrder = query(collection(db, "posts"), orderBy("date"));
+    }
     return onSnapshot(qOrder, (postsCollection) => {
       posts = postsCollection.docs.map((post) => {
-        return post.data();
+        const postData = post.data({ serverTimestamps: "estimate" });
+        postData.date = postData.date || null;
+        return postData;
       });
       console.log("posts in suscribeToPosts", posts);
       suscription(posts);

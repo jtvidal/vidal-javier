@@ -21,8 +21,17 @@ export default {
      */
     async loadPostCard(p) {
       this.postCard = { ...p };
-      this.postCard.date = this.postCard.date.toDate();
-      this.postCard.date = this.formatDate(this.postCard.date);
+      if (this.postCard.date) {
+        try {
+          this.postCard.date = this.postCard.date.toDate();
+          this.postCard.date = this.formatDate(this.postCard.date);
+        } catch (error) {
+          console.error("Error in loadPostCard (PostCard): ", error);
+          this.postCard.date = "Invalid date";
+        }
+      } else {
+        this.postCard.date = "No date available";
+      }
     },
 
     /**
@@ -47,6 +56,7 @@ export default {
         return newDate;
       } catch (error) {
         console.error("error in formatDate: ", error);
+        return "Invalid date";
       }
     },
   },
@@ -72,7 +82,12 @@ export default {
         </button>
       </div>
     </div>
-    <p class="text-xs text-zinc-400 self-end pt-1 pe-2">{{ postCard.date }}</p>
+    <p
+      v-if="postCard.date != null"
+      class="text-xs text-zinc-400 self-end pt-1 pe-2"
+    >
+      {{ postCard.date }}
+    </p>
     <!-- header -->
     <!-- title & content -->
     <div class="flex flex-col gap-3 w-full p-6">

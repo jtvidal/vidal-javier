@@ -2,12 +2,13 @@
 import { setPost, savePost, post } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderSmall from "./LoaderSmall.vue";
+import { serverTimestamp } from "firebase/firestore";
 export default {
   name: "PostsForm",
   components: { LoaderSmall },
   data() {
     return {
-      userData: {
+      authUser: {
         id: null,
         avatar: null,
         email: null,
@@ -23,14 +24,14 @@ export default {
   },
   async mounted() {
     this.unsuscribeFromAuth = await subscribeToAuth(
-      (postsUpdater) => (this.userData = postsUpdater)
+      (postsUpdater) => (this.authUser = postsUpdater)
     );
     this.postedBy(
-      this.userData.id,
-      this.userData.username,
-      this.userData.avatar
+      this.authUser.id,
+      this.authUser.username,
+      this.authUser.avatar
     );
-    console.log("User in Posts:", this.userData);
+    console.log("User in Posts:", this.authUser);
   },
   unmounted() {
     this.unsuscribeFromAuth();
@@ -46,20 +47,25 @@ export default {
       this.postData.username = await username;
       this.postData.avatar = await avatar;
     },
+
     /**
      * Saves post into db
      */
     async handleSubmit() {
       try {
         this.loading = true;
-        const post = { ...(await setPost(this.postData)) };
-        this.closeForm = await savePost(post);
-        if (this.closeForm === true) {
-          this.loading = false;
-          this.handleClose();
-        } else {
-          this.loading = false;
-          throw new Error("Post could not be saved");
+        this.postData.date = serverTimestamp();
+        if (this.postData.date !== null) {
+          let post = await setPost(this.postData);
+          console.log("post in PostForm (handleSubmit): ", post);
+          this.closeForm = await savePost(post);
+          if (this.closeForm === true) {
+            this.loading = false;
+            this.handleClose();
+          } else {
+            this.loading = false;
+            throw new Error("Post could not be saved");
+          }
         }
       } catch (error) {
         console.error("Error in handleSubmit: ", error);
