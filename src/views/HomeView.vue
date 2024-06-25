@@ -68,7 +68,10 @@ export default {
   <div v-if="loadingPosts" class="flex justify-center mx-auto">
     <loader-model></loader-model>
   </div>
-  <div v-else-if="authUser.id !== null && posts.length === 0">
+  <div
+    v-else-if="authUser.id !== null && posts.length === 0"
+    class="border-[10px] border-zinc-600 rounded-tr-md rounded-bl-md w-10/12 mx-auto p-8"
+  >
     <p class="text-center">¡NO POSTS YET BITCHES!</p>
   </div>
   <div v-else class="p-2">

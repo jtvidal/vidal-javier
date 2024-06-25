@@ -66,7 +66,7 @@ export async function register(email, password) {
     }
     return success;
   } catch (error) {
-    console.error("Error: user could not be registered", error.message);
+    console.error("Error: user could not be registered", error.code);
     throw error;
   }
 }
@@ -87,7 +87,7 @@ export async function login(email, password) {
     return true;
   } catch (error) {
     console.log("Could not log with provided mail or password: ", error);
-    throw error
+    throw error;
   }
 }
 /**

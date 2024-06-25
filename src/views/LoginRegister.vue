@@ -53,33 +53,11 @@ export default {
         this.loading = false;
       }
     },
-    // async loginRegister() {
-    //   try {
-    //     if (this.register == true) {
-    //       this.success = await register(this.email, this.password);
-    //       this.register = false;
-    //     }
-    //     if (this.login == true) {
-    //       this.success = await login(this.email.this.password);
-    //       this.login = false;
-    //     }
-    //     if (this.success) {
-    //       router.push("/");
-    //     } else {
-    //       if (login) throw new Error("Log in failed");
-    //       throw new Error("Registration failed");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error in loginRegister: ", error);
-    //     this.errorMessage = error.message;
-    //   }
-    //   this.errorMessage = "";
-    // },
   },
 };
 </script>
 <template>
-  <h2 class="font-bold text-zinc-900 text-center uppercase p-2">
+  <h2 class="font-bold text-zinc-900 text-center uppercase p-6">
     Login / Register
   </h2>
   <div
