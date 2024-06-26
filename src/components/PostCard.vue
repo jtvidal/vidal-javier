@@ -3,16 +3,21 @@ import { post } from "@/services/posts";
 import CommentForm from "./CommentForm.vue";
 export default {
   name: "PostCard",
-  props: { postObject: Object, inPost: String },
+  props: { postObject: Object, inPost: String, authId: null },
   components: { CommentForm },
   data() {
     return {
+      idAuth: this.$props.authId,
       postCard: { ...post },
       close: true,
+      editable: false,
     };
   },
   async mounted() {
+    console.log("authId in PostCard: ", this.idAuth);
     await this.loadPostCard(this.$props.postObject);
+    this.postCard.by === this.$props.authId ? (this.editable = true) : false;
+    console.log("editable???", this.editable);
   },
   methods: {
     /**
@@ -91,11 +96,14 @@ export default {
     <!-- header -->
     <!-- title & content -->
     <div class="flex flex-col gap-3 w-full p-6">
-      <h3 class="w-full font-semibold">
-        {{ postCard.title }}
-      </h3>
+      <div class="flex">
+        <h3 class="w-full font-semibold">
+          {{ postCard.title }}
+        </h3>
+        <button v-if="editable" class="font-light text-sm hover:text-yellow-500 ease-in-out duration-150">edit</button>
+      </div>
       <div class="w-full">
-        <p class="w-10/12">{{ postCard.content }}</p>
+        <p class="w-full">{{ postCard.content }}</p>
       </div>
     </div>
     <!-- buttons -->
@@ -124,3 +132,8 @@ export default {
     @close-form="closeForm"
   ></comment-form>
 </template>
+<style scoped>
+* {
+  border: dashed #232323 0.5px;
+}
+</style>

@@ -10,7 +10,7 @@ export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard, TabMenu },
   //TODO: userObject??? se usa en otro lado??
-  props: { postObject: null, userObject: null },
+  props: { postObject: null, userObject: null, authId: null },
   data() {
     return {
       postViewErrors: {
@@ -49,8 +49,8 @@ export default {
 
   methods: {
     /**
-     * 
-     * @param {String} id 
+     *
+     * @param {String} id
      */
     async loadPosts(id) {
       try {
@@ -112,7 +112,11 @@ export default {
     </div>
     <div v-else class="w-full flex flex-wrap justify-center gap-4">
       <!-- PostCard -->
-      <post-card v-for="post in posts" :post-object="post"></post-card>
+      <post-card
+        v-for="post in posts"
+        :post-object="post"
+        :auth-id="post.by"
+      ></post-card>
     </div>
     <!-- PostForm -->
     <post-form @close-form="closeForm" v-if="!close"></post-form>
