@@ -9,6 +9,7 @@ import {
   query,
   serverTimestamp,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "./firebase";
@@ -121,14 +122,23 @@ export async function getPostById(postId) {
 }
 
 /**
- * 
- * @param {String} postId 
+ * Saves edited post
+ * @param {String} postId
+ * @param {*} newData
  */
-export async function editPost(postId) {
-  const postRef = doc(db, `posts/${postId}`);
-  const postDoc = await getDoc(postRef)
-  const postData = postDoc.data()
-  console.log("post in editPost: ", postData);
+export async function editPost(postId, newData) {
+  try {
+    const postRef = doc(db, `posts/${postId}`);
+    const postSnap = await getDoc(postRef);
+    if (postSnap.exists()) {
+      await updateDoc(postRef, newData);
+    }
+    console.log("post in editPost: ", postSnap.data());
+  } catch (error) {
+    console.error("error in editPost", error.code);
+    throw error;
+  }
+
   //TODO: edit post recibe el id del post que está
   //siendo editado. Lo recibe de un PostForm que viene cargado
   //con los datos del post al que se le hizo click en 'edit'.

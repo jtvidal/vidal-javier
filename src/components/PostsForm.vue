@@ -59,6 +59,13 @@ export default {
           let post = await setPost(this.postData);
           console.log("post in PostForm (handleSubmit): ", post);
           this.closeForm = await savePost(post);
+          //TODO: closeForm es true o false ahora. Si es false debiera
+          //saber que no se pudo guardar el post. Entonces deberia
+          //condicionar que se aplique alguna clase (border rojo etc)
+          //a algun elemento del form que haya sido erroneo o al menos
+          //un mensaje tipo <p> en el form que indique que no se pudo
+          //guardar el post y quede abierto el post para completarlo o
+          //cerrarlo con su botón correspondiente
           if (this.closeForm === true) {
             this.loading = false;
             this.handleClose();

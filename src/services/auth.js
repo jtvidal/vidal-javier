@@ -35,7 +35,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     setAuthUser(USER_NOT_AUTH);
   }
-  console.log("Auth state: ", authUser);
+  // console.log("Auth state: ", authUser);
 });
 
 /**
@@ -83,7 +83,7 @@ export async function login(email, password) {
       email,
       password
     );
-    console.log("Logged User: ", userCredentials.user);
+    // console.log("Logged User: ", userCredentials.user);
     return true;
   } catch (error) {
     console.log("Could not log with provided mail or password: ", error);
@@ -107,7 +107,7 @@ export async function logout() {
 export async function subscribeToAuth(suscription) {
   try {
     watchers.push(suscription);
-    console.log("watchers: ", watchers);
+    // console.log("watchers: ", watchers);
     await stateUpdate(suscription);
     return () => {
       watchers = watchers.filter((w) => w !== suscription);
