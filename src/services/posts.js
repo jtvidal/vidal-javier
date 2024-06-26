@@ -120,6 +120,15 @@ export async function getPostById(postId) {
   }
 }
 
+export function editPost(postId){
+  //TODO: edit post recibe el id del post que está
+  //siendo editado. Lo recibe de un PostForm que viene cargado
+  //con los datos del post al que se le hizo click en 'edit'.
+  //al querer guardarlo, editPost debe hacer referencia al post
+  //que ya vino de la base de datos para en el mismo guardar la nueva
+  //data (updateDoc creo que era);
+}
+
 /**
  *  Suscribe to all posts in db
  * @param {(posts:{Object}[])=> null} suscription
