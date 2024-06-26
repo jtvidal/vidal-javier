@@ -120,9 +120,15 @@ export async function getPostById(postId) {
   }
 }
 
-export function editPost(postId) {
+/**
+ * 
+ * @param {String} postId 
+ */
+export async function editPost(postId) {
   const postRef = doc(db, `posts/${postId}`);
-  console.log("postRef in editPost: ", postRef);
+  const postDoc = await getDoc(postRef)
+  const postData = postDoc.data()
+  console.log("post in editPost: ", postData);
   //TODO: edit post recibe el id del post que está
   //siendo editado. Lo recibe de un PostForm que viene cargado
   //con los datos del post al que se le hizo click en 'edit'.
