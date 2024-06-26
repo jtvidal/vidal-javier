@@ -9,6 +9,7 @@ import TabMenu from "@/components/TabMenu.vue";
 export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard, TabMenu },
+  //TODO: userObject??? se usa en otro lado??
   props: { postObject: null, userObject: null },
   data() {
     return {
@@ -47,6 +48,10 @@ export default {
   },
 
   methods: {
+    /**
+     * 
+     * @param {String} id 
+     */
     async loadPosts(id) {
       try {
         this.unsuscribeFromPosts = await suscribeToPosts(
@@ -106,6 +111,7 @@ export default {
       </p>
     </div>
     <div v-else class="w-full flex flex-wrap justify-center gap-4">
+      <!-- PostCard -->
       <post-card v-for="post in posts" :post-object="post"></post-card>
     </div>
     <!-- PostForm -->
