@@ -1,5 +1,5 @@
 <script>
-import { post } from "@/services/posts";
+import { post, editPost } from "@/services/posts";
 import CommentForm from "./CommentForm.vue";
 export default {
   name: "PostCard",
@@ -39,6 +39,9 @@ export default {
       }
     },
 
+    postEdition(){
+      editPost(this.postCard.postId)
+    },
     /**
      * Sends object postcard to comments view CommentsView.vue.
      */
@@ -100,7 +103,14 @@ export default {
         <h3 class="w-full font-semibold">
           {{ postCard.title }}
         </h3>
-        <button v-if="editable" class="font-light text-sm hover:text-yellow-500 ease-in-out duration-150">edit</button>
+        <!-- Button edit -->
+        <button
+          v-if="editable"
+          @click="postEdition"
+          class="font-light text-sm hover:text-yellow-500 ease-in-out duration-150"
+        >
+          edit
+        </button>
       </div>
       <div class="w-full">
         <p class="w-full">{{ postCard.content }}</p>
