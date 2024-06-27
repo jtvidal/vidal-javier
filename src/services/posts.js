@@ -45,7 +45,7 @@ export async function savePost(post) {
     return true;
   } catch (error) {
     console.error("Error in savePost:", error);
-    throw new Error("Error saving Post");
+    return false;
   }
 }
 
@@ -138,13 +138,6 @@ export async function editPost(postId, newData) {
     console.error("error in editPost", error.code);
     throw error;
   }
-
-  //TODO: edit post recibe el id del post que está
-  //siendo editado. Lo recibe de un PostForm que viene cargado
-  //con los datos del post al que se le hizo click en 'edit'.
-  //al querer guardarlo, editPost debe hacer referencia al post
-  //que ya vino de la base de datos para en el mismo guardar la nueva
-  //data (updateDoc creo que era);
 }
 
 /**

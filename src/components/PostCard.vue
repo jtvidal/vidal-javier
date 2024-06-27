@@ -5,13 +5,14 @@ export default {
   name: "PostCard",
   props: { postObject: Object, inPost: String, authId: null },
   components: { CommentForm },
+  emits:['postForm'],
   data() {
     return {
       idAuth: this.$props.authId,
       postCard: { ...post },
-      close: true,
+      commentForm: true,
       editable: false,
-      edit: false,
+      edit: true,
     };
   },
   async mounted() {
@@ -40,7 +41,12 @@ export default {
       }
     },
 
+    /**
+     * 
+     */
     postEdition() {
+      this.$emit('postForm', this.edit)
+      console.log("post in PosCard postEdition: ", this.postCard);
       //TODO: handle postEdition:
       //Quiero utilizar la propiedad 'edit' de este componente para emitir
       //un booleano a su padre indicando que abra el componente PostForm (este componente
@@ -53,8 +59,8 @@ export default {
     seeComents() {
       this.$router.push(`comments/${this.postCard.postId}`);
     },
-    closeForm(x) {
-      x ? (this.close = true) : (this.close = false);
+    closeCommentForm(x) {
+      x ? (this.commentForm = true) : (this.commentForm = false);
     },
     /**
      *Transforms date into enUs date form
@@ -132,7 +138,7 @@ export default {
       </div>
       <div class="w-1/2">
         <button
-          @click="close = false"
+          @click="commentForm = false"
           class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100 ease-in-out duration-200"
         >
           Comment
@@ -142,9 +148,9 @@ export default {
   </div>
 
   <comment-form
-    v-if="close == false"
+    v-if="commentForm == false"
     :in-post="postCard.postId"
-    @close-form="closeForm"
+    @close-form="closeCommentForm"
   ></comment-form>
 </template>
 <style scoped>

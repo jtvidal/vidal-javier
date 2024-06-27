@@ -24,7 +24,7 @@ export default {
       },
       loading: true,
       posts: [],
-      close: true,
+      openForm: false,
       unsuscribeFromAuth: () => {},
       unsuscribeFromPosts: () => {},
     };
@@ -69,15 +69,23 @@ export default {
     },
 
     /**
+     * 
+     * @param x 
+     */
+    openPostForm(x){
+      x ? this.openForm = true : this.openForm = false;
+    },
+
+    /**
      * Recieves a Promise: true or false from child component PostForm.vue
-     * if true closes PostForm and reloads PostView (TODO: fix to be reactive, add suscription)
+     * if true closes PostForm and reloads PostView
      * @param {Promise<Boolean>} x
      */
     closeForm(x) {
       if (x) {
-        this.close = true;
+        this.openForm = false;
       } else {
-        this.close = false;
+        this.openForm = true;
       }
     },
   },
@@ -96,7 +104,7 @@ export default {
     <!-- Post CTA -->
     <div class="flex w-full p-4">
       <button
-        @click="close = false"
+        @click="openForm = true"
         class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 text-primary hover:font-semibold ease-in-out duration-100"
       >
         ¡Make a Post!
@@ -115,10 +123,12 @@ export default {
       <post-card
         v-for="post in posts"
         :post-object="post"
+        :key="post.postId"
         :auth-id="post.by"
+        @post-form="openPostForm"
       ></post-card>
     </div>
     <!-- PostForm -->
-    <post-form @close-form="closeForm" v-if="!close"></post-form>
+    <post-form @close-form="closeForm" v-if="openForm"></post-form>
   </div>
 </template>

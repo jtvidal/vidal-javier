@@ -6,6 +6,7 @@ import { serverTimestamp } from "firebase/firestore";
 export default {
   name: "PostsForm",
   components: { LoaderSmall },
+  emits: ["closeForm"],
   data() {
     return {
       authUser: {
