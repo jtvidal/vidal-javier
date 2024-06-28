@@ -13,6 +13,7 @@ export default {
   props: { postObject: null, userObject: null, authId: null },
   data() {
     return {
+      //TODO: esto para que?
       postViewErrors: {
         loadPosts: null,
       },
