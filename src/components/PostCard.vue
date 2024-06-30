@@ -5,7 +5,7 @@ export default {
   name: "PostCard",
   props: { postObject: Object, inPost: String, authId: null },
   components: { CommentForm },
-  emits:['postForm'],
+  emits: ["postForm"],
   data() {
     return {
       idAuth: this.$props.authId,
@@ -16,10 +16,8 @@ export default {
     };
   },
   async mounted() {
-    // console.log("authId in PostCard: ", this.idAuth);
     await this.loadPostCard(this.$props.postObject);
     this.postCard.by === this.$props.authId ? (this.editable = true) : false;
-    // console.log("editable???", this.editable);
   },
   methods: {
     /**
@@ -42,16 +40,17 @@ export default {
     },
 
     /**
-     * 
+     *
      */
     postEdition() {
-      this.$emit('postForm', this.edit)
+      this.$emit("postForm", { open: this.edit, dataId: this.postCard.postId });
       console.log("post in PosCard postEdition: ", this.postCard);
       //TODO: handle postEdition:
       //Quiero utilizar la propiedad 'edit' de este componente para emitir
       //un booleano a su padre indicando que abra el componente PostForm (este componente
       //y PostForm deben ir juntos en las vistas que quiera ver posts), hermano de este componente
       //con los datos de este post particular ya colocados y poder guardarlos ya editados
+      //HACER 2 EMITS? con el booleano y el id del post?
     },
     /**
      * Sends object postcard to comments view CommentsView.vue.

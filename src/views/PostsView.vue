@@ -10,7 +10,7 @@ export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard, TabMenu },
   //TODO: userObject??? se usa en otro lado??
-  props: { postObject: null, userObject: null, authId: null },
+  props: { postObject: Object, userObject: null, authId: null },
   data() {
     return {
       //TODO: esto para que?
@@ -25,7 +25,10 @@ export default {
       },
       loading: true,
       posts: [],
-      openForm: false,
+      formOptions: {
+        open: false,
+        dataId: null,
+      },
       unsuscribeFromAuth: () => {},
       unsuscribeFromPosts: () => {},
     };
@@ -70,11 +73,14 @@ export default {
     },
 
     /**
-     * 
-     * @param x 
+     *Recieves PostForm options
+     * @param options {{open:Boolean, dataId:null}}
      */
-    openPostForm(x){
-      x ? this.openForm = true : this.openForm = false;
+    openPostForm(options) {
+      options.open ? (this.formOptions.open = true) : (this.openForm = false);
+      if (options.dataId) {
+        this.formOptions.dataId = options.dataId;
+      }
     },
 
     /**
@@ -84,9 +90,9 @@ export default {
      */
     closeForm(x) {
       if (x) {
-        this.openForm = false;
+        this.formOptions.open = false;
       } else {
-        this.openForm = true;
+        this.formOptions.open = true;
       }
     },
   },
@@ -105,7 +111,7 @@ export default {
     <!-- Post CTA -->
     <div class="flex w-full p-4">
       <button
-        @click="openForm = true"
+        @click="formOptions.open = true"
         class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 text-primary hover:font-semibold ease-in-out duration-100"
       >
         ¡Make a Post!
@@ -130,6 +136,6 @@ export default {
       ></post-card>
     </div>
     <!-- PostForm -->
-    <post-form @close-form="closeForm" v-if="openForm"></post-form>
+    <post-form @close-form="closeForm" v-if="formOptions.open"></post-form>
   </div>
 </template>
