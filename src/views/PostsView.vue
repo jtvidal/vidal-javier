@@ -10,7 +10,7 @@ export default {
   name: "PostsView",
   components: { PostForm, LoaderModel, PostCard, TabMenu },
   //TODO: userObject??? se usa en otro lado??
-  props: { postObject: Object, userObject: null, authId: null },
+  props: { postObject: Object, userObject: null, authId: null, idPost: String },
   data() {
     return {
       //TODO: esto para que?
@@ -77,8 +77,10 @@ export default {
      * @param options {{open:Boolean, dataId:null}}
      */
     openPostForm(options) {
-      options.open ? (this.formOptions.open = true) : (this.openForm = false);
-      if (options.dataId) {
+      options.open
+        ? (this.formOptions.open = true)
+        : (this.formOptions.open = false);
+      if (options.dataId !== null) {
         this.formOptions.dataId = options.dataId;
       }
     },
@@ -136,6 +138,10 @@ export default {
       ></post-card>
     </div>
     <!-- PostForm -->
-    <post-form @close-form="closeForm" v-if="formOptions.open"></post-form>
+    <post-form
+      @close-form="closeForm"
+      v-if="formOptions.open"
+      :id-post="formOptions.dataId"
+    ></post-form>
   </div>
 </template>

@@ -1,11 +1,12 @@
 <script>
-import { setPost, savePost, post } from "../services/posts";
+import { setPost, savePost, post, getPostById } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderSmall from "./LoaderSmall.vue";
 import { serverTimestamp } from "firebase/firestore";
 export default {
   name: "PostsForm",
   components: { LoaderSmall },
+  props: { idPost: String },
   emits: ["closeForm"],
   data() {
     return {
@@ -18,12 +19,16 @@ export default {
       postData: {
         ...post,
       },
+      postId: this.$props.idPost,
       closeForm: true,
       loading: false,
       unsuscribeFromAuth: () => {},
     };
   },
   async mounted() {
+    if (this.postId) {
+      console.log("postId en PostForm: ", this.postId);
+    }
     this.unsuscribeFromAuth = await subscribeToAuth(
       (postsUpdater) => (this.authUser = postsUpdater)
     );
