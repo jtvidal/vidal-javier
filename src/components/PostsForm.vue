@@ -86,6 +86,20 @@ export default {
       }
     },
 
+    /**
+     * 
+     */
+    async uploadImg(){
+        try {
+          
+        } catch (error) {
+          
+        }
+    },
+
+    /**
+     * 
+     */
     async handleClose() {
       this.$emit("closeForm", this.closeForm);
     },
