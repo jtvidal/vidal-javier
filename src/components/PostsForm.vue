@@ -18,11 +18,13 @@ export default {
       postData: {
         ...post,
       },
+      previewImg: null,
       closeForm: true,
       loading: false,
       unsuscribeFromAuth: () => {},
     };
   },
+
   async mounted() {
     if (this.postId) {
       console.log("postId en PostForm: ", this.postId);
@@ -40,6 +42,7 @@ export default {
   unmounted() {
     this.unsuscribeFromAuth();
   },
+
   methods: {
     /**
      *Sets user credentials into post data
@@ -82,8 +85,24 @@ export default {
         console.error("Error in handleSubmit: ", error);
       }
     },
+
     async handleClose() {
       this.$emit("closeForm", this.closeForm);
+    },
+
+    /**
+     * Gets input file value
+     * @param fileEvent
+     */
+    getImg(fileEvent) {
+      console.log("files in getImg (PostForm): ", fileEvent.target.files);
+      this.postData.img = fileEvent.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.previewImg = reader.result;
+        console.log("file content in getImg (PostForm): ", reader.result);
+      });
+      reader.readAsDataURL(this.postData.img);
     },
   },
 };
@@ -99,11 +118,21 @@ export default {
     </div>
     <form
       @submit.prevent="handleSubmit"
-      class="shadow-zinc-950 shadow-lg w-full xxsm:w-2/3 md:w-1/3 xl:w-1/8 p-6 rounded-lg flex flex-col gap-2 bg-zinc-100"
+      class="shadow-zinc-950 shadow-lg w-full xsm:w-2/3 lg:w-1/3 p-6 rounded-lg flex flex-col gap-2 bg-zinc-100"
       action="#"
       method="post"
       enctype="multipart/form-data"
     >
+      <!-- image -->
+      <div>
+        <!-- preview -->
+        <div v-if="this.previewImg !== null"><img :src="previewImg" alt="Preview image" /></div>
+        <div>
+          <label for="image">Image</label>
+          <input type="file" id="image" @change="getImg" />
+        </div>
+      </div>
+      <!-- title -->
       <div class="flex flex-col">
         <label for="title">Title</label>
         <input
@@ -114,6 +143,7 @@ export default {
           v-model="postData.title"
         />
       </div>
+      <!-- content -->
       <div class="flex flex-col">
         <label for="content">Content:</label>
         <textarea

@@ -17,6 +17,7 @@ const POST = {
   date: null,
   title: null,
   content: null,
+  img: null,
   by: null,
   username: null,
   avatar: null,

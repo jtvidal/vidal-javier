@@ -75,7 +75,7 @@ export default {
     <p class="text-center">¡NO POSTS YET BITCHES!</p>
   </div>
   <div v-else class="p-2">
-    <div id="home-wall" class="w-full justify-center flex flex-wrap gap-2">
+    <div id="home-wall" class="w-full justify-center flex flex-wrap gap-4">
       <post-card v-for="post in posts" :post-object="post" :auth-id="authUser.id"></post-card>
       <!-- TODO: show all posts in date order max 10 posts 
       (maybe use SliderModel component)

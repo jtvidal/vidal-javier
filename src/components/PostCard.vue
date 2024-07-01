@@ -86,7 +86,7 @@ export default {
 <template>
   <div
     id="post-card"
-    class="w-full xsm:w-2/3 sm:w-2/5 lg:w-1/4 shadow-md shadow-zinc-400 flex flex-col items-center justify-between border-2 border-primary rounded-lg"
+    class="w-full sm:w-2/3 lg:w-1/3 shadow-md shadow-zinc-400 flex flex-col items-center justify-between border-2 border-primary rounded-lg"
   >
     <div class="flex items-center border-b-2 text-xs w-full justify-around p-3">
       <router-link :to="`/user-profile/${postCard.by}`">
@@ -109,10 +109,10 @@ export default {
     >
       {{ postCard.date }}
     </p>
-    <!-- image -->
     <!-- title & content -->
     <div class="flex flex-col gap-2 w-10/12">
-      <div><img src="" alt=""><p>image</p></div>
+      <!-- image -->
+      <div><img src="" alt="" class=" max-w-[500px]"><p>image</p></div>
       <div class="flex flex-col gap-3 w-full p-2">
         <div class="flex">
           <h3 class="w-full font-semibold">
