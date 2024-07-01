@@ -132,11 +132,11 @@ export async function editPost(postId, newData) {
     const postSnap = await getDoc(postRef);
     if (postSnap.exists()) {
       await updateDoc(postRef, newData);
+      return true;
     }
-    console.log("post in editPost: ", postSnap.data());
   } catch (error) {
     console.error("error in editPost", error.code);
-    throw error;
+    return false;
   }
 }
 

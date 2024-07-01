@@ -1,5 +1,5 @@
 <script>
-import { post, getPostById } from "@/services/posts";
+import { post, getPostById, editPost } from "@/services/posts";
 import LoaderSmall from "./LoaderSmall.vue";
 export default {
   name: "EditPost",
@@ -14,16 +14,25 @@ export default {
         dataId: this.$props.idPost,
       },
       loading: false,
+      success: false,
     };
   },
   async mounted() {
     console.log("postId id EditPost: ", this.formOptions.dataId);
     this.postData = await getPostById(this.formOptions.dataId);
-    console.log('post in EditPost: ', this.postData);
+    console.log("post in EditPost: ", this.postData);
   },
   methods: {
     async handleSubmit() {
-      console.log("handleSubmit in EditPost");
+      this.loading = true;
+      try {
+        this.success = await editPost(this.formOptions.dataId, this.postData);
+      } catch (error) {
+        console.error("Error in handleSubmit (EditPost): ", error.code);
+      } finally {
+        this.handleClose();
+        this.loading = false;
+      }
     },
     async handleClose() {
       this.formOptions.open = false;
