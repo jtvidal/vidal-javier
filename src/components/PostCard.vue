@@ -109,24 +109,27 @@ export default {
     >
       {{ postCard.date }}
     </p>
-    <!-- header -->
+    <!-- image -->
     <!-- title & content -->
-    <div class="flex flex-col gap-3 w-full p-6">
-      <div class="flex">
-        <h3 class="w-full font-semibold">
-          {{ postCard.title }}
-        </h3>
-        <!-- Button edit -->
-        <button
-          v-if="editable"
-          @click="postEdition"
-          class="font-light text-sm hover:text-yellow-500 ease-in-out duration-150"
-        >
-          edit
-        </button>
-      </div>
-      <div class="w-full">
-        <p class="w-full">{{ postCard.content }}</p>
+    <div class="flex flex-col gap-2 w-10/12">
+      <div><img src="" alt=""><p>image</p></div>
+      <div class="flex flex-col gap-3 w-full p-2">
+        <div class="flex">
+          <h3 class="w-full font-semibold">
+            {{ postCard.title }}
+          </h3>
+          <!-- Button edit -->
+          <button
+            v-if="editable"
+            @click="postEdition"
+            class="font-light text-sm hover:text-yellow-500 ease-in-out duration-150"
+          >
+            edit
+          </button>
+        </div>
+        <div class="w-full">
+          <p class="w-full">{{ postCard.content }}</p>
+        </div>
       </div>
     </div>
     <!-- buttons -->
