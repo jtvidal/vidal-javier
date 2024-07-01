@@ -45,12 +45,6 @@ export default {
     postEdition() {
       this.$emit("editPost", { open: this.edit, dataId: this.postCard.postId });
       console.log("post in PosCard postEdition: ", this.postCard);
-      //TODO: handle postEdition:
-      //Quiero utilizar la propiedad 'edit' de este componente para emitir
-      //un booleano a su padre indicando que abra el componente PostForm (este componente
-      //y PostForm deben ir juntos en las vistas que quiera ver posts), hermano de este componente
-      //con los datos de este post particular ya colocados y poder guardarlos ya editados
-      //HACER 2 EMITS? con el booleano y el id del post?
     },
     /**
      * Sends object postcard to comments view CommentsView.vue.

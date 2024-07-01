@@ -1,11 +1,11 @@
 <script>
-import { post } from "@/services/posts";
+import { post, getPostById } from "@/services/posts";
 import LoaderSmall from "./LoaderSmall.vue";
 export default {
   name: "EditPost",
   props: { idPost: String },
   emits: ["closeForm"],
-  components:{LoaderSmall},
+  components: { LoaderSmall },
   data() {
     return {
       postData: { ...post },
@@ -16,8 +16,10 @@ export default {
       loading: false,
     };
   },
-  mounted() {
+  async mounted() {
     console.log("postId id EditPost: ", this.formOptions.dataId);
+    this.postData = await getPostById(this.formOptions.dataId);
+    console.log('post in EditPost: ', this.postData);
   },
   methods: {
     async handleSubmit() {
