@@ -6,9 +6,10 @@ import { subscribeToAuth } from "@/services/auth";
 import LoaderModel from "@/components/LoaderModel.vue";
 import { resetUserCredentials } from "@/services/user";
 import TabMenu from "@/components/TabMenu.vue";
+import EditPost from "@/components/EditPost.vue";
 export default {
   name: "PostsView",
-  components: { PostForm, LoaderModel, PostCard, TabMenu },
+  components: { PostForm, EditPost, LoaderModel, PostCard, TabMenu },
   //TODO: userObject??? se usa en otro lado??
   props: { postObject: Object, userObject: null, authId: null, idPost: String },
   data() {
@@ -25,7 +26,8 @@ export default {
       },
       loading: true,
       posts: [],
-      formOptions: {
+      postForm: false,
+      editPostOptions: {
         open: false,
         dataId: null,
       },
@@ -73,18 +75,25 @@ export default {
     },
 
     /**
-     *Recieves PostForm options
-     * @param options {{open:Boolean, dataId:null}}
+     *Open PostForm
+     * @param {Boolean} x
      */
-    openPostForm(options) {
-      options.open
-        ? (this.formOptions.open = true)
-        : (this.formOptions.open = false);
-      if (options.dataId !== null) {
-        this.formOptions.dataId = options.dataId;
-      }
+    openPostForm(x) {
+      x ? (this.postForm = true) : (this.postForm = false);
     },
 
+    /**
+     *
+     * @param options {{open: Boolean, dataId: String}}
+     */
+    openEditPost(options) {
+      options.open
+        ? (this.editPostOptions.open = true)
+        : (this.editPostOptions.open = false);
+      if (options.postId !== null) {
+        this.editPostOptions.dataId = options.dataId;
+      }
+    },
     /**
      * Recieves a Promise: true or false from child component PostForm.vue
      * if true closes PostForm and reloads PostView
@@ -92,10 +101,15 @@ export default {
      */
     closeForm(x) {
       if (x) {
-        this.formOptions.open = false;
+        this.postForm = false;
       } else {
-        this.formOptions.open = true;
+        this.postForm = true;
       }
+    },
+    closeEditForm(options) {
+      !options.open
+        ? (this.editPostOptions.open = false)
+        : (this.editPostOptions.open = true);
     },
   },
 };
@@ -113,7 +127,7 @@ export default {
     <!-- Post CTA -->
     <div class="flex w-full p-4">
       <button
-        @click="formOptions.open = true"
+        @click="postForm = true"
         class="mx-auto w-full xxsm:w-1/2 lg:w-1/6 text-primary hover:font-semibold ease-in-out duration-100"
       >
         ¡Make a Post!
@@ -134,14 +148,16 @@ export default {
         :post-object="post"
         :key="post.postId"
         :auth-id="post.by"
-        @post-form="openPostForm"
+        @edit-post="openEditPost"
       ></post-card>
     </div>
     <!-- PostForm -->
-    <post-form
-      @close-form="closeForm"
-      v-if="formOptions.open"
-      :id-post="formOptions.dataId"
-    ></post-form>
+    <post-form @close-form="closeForm" v-if="postForm"></post-form>
+    <!-- EditPost -->
+    <edit-post
+      :id-post="editPostOptions.dataId"
+      @close-form="closeEditForm"
+      v-if="editPostOptions.open"
+    ></edit-post>
   </div>
 </template>

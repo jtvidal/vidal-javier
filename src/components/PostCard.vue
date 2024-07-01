@@ -5,7 +5,7 @@ export default {
   name: "PostCard",
   props: { postObject: Object, inPost: String, authId: null },
   components: { CommentForm },
-  emits: ["postForm"],
+  emits: ["editPost"],
   data() {
     return {
       idAuth: this.$props.authId,
@@ -43,7 +43,7 @@ export default {
      *
      */
     postEdition() {
-      this.$emit("postForm", { open: this.edit, dataId: this.postCard.postId });
+      this.$emit("editPost", { open: this.edit, dataId: this.postCard.postId });
       console.log("post in PosCard postEdition: ", this.postCard);
       //TODO: handle postEdition:
       //Quiero utilizar la propiedad 'edit' de este componente para emitir
