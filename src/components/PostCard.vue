@@ -1,5 +1,5 @@
 <script>
-import { post, editPost } from "@/services/posts";
+import { post } from "@/services/posts";
 import CommentForm from "./CommentForm.vue";
 export default {
   name: "PostCard",
@@ -9,14 +9,23 @@ export default {
   data() {
     return {
       idAuth: this.$props.authId,
-      postCard: { ...post },
+      postCard: this.postObject,
       commentForm: true,
       editable: false,
       edit: true,
     };
   },
+  watch: {
+    postObject: {
+      immediate: true,
+      handler(post) {
+        this.loadPostCard(post);
+      },
+    },
+  },
   async mounted() {
     await this.loadPostCard(this.$props.postObject);
+    console.log("post en PostCard: ", this.postCard);
     this.postCard.by === this.$props.authId ? (this.editable = true) : false;
   },
   methods: {

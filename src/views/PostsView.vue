@@ -106,10 +106,18 @@ export default {
         this.postForm = true;
       }
     },
-    closeEditForm(options) {
+    /**
+     *
+     * @param {{open:boolean, success:boolean}} options 
+     */
+    async closeEditForm(options) {
       !options.open
         ? (this.editPostOptions.open = false)
         : (this.editPostOptions.open = true);
+      if (options.success) {
+        console.log('success in closeEditForm (PostsView): ', options.success);
+        await this.loadPosts(this.userAuth.id);
+      }
     },
   },
 };

@@ -35,8 +35,12 @@ export default {
       }
     },
     async handleClose() {
+      console.log('success in EditPost: ', this.success);
       this.formOptions.open = false;
-      this.$emit("closeForm", this.formOptions.open);
+      this.$emit("closeForm", {
+        open: this.formOptions.open,
+        success: this.success,
+      });
     },
   },
 };
