@@ -77,8 +77,11 @@ export default {
             `posts/${this.closeForm.postSavedId}/post-img.jpg`,
             this.savedImg
           );
-          // await getFile(`posts/${this.closeForm.postSavedId}`);
-          // await editPost(this.closeForm.postSavedId, this.postData);
+          let routeImg = await getFile(
+            `posts/${this.closeForm.postSavedId}/post-img.jpg`
+          );
+          console.log("routeImg in handleSubmit (PostForm): ", routeImg);
+          await editPost(this.closeForm.postSavedId, { img: routeImg });
 
           if (this.closeForm.success === true) {
             this.loading = false;
@@ -90,6 +93,8 @@ export default {
         }
       } catch (error) {
         console.error("Error in handleSubmit: ", error);
+      } finally {
+        this.loading = false;
       }
     },
 

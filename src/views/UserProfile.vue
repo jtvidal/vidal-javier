@@ -137,6 +137,7 @@ export default {
                   userPosts.indexOf(userPosts[slider.currentSlide]) + 1
                 }}</span
               >
+              <div><img :src="userPosts[slider.currentSlide].img" alt="Post Image"></div>
               <h4 class="font-semibold">
                 {{ userPosts[slider.currentSlide].title }}
               </h4>

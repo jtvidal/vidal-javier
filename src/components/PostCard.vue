@@ -110,11 +110,10 @@ export default {
       {{ postCard.date }}
     </p>
     <!-- title & content -->
-    <div class="flex flex-col gap-2 w-10/12">
+    <div class="flex flex-col items-center gap-2 w-10/12">
       <!-- image -->
-      <div>
-        <img src="" alt="" class="max-w-[500px]" />
-        <p>image</p>
+      <div class="max-w-md p-4">
+        <img :src="postCard.img" alt="Post Image" class="w-full" />
       </div>
       <div class="flex flex-col gap-3 w-full p-2">
         <div class="flex">
@@ -162,7 +161,5 @@ export default {
   ></comment-form>
 </template>
 <style scoped>
-* {
-  border: dashed #232323 0.5px;
-}
+
 </style>
