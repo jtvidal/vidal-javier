@@ -5,11 +5,12 @@ import PostCard from "@/components/PostCard.vue";
 import { subscribeToAuth } from "@/services/auth";
 import { suscribeToPosts } from "@/services/posts";
 import TabMenu from "@/components/TabMenu.vue";
+import EditPost from "@/components/EditPost.vue";
 
 export default {
   name: "HomeView",
-  props: { postObject: Object, credentials: Object , },
-  components: { PostCard, LoaderModel, HeaderTwo, TabMenu },
+  props: { postObject: Object, credentials: Object },
+  components: { PostCard, LoaderModel, HeaderTwo, TabMenu, EditPost },
   data() {
     return {
       posts: [],
@@ -18,6 +19,10 @@ export default {
         username: null,
         email: null,
         avatar: null,
+      },
+      editPostOptions: {
+        open: false,
+        dataId: null,
       },
       loadingPosts: true,
       unsuscribeFromAuth: () => {},
@@ -47,6 +52,7 @@ export default {
         : (this.authUser.id = null);
       console.log("Auth user in HomeView: ", this.authUser);
     },
+
     /**
      * Updates posts from db into view
      * @returns {Promise<Boolean>}
@@ -58,6 +64,33 @@ export default {
           this.posts.length >= 0 ? (this.loadingPosts = false) : "";
         }
       );
+    },
+
+    /**
+     *
+     * @param options {{open: Boolean, dataId: String}}
+     */
+    openEditForm(options) {
+      options.open
+        ? (this.editPostOptions.open = true)
+        : (this.editPostOptions.open = false);
+      if (options.postId !== null) {
+        this.editPostOptions.dataId = options.dataId;
+      }
+    },
+
+    /**
+     *
+     * @param {{open:boolean, success:boolean}} options
+     */
+    async closeEditForm(options) {
+      !options.open
+        ? (this.editPostOptions.open = false)
+        : (this.editPostOptions.open = true);
+      if (options.success) {
+        console.log("success in closeEditForm (PostsView): ", options.success);
+        await this.loadPosts(this.authUser.id);
+      }
     },
   },
 };
@@ -76,10 +109,18 @@ export default {
   </div>
   <div v-else class="p-2 w-full">
     <div id="home-wall" class="w-full justify-center flex flex-wrap gap-4">
-      <post-card v-for="post in posts" :post-object="post" :auth-id="authUser.id"></post-card>
-      <!-- TODO: show all posts in date order max 10 posts 
-      (maybe use SliderModel component)
-      -->
+      <post-card
+        v-for="post in posts"
+        :post-object="post"
+        :auth-id="authUser.id"
+        @edit-post="openEditForm"
+      ></post-card>
     </div>
+    <!-- EditPost -->
+    <edit-post
+      :id-post="editPostOptions.dataId"
+      @close-form="closeEditForm"
+      v-if="editPostOptions.open"
+    ></edit-post>
   </div>
 </template>

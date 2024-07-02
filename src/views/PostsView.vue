@@ -83,10 +83,23 @@ export default {
     },
 
     /**
+     * Recieves a Promise: true or false from child component PostForm.vue
+     * if true closes PostForm and reloads PostView
+     * @param {Promise<Boolean>} x
+     */
+    closePostForm(x) {
+      if (x) {
+        this.postForm = false;
+      } else {
+        this.postForm = true;
+      }
+    },
+
+    /**
      *
      * @param options {{open: Boolean, dataId: String}}
      */
-    openEditPost(options) {
+    openEditForm(options) {
       options.open
         ? (this.editPostOptions.open = true)
         : (this.editPostOptions.open = false);
@@ -94,28 +107,17 @@ export default {
         this.editPostOptions.dataId = options.dataId;
       }
     },
-    /**
-     * Recieves a Promise: true or false from child component PostForm.vue
-     * if true closes PostForm and reloads PostView
-     * @param {Promise<Boolean>} x
-     */
-    closeForm(x) {
-      if (x) {
-        this.postForm = false;
-      } else {
-        this.postForm = true;
-      }
-    },
+
     /**
      *
-     * @param {{open:boolean, success:boolean}} options 
+     * @param {{open:boolean, success:boolean}} options
      */
     async closeEditForm(options) {
       !options.open
         ? (this.editPostOptions.open = false)
         : (this.editPostOptions.open = true);
       if (options.success) {
-        console.log('success in closeEditForm (PostsView): ', options.success);
+        console.log("success in closeEditForm (PostsView): ", options.success);
         await this.loadPosts(this.userAuth.id);
       }
     },
@@ -156,11 +158,11 @@ export default {
         :post-object="post"
         :key="post.postId"
         :auth-id="post.by"
-        @edit-post="openEditPost"
+        @edit-post="openEditForm"
       ></post-card>
     </div>
     <!-- PostForm -->
-    <post-form @close-form="closeForm" v-if="postForm"></post-form>
+    <post-form @close-form="closePostForm" v-if="postForm"></post-form>
     <!-- EditPost -->
     <edit-post
       :id-post="editPostOptions.dataId"

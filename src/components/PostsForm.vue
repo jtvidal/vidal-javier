@@ -125,7 +125,7 @@ export default {
 </script>
 <template>
   <div
-    class="p-4 text-zinc-950 flex flex-col justify-center items-center bg-zinc-950 bg-opacity-75 fixed top-0 bottom-0 right-0 left-0"
+    class="text-zinc-950 flex flex-col justify-center items-center bg-zinc-950 bg-opacity-75 fixed top-0 bottom-0 right-0 left-0"
   >
     <div class="text-zinc-100 flex p-4">
       <button @click="handleClose" class="hover:text-primary font-semibold">
@@ -140,14 +140,16 @@ export default {
       enctype="multipart/form-data"
     >
       <!-- image -->
-      <div>
+      <div class="flex flex-col justify-center gap-2">
         <!-- preview -->
-        <div v-if="this.previewImg !== null">
-          <img :src="previewImg" alt="Preview image" />
+        <div
+          v-if="this.previewImg !== null"
+          class="max-h-96 max-w-96 self-center"
+        >
+          <img :src="previewImg" alt="Preview image" class="w-8/12 m-auto" />
         </div>
-        <div>
-          <label for="image">Image</label>
-          <input type="file" id="image" @change="getImg" />
+        <div class="self-center flex justify-center w-10/12">
+          <input type="file" id="image" @change="getImg" class="text-sm" />
         </div>
       </div>
       <!-- title -->
