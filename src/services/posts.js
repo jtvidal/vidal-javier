@@ -27,7 +27,7 @@ export let post = { ...POST };
 /**
  *Adds a post into db root collection 'posts'
  * @param post {Promise<post>}
- * @returns {Promise<boolean>}
+ * @returns {{success: boolean, postSavedId: string}}
  * @throws {Error}
  */
 export async function savePost(post) {
@@ -43,7 +43,7 @@ export async function savePost(post) {
     } else {
       throw new Error("Error: date or postId null");
     }
-    return true;
+    return { success: true, postSavedId: (await post).postId };
   } catch (error) {
     console.error("Error in savePost:", error);
     return false;

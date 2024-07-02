@@ -112,7 +112,10 @@ export default {
     <!-- title & content -->
     <div class="flex flex-col gap-2 w-10/12">
       <!-- image -->
-      <div><img src="" alt="" class=" max-w-[500px]"><p>image</p></div>
+      <div>
+        <img src="" alt="" class="max-w-[500px]" />
+        <p>image</p>
+      </div>
       <div class="flex flex-col gap-3 w-full p-2">
         <div class="flex">
           <h3 class="w-full font-semibold">

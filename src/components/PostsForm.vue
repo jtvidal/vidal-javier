@@ -1,8 +1,10 @@
 <script>
-import { setPost, savePost, post } from "../services/posts";
+import { setPost, savePost, post, editPost } from "../services/posts";
 import { subscribeToAuth } from "@/services/auth";
 import LoaderSmall from "./LoaderSmall.vue";
-import { serverTimestamp } from "firebase/firestore";
+import { serverTimestamp, updateDoc } from "firebase/firestore";
+import { getFile, uploadFile } from "@/services/storage";
+import { userAuth } from "@/services/user";
 export default {
   name: "PostsForm",
   components: { LoaderSmall },
@@ -18,8 +20,12 @@ export default {
       postData: {
         ...post,
       },
+      savedImg: null,
       previewImg: null,
-      closeForm: true,
+      closeForm: {
+        success: Boolean,
+        postSavedId: String,
+      },
       loading: false,
       unsuscribeFromAuth: () => {},
     };
@@ -66,14 +72,15 @@ export default {
           let post = await setPost(this.postData);
           console.log("post in PostForm (handleSubmit): ", post);
           this.closeForm = await savePost(post);
-          //TODO: closeForm es true o false ahora. Si es false debiera
-          //saber que no se pudo guardar el post. Entonces deberia
-          //condicionar que se aplique alguna clase (border rojo etc)
-          //a algun elemento del form que haya sido erroneo o al menos
-          //un mensaje tipo <p> en el form que indique que no se pudo
-          //guardar el post y quede abierto el post para completarlo o
-          //cerrarlo con su botón correspondiente
-          if (this.closeForm === true) {
+          console.log("closeForm in handleSubmit (PostForm): ", this.closeForm);
+          await uploadFile(
+            `posts/${this.closeForm.postSavedId}/post-img.jpg`,
+            this.savedImg
+          );
+          // await getFile(`posts/${this.closeForm.postSavedId}`);
+          // await editPost(this.closeForm.postSavedId, this.postData);
+
+          if (this.closeForm.success === true) {
             this.loading = false;
             this.handleClose();
           } else {
@@ -87,18 +94,7 @@ export default {
     },
 
     /**
-     * 
-     */
-    async uploadImg(){
-        try {
-          
-        } catch (error) {
-          
-        }
-    },
-
-    /**
-     * 
+     *
      */
     async handleClose() {
       this.$emit("closeForm", this.closeForm);
@@ -109,14 +105,15 @@ export default {
      * @param fileEvent
      */
     getImg(fileEvent) {
-      console.log("files in getImg (PostForm): ", fileEvent.target.files);
-      this.postData.img = fileEvent.target.files[0];
+      // console.log("files in getImg (PostForm): ", fileEvent.target.files);
+      this.savedImg = fileEvent.target.files[0];
+      // console.log("file selected: ", this.postData.img);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         this.previewImg = reader.result;
-        console.log("file content in getImg (PostForm): ", reader.result);
+        // console.log("file content in getImg (PostForm): ", reader.result);
       });
-      reader.readAsDataURL(this.postData.img);
+      reader.readAsDataURL(this.savedImg);
     },
   },
 };
@@ -140,7 +137,9 @@ export default {
       <!-- image -->
       <div>
         <!-- preview -->
-        <div v-if="this.previewImg !== null"><img :src="previewImg" alt="Preview image" /></div>
+        <div v-if="this.previewImg !== null">
+          <img :src="previewImg" alt="Preview image" />
+        </div>
         <div>
           <label for="image">Image</label>
           <input type="file" id="image" @change="getImg" />
