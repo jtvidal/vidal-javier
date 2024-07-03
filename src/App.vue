@@ -49,7 +49,7 @@ export default {
       PostApp
     </h1>
     <nav
-      class="w-full justify-between sm:justify-end px-8 py-4 flex gap-10 text-sm items-center"
+      class="w-full justify-end px-8 py-4 flex gap-10 text-sm items-center"
     >
       <!-- Home -->
 

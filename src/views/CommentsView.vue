@@ -95,7 +95,7 @@ export default {
         Comments for:
       </header-two>
       <div
-        class="flex flex-col border-zinc-300 text-zinc-600 border-4 p-4 w-10/12 mx-auto rounded-lg"
+        class="flex flex-col border-zinc-300 text-zinc-600 border-4 p-4 w-10/12 sm:w-8/12 md:w-1/2 mx-auto rounded-lg"
       >
         <div class="p-2">
           <h3 class="font-semibold">
@@ -118,7 +118,7 @@ export default {
       </div>
       <div
         v-if="postCommented == true"
-        class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2 w-10/12"
+        class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2 w-10/12 sm:w-8/12 md:w-1/2"
       >
         <comment-card
           v-for="comment in commentsList"

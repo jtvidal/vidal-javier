@@ -3,19 +3,20 @@ import { subscribeToAuth } from "@/services/auth";
 import { getUserById, dbUser } from "@/services/user";
 import LoaderModel from "@/components/LoaderModel.vue";
 import HeaderTwo from "@/components/HeaderTwo.vue";
+import TabMenu from "@/components/TabMenu.vue";
 
 export default {
   name: "MyProfile",
-  components: { LoaderModel, HeaderTwo },
+  components: { LoaderModel, HeaderTwo, TabMenu },
   data() {
     return {
       loading: true,
-      // userAuth: {
-      //   id: null,
-      //   email: null,
-      //   username: null,
-      //   avatar: null,
-      // },
+      userAuth: {
+        id: null,
+        email: null,
+        username: null,
+        avatar: null,
+      },
       yourPosts: false,
       userData: { ...dbUser },
       unsuscribeFromAuth: () => {},
@@ -23,9 +24,9 @@ export default {
   },
   async mounted() {
     this.unsuscribeFromAuth = await subscribeToAuth(
-      (profileUpdater) => (this.userData.credentials = profileUpdater)
+      (profileUpdater) => (this.userAuth = profileUpdater)
     );
-    this.userData.credentials.id !== null ? await this.loadData() : (this.loading = true);
+    this.userAuth.id !== null ? await this.loadData() : (this.loading = true);
   },
   unmounted() {
     this.unsuscribeFromAuth();
@@ -36,9 +37,9 @@ export default {
      */
     async loadData() {
       try {
-        const user = await getUserById(this.userData.credentials.id);
+        const user = await getUserById(this.userAuth.id);
         this.userData = user;
-        this.loading = this.userData.credentials.id === null;
+        this.loading = this.userAuth.id === null;
       } catch (error) {
         console.error("User could not be loaded: ", error);
       }
@@ -52,17 +53,13 @@ export default {
 </script>
 <template>
   <!-- header -->
-  <header-two>
-    ¡Welcome {{ userData.credentials.username }}!
-  </header-two>
+  <header-two> ¡Welcome {{ userAuth.username }}! </header-two>
   <!-- loader -->
   <loader-model v-if="loading == true" class="mx-auto p-2 mt-4"></loader-model>
 
   <!-- profile viewer -->
-  <div
-    v-else
-    class="border-2 flex flex-col p-4 gap-2 transition-flex"
-  >
+  <div v-else class="border-2 flex flex-col p-4 gap-2 transition-flex">
+    <tab-menu :credentials="userAuth" v-if="userAuth.id !== null"></tab-menu>
     <!-- top buttons -->
     <div
       class="flex justify-center gap-4 text-sm text-slate-400 font-nunito p-2 mt-2 border-2"
@@ -98,5 +95,3 @@ export default {
     </div>
   </div>
 </template>
-
-
