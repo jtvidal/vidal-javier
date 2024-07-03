@@ -1,6 +1,7 @@
 <script>
 import { post } from "@/services/posts";
 import CommentForm from "./CommentForm.vue";
+import { getUserById } from "@/services/user";
 export default {
   name: "PostCard",
   props: { postObject: Object, inPost: String, authId: null },
@@ -10,6 +11,7 @@ export default {
     return {
       idAuth: this.$props.authId,
       postCard: this.postObject,
+      postUser: null,
       commentForm: true,
       editable: false,
       edit: true,
@@ -25,6 +27,9 @@ export default {
   },
   async mounted() {
     await this.loadPostCard(this.$props.postObject);
+    this.postUser = await getUserById(this.postCard.by);
+    this.postCard.username = this.postUser.credentials.username;
+    this.postCard.avatar = this.postUser.credentials.avatar;
     this.postCard.by === this.$props.authId ? (this.editable = true) : false;
   },
   methods: {
@@ -38,6 +43,7 @@ export default {
         try {
           this.postCard.date = this.postCard.date.toDate();
           this.postCard.date = this.formatDate(this.postCard.date);
+          this.postCard.username = this.aut;
         } catch (error) {
           console.error("Error in loadPostCard (PostCard): ", error);
           this.postCard.date = "Invalid date";
@@ -90,6 +96,7 @@ export default {
       <router-link :to="`/user-profile/${postCard.by}`">
         <!-- avatar -->
         <img :src="postCard.avatar" alt="Avatar of post owner" class="w-11" />
+        <span>{{ postCard.username }}</span>
       </router-link>
       <!-- to comments view -->
       <div>
@@ -158,6 +165,4 @@ export default {
     @close-form="closeCommentForm"
   ></comment-form>
 </template>
-<style scoped>
-
-</style>
+<style scoped></style>

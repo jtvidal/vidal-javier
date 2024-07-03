@@ -42,6 +42,7 @@ export default {
       this.postCard.date = this.postCard.date.toDate();
       this.postCard.date = this.formatDate(this.postCard.date);
       this.postCard.username = this.postCardUser.credentials.username;
+      this.postCard.avatar = this.postCardUser.credentials.avatar;
     },
     /**
      *Transforms date into enUs date form
