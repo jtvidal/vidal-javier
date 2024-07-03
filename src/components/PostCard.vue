@@ -25,7 +25,6 @@ export default {
   },
   async mounted() {
     await this.loadPostCard(this.$props.postObject);
-    console.log("post en PostCard: ", this.postCard);
     this.postCard.by === this.$props.authId ? (this.editable = true) : false;
   },
   methods: {
@@ -53,7 +52,6 @@ export default {
      */
     postEdition() {
       this.$emit("editPost", { open: this.edit, dataId: this.postCard.postId });
-      console.log("post in PosCard postEdition: ", this.postCard);
     },
     /**
      * Sends object postcard to comments view CommentsView.vue.

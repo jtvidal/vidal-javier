@@ -8,9 +8,6 @@ export default {
       userCredentials: this.$props.credentials,
     };
   },
-  mounted(){
-    console.log('userCredentials in TabMenu: ', this.userCredentials);
-  }
 };
 </script>
 <template>

@@ -1,5 +1,6 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
+
 export let userAuth = {
   id: null,
   email: null,
@@ -16,6 +17,7 @@ export const dbUser = {
   last: null,
   description: null,
 };
+
 /**
  * Recieves an Authenticated user and creates a user document
  * by User.uid in the users collection.
@@ -28,12 +30,12 @@ export async function setUser(userData) {
       userAuth = userData;
       dbUser.credentials = { ...userAuth };
       await setDoc(userRef, dbUser);
-      return true
+      return true;
     } else {
       throw new Error("User could not be registered, user.uid === null");
     }
   } catch (error) {
-    console.error('Error in setUser (user.js): ',error);
+    console.error("Error in setUser (user.js): ", error);
     return false;
   }
 }
@@ -78,32 +80,22 @@ export async function getUserById(id) {
 
 /**
  * Edits user info in db, when it finishes returns true
- * @param {String} id 
- * @param {user} newData 
+ * @param {String} id
+ * @param {user} newData
  * @returns {boolean} true when editing its over
  */
 export async function editUserById(id, newData) {
   try {
     const userRef = doc(db, `users/${id}`);
-    console.log("userRef in editUserById: ", userRef);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       await updateDoc(userRef, newData);
-      console.log("newData: ", newData);
-      console.log("userSnap in EditView: ", userSnap.data());
       return true;
     } else {
       throw new Error("User not found");
     }
   } catch (error) {
     console.error("Reference error: ", error);
+    return false;
   }
-}
-
-/**
- * 
- * @param {String} email 
- */
-export async function validateUser(email){
-
 }
