@@ -6,6 +6,7 @@ import LoaderModel from "@/components/LoaderModel.vue";
 import HeaderTwo from "@/components/HeaderTwo.vue";
 import TabMenu from "@/components/TabMenu.vue";
 import { subscribeToAuth } from "@/services/auth";
+import { getUserById } from "@/services/user";
 export default {
   name: "CommentsView",
   components: { CommentCard, LoaderModel, HeaderTwo, TabMenu },
@@ -14,10 +15,10 @@ export default {
     return {
       authUser: null,
       postCard: { ...post },
+      postCardUser: null,
       postCommented: Boolean,
       commentsList: [],
       loading: true,
-      commentsLoading: true,
       unsuscribeFromAuth: () => {},
     };
   },
@@ -25,9 +26,10 @@ export default {
     this.unsuscribeFromAuth = await subscribeToAuth(
       (commentsViewUpdater) => (this.authUser = commentsViewUpdater)
     );
-    this.authUser ? (this.loading = false) : "";
     await this.loadPostCard();
     await this.getPostComments();
+    console.log("postCard in loadPostCard CommentsView: ", this.postCard);
+    console.log("postCardUser in CommentsView: ", this.postCardUser);
   },
   unmounted() {
     this.unsuscribeFromAuth();
@@ -35,11 +37,11 @@ export default {
   },
   methods: {
     async loadPostCard() {
-      const post = await getPostById(this.$route.params.id);
-      this.postCard = post;
-      console.log("CommentsView postCard.by: ", this.postCard.by);
+      this.postCard = await getPostById(this.$route.params.id);
+      this.postCardUser = await getUserById(this.postCard.by);
       this.postCard.date = this.postCard.date.toDate();
       this.postCard.date = this.formatDate(this.postCard.date);
+      this.postCard.username = this.postCardUser.credentials.username;
     },
     /**
      *Transforms date into enUs date form
@@ -73,7 +75,7 @@ export default {
       } catch (error) {
         console.error("Error getting comments: ", error);
       } finally {
-        this.commentsLoading = false;
+        this.loading = false;
       }
     },
   },
@@ -82,7 +84,7 @@ export default {
 
 <template>
   <!-- post -->
-  <div v-if="loading">
+  <div v-if="loading" class="flex justify-center p-8">
     <loader-model></loader-model>
   </div>
   <div v-else>
@@ -113,11 +115,8 @@ export default {
           <li class="text-zinc-400">On: {{ postCard.date }}</li>
         </ul>
       </div>
-      <div v-if="commentsLoading" class="flex justify-center p-6">
-        <loader-model></loader-model>
-      </div>
       <div
-        v-else-if="postCommented == true"
+        v-if="postCommented == true"
         class="flex flex-col mx-auto bg-zinc-200 gap-2 rounded-lg p-2 w-10/12"
       >
         <comment-card

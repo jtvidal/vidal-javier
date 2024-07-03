@@ -99,6 +99,22 @@ export async function logout() {
   return await signOut(auth);
 }
 
+/**
+ * Recieves an object width user credentials, updates data in Authenticated user.
+ * @param {authUser} user
+ */
+export async function updateAuthUser(user) {
+  try {
+    updateProfile(auth.currentUser, {
+      displayName: user.username,
+      photoURL: user.avatar,
+    });
+    await setAuthUser(user);
+  } catch (error) {
+    console.error("Error in updateAuthUser (auth.js): ", error.code);
+  }
+}
+
 //Suscription to Auth state
 /**
  * Creates a suscription (callback) to Auth state of user.
@@ -138,9 +154,9 @@ async function stateUpdateAll() {
 
 /**
  * Sets new authenticated data. Updates data to suscribers.
- * @param {Object} newAuthUser
+ * @param {authUser} newAuthUser
  */
-async function setAuthUser(newAuthUser) {
+export async function setAuthUser(newAuthUser) {
   authUser = {
     ...newAuthUser,
   };
