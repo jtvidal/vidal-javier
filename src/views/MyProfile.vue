@@ -26,7 +26,6 @@ export default {
       (profileUpdater) => (this.userData.credentials = profileUpdater)
     );
     this.userData.credentials.id !== null ? await this.loadData() : (this.loading = true);
-    console.log("usuario en perfil: ", this.userData);
   },
   unmounted() {
     this.unsuscribeFromAuth();

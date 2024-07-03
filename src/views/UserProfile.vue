@@ -34,7 +34,7 @@ export default {
     this.unsuscribeFromAuth = await subscribeToAuth(
       (userProfileUpdater) => (this.authUser = userProfileUpdater)
     );
-    console.log('authUser in UserProfile mounted(): ',this.authUser);
+    console.log("authUser in UserProfile mounted(): ", this.authUser);
     this.userData = { ...dbUser };
     this.userData = await this.getUserProfile();
     this.userData ? (this.loading = false) : "";
@@ -63,11 +63,12 @@ export default {
         if (user) {
           return user;
         } else {
-          this.loading = false;
           throw new Error("User not found");
         }
       } catch (error) {
         console.error("Error in getUserProfile:", error);
+      } finally {
+        this.loading = false;
       }
     },
     /**
@@ -85,11 +86,11 @@ export default {
   <div v-if="loading" class="flex justify-center p-4">
     <loader-model></loader-model>
   </div>
+  <div v-else-if="!userData.credentials.id">
+    <p class="text-center font-bold p-10">USER NOT FOUND</p>
+  </div>
   <div v-else class="w-full flex flex-col justify-center border-primary">
-    <tab-menu
-      :credentials="authUser"
-      v-if="authUser"
-    ></tab-menu>
+    <tab-menu :credentials="authUser" v-if="authUser"></tab-menu>
     <div class="flex flex-col bg-primary">
       <header-two class="text-zinc-50"
         >{{ userData.credentials.username }}'s Profile</header-two
@@ -123,11 +124,7 @@ export default {
         <!-- Slider -->
         <!-- TODO: show message if no posts are loaded -->
         <div v-if="userPosts.length > 0" class="p-6">
-          <slider-model
-            v-if="postSearch"
-            :slider-options="slider"
-            @sending-current="getCurrent"
-          >
+          <slider-model :slider-options="slider" @sending-current="getCurrent">
             <div
               class="bg-zinc-200 p-4 mx-auto flex flex-col rounded-lg border-2 border-primary w-full xsm:w-9/12 sm:w-7/12 lg:w-1/2 xl:w-1/3 h-full"
             >
@@ -137,7 +134,12 @@ export default {
                   userPosts.indexOf(userPosts[slider.currentSlide]) + 1
                 }}</span
               >
-              <div><img :src="userPosts[slider.currentSlide].img" alt="Post Image"></div>
+              <div>
+                <img
+                  :src="userPosts[slider.currentSlide].img"
+                  alt="Post Image"
+                />
+              </div>
               <h4 class="font-semibold">
                 {{ userPosts[slider.currentSlide].title }}
               </h4>
@@ -145,10 +147,9 @@ export default {
             </div>
           </slider-model>
         </div>
-        <div v-else-if="postSearch">
+        <div v-else>
           <p class="text-center">User has no post</p>
         </div>
-        <loader-model v-else class="mx-auto"></loader-model>
       </div>
     </div>
   </div>

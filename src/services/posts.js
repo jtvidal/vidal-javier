@@ -93,7 +93,7 @@ export async function getPostsByUserId(userId) {
       postsDocs.forEach((post) => {
         postsData.push(post.data());
       });
-      return postsData;
+      return postsData || [];
     } else {
       throw new Error("User has no posts yet");
     }

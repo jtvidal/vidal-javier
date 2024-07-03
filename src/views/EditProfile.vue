@@ -50,12 +50,16 @@ export default {
       this.editing = true;
       try {
         if (this.user.credentials.username !== "") {
-          await uploadFile(
-            `users/${this.authUser.id}/avatar.jpg`,
-            this.profileImg
-          );
-          let routeImg = await getFile(`users/${this.authUser.id}/avatar.jpg`);
-          this.user.credentials.avatar = routeImg;
+          if (this.profileImg !== null) {
+            await uploadFile(
+              `users/${this.authUser.id}/avatar.jpg`,
+              this.profileImg
+            );
+            let routeImg = await getFile(
+              `users/${this.authUser.id}/avatar.jpg`
+            );
+            this.user.credentials.avatar = routeImg;
+          }
           await updateAuthUser(this.user.credentials);
           const updateData = {
             //TODO: agregar avatar
