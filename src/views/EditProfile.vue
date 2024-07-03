@@ -6,6 +6,7 @@ import LoaderSmall from "@/components/LoaderSmall.vue";
 import TabMenu from "@/components/TabMenu.vue";
 import { subscribeToAuth, updateAuthUser } from "@/services/auth";
 import { dbUser, editUserById, getUserById } from "@/services/user";
+import { uploadFile, getFile } from "@/services/storage";
 
 // import AvatarViewer from "@/components/AvatarViewer.vue";
 
@@ -28,6 +29,7 @@ export default {
       loading: true,
       success: Boolean,
       previewImg: null,
+      profileImg: null,
       unsuscribeFromAuth: () => {},
     };
   },
@@ -48,24 +50,46 @@ export default {
       this.editing = true;
       try {
         if (this.user.credentials.username !== "") {
+          await uploadFile(
+            `users/${this.authUser.id}/avatar.jpg`,
+            this.profileImg
+          );
+          let routeImg = await getFile(`users/${this.authUser.id}/avatar.jpg`);
+          this.user.credentials.avatar = routeImg;
           await updateAuthUser(this.user.credentials);
           const updateData = {
             //TODO: agregar avatar
             "credentials.username": this.user.credentials.username,
+            "credentials.avatar": this.user.credentials.avatar,
             first: this.user.first,
             last: this.user.last,
             description: this.user.description,
           };
           this.success = editUserById(this.user.credentials.id, updateData);
         } else {
-          console.log("entro en else");
-          throw new Error("Error editing profile");
+          throw new Error("no username setted");
         }
       } catch (error) {
         console.error("Profile not updated: ", error);
       } finally {
         this.editing = false;
       }
+    },
+
+    /**
+     * Gets input file value
+     * @param fileEvent
+     */
+    getProfileImg(fileEvent) {
+      // console.log("files in getImg (PostForm): ", fileEvent.target.files);
+      this.profileImg = fileEvent.target.files[0];
+      // console.log("file selected: ", this.postData.img);
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.previewImg = reader.result;
+        // console.log("file content in getImg (PostForm): ", reader.result);
+      });
+      reader.readAsDataURL(this.profileImg);
     },
   },
 };
@@ -78,9 +102,6 @@ export default {
   </div>
   <div v-else>
     <tab-menu :credentials="authUser" v-if="authUser.id !== null"></tab-menu>
-    <!-- <div>
-    <avatar-viewer></avatar-viewer>
-  </div> -->
     <div class="w-full md:w-7/12 xl:w-1/2 mx-auto">
       <form
         @submit.prevent="handleSubmit"
@@ -89,20 +110,27 @@ export default {
         enctype="multipart/form-data"
         class="w-10/12 mx-auto p-2"
       >
-        <div>
+        <div class="flex flex-col gap-4 mb-4">
           <p>Current Avatar:</p>
-          <div class="w-8/12 my-4 mx-auto">
+          <div class="w-8/12 my-4 mx-auto flex flex-col gap-4">
             <img
               v-if="previewImg != null"
               :src="previewImg"
               alt="Preview Profile Picture"
             />
             <img v-else :src="authUser.avatar" alt="Profile Picture" />
-            <div class="flex w-full">
-              <label for="avatar">change avatar: </label>
-              <input type="file" name="avatar" id="avatar" />
-            </div>
           </div>
+          <!-- choose file -->
+          <div class="flex w-full">
+            <label for="avatar"></label>
+            <input
+              type="file"
+              name="avatar"
+              id="avatar"
+              @change="getProfileImg"
+            />
+          </div>
+          <hr />
         </div>
         <ul class="flex flex-col gap-4">
           <li class="flex flex-col">

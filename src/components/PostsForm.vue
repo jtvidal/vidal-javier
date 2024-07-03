@@ -4,7 +4,6 @@ import { subscribeToAuth } from "@/services/auth";
 import LoaderSmall from "./LoaderSmall.vue";
 import { serverTimestamp, updateDoc } from "firebase/firestore";
 import { getFile, uploadFile } from "@/services/storage";
-import { userAuth } from "@/services/user";
 export default {
   name: "PostsForm",
   components: { LoaderSmall },
