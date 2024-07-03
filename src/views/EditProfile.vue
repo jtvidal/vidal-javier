@@ -62,7 +62,6 @@ export default {
           }
           await updateAuthUser(this.user.credentials);
           const updateData = {
-            //TODO: agregar avatar
             "credentials.username": this.user.credentials.username,
             "credentials.avatar": this.user.credentials.avatar,
             first: this.user.first,

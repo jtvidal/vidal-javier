@@ -141,14 +141,7 @@ export default {
     </div>
     <!-- buttons -->
     <div class="flex w-full justify-center">
-      <div class="w-1/2">
-        <button
-          class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100 ease-in-out duration-200"
-        >
-          Like
-        </button>
-      </div>
-      <div class="w-1/2">
+      <div class="w-full">
         <button
           @click="commentForm = false"
           class="w-full p-1 bg-primary hover:bg-opacity-80 hover:text-zinc-100 ease-in-out duration-200"

@@ -8,4 +8,4 @@ Turno: noche.
 Comisión: DWN4AV
 Apellido y Nombre: Vidal Javier.
 Docente: Santiago Gallino.
-Entrega: Primer Parcial
+Entrega: Segundo Parcial
