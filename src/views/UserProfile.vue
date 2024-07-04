@@ -123,27 +123,30 @@ export default {
         </h3>
         <!-- Slider -->
         <!-- TODO: show message if no posts are loaded -->
-        <div v-if="userPosts.length > 0" class="p-6">
+        <div v-if="userPosts.length > 0" class="p-3">
           <slider-model :slider-options="slider" @sending-current="getCurrent">
             <div
-              class="bg-zinc-200 p-4 mx-auto flex flex-col rounded-lg border-2 border-primary w-full xsm:w-9/12 sm:w-7/12 lg:w-1/2 xl:w-1/3 h-full"
+              class="bg-zinc-200 p-4 mx-auto flex flex-col md:flex-row md:items-center rounded-lg border-2 border-primary w-full xsm:w-9/12 sm:w-7/12 lg:w-1/2 xl:w-1/3 h-full"
             >
               <span
-                class="self-end text-sm font-bold text-violet-500 bg-zinc-50 rounded-s-full rounded p-2"
+                class="self-end md:self-start text-sm font-bold text-violet-500 bg-zinc-50 rounded-s-full rounded p-2"
                 >{{
                   userPosts.indexOf(userPosts[slider.currentSlide]) + 1
                 }}</span
               >
               <div>
                 <img
+                  class="max-h-[300px] mx-auto"
                   :src="userPosts[slider.currentSlide].img"
                   alt="Post Image"
                 />
               </div>
-              <h4 class="font-semibold">
-                {{ userPosts[slider.currentSlide].title }}
-              </h4>
-              <p>{{ userPosts[slider.currentSlide].content }}</p>
+              <div class="flex flex-col gap-2">
+                <h4 class="font-semibold">
+                  {{ userPosts[slider.currentSlide].title }}
+                </h4>
+                <p>{{ userPosts[slider.currentSlide].content }}</p>
+              </div>
             </div>
           </slider-model>
         </div>

@@ -145,7 +145,7 @@ export default {
           v-if="this.previewImg !== null"
           class="max-h-96 max-w-96 self-center"
         >
-          <img :src="previewImg" alt="Preview image" class="w-8/12 m-auto" />
+          <img :src="previewImg" alt="Preview image" class="max-h-[300px] w-8/12 m-auto" />
         </div>
         <div class="self-center flex justify-center w-10/12">
           <input type="file" id="image" @change="getImg" class="text-sm" />

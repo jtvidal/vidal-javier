@@ -3,11 +3,13 @@ import { subscribeToAuth } from "@/services/auth";
 import { saveComment, comment } from "@/services/comment";
 import { userAuth } from "@/services/user";
 import { Timestamp } from "firebase/firestore";
+import LoaderSmall from "./LoaderSmall.vue";
 
 export default {
   name: "CommentForm",
   // Recieves postId: id from the component PostCar (parent component).
   props: { inPost: String },
+  components: { LoaderSmall },
   data() {
     return {
       commentByUser: { ...userAuth },
@@ -15,6 +17,7 @@ export default {
         ...comment,
         inPost: this.inPost,
       },
+      commenting: false,
       close: true,
       unsuscribeFromAuth: () => {},
     };
@@ -24,7 +27,7 @@ export default {
       (commentByUpdater) => (this.commentByUser = commentByUpdater)
     );
     await this.commentBy(this.commentByUser);
-    console.log("comment in commentForm: ", this.comment);
+    // console.log("comment in commentForm: ", this.comment);
   },
   methods: {
     /**
@@ -37,18 +40,16 @@ export default {
       this.comment.username = (await u).username;
     },
 
-    /**
-     *
-     * @param c {Promise<comment>}
-     */
     async handleSubmit() {
       try {
+        this.commenting = true;
         this.comment.date = Timestamp.now();
         if (!this.comment.content) {
           throw new Error("Error in handleSubmit: no content added to comment");
         } else {
           this.close = await saveComment(this.comment);
           if (this.close == true) {
+            this.commenting = false;
             this.handleClose();
           } else {
             throw new Error("Comment could not be saved");
@@ -56,6 +57,8 @@ export default {
         }
       } catch (error) {
         console.error("Error in handleSubmit: ", error);
+      } finally {
+        this.commenting = false;
       }
     },
     /**
@@ -93,11 +96,14 @@ export default {
       >
       </textarea>
       <div>
-        <input
+        <button
           type="submit"
           value="Comment"
-          class="bg-primary w-full text-center rounded-md hover:bg-opacity-75 hover:text-zinc-100 cursor-pointer"
-        />
+          class="bg-primary w-full text-center rounded-md hover:bg-opacity-75 hover:text-zinc-100 cursor-pointer p-2"
+        >
+          <span v-if="!commenting">Comment</span>
+          <loader-small v-else class="mx-auto"></loader-small>
+        </button>
       </div>
     </form>
   </div>
