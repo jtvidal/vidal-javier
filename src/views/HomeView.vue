@@ -96,9 +96,9 @@ export default {
 };
 </script>
 <template>
-  <header-two> ¡welcome to postapp! </header-two>
+  <header-two> welcome to postapp! </header-two>
   <div v-if="authUser.id === null" class="">
-    <p class="font-bold text-center p-8">!LOG IN TO SEE USERS POSTS!</p>
+    <p class="font-bold text-center p-8">LOG IN TO SEE USERS POSTS!</p>
   </div>
   <tab-menu :credentials="authUser" v-if="authUser.id !== null"></tab-menu>
   <div v-if="loadingPosts" class="flex justify-center mx-auto">
@@ -108,7 +108,7 @@ export default {
     v-else-if="authUser.id !== null && posts.length === 0"
     class="border-[10px] border-zinc-600 rounded-tr-md rounded-bl-md w-10/12 mx-auto p-8"
   >
-    <p class="text-center">¡BE THE FIRST ONE TO POST!</p>
+    <p class="text-center">BE THE FIRST ONE TO POST!</p>
   </div>
   <div v-else class="p-2 w-full">
     <div id="home-wall" class="w-full justify-center flex flex-wrap gap-4">
